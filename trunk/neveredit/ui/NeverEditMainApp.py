@@ -116,6 +116,8 @@ class NeverEditMainWindow(wx.Frame):
         self.doRead = False
         self.fileChanged = False
 
+        self.inSync = False
+        
         self.map = None
         self.model = None
         self.helpviewer = None
@@ -717,12 +719,15 @@ class NeverEditMainWindow(wx.Frame):
     
     def syncDisplayedPage(self):
         if not self.selectedTreeItem:
-            return
+            return        
         data = self.tree.GetPyData(self.selectedTreeItem)
         if not data:
             return
         if not self.notebook.doesCurrentPageNeedSync():
             return
+        if self.inSync:
+            return
+        self.inSync = True
         tag = self.notebook.getSelectedTag()
         if tag == 'props':
             self.notebook.selectPageByTag('welcome') # blank out to hide creation of controls
@@ -745,6 +750,7 @@ class NeverEditMainWindow(wx.Frame):
         elif tag == 'model':
             self.model.setModel(data.getModel(True))
         self.notebook.setCurrentPageSync(False)
+        self.inSync = False
         
     def treeSelChanged(self,event):
         '''Callback to handle the user changing the selection
