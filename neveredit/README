@@ -1,0 +1,142 @@
+Credits:
+    Thank you to Damon Law (damondesign.com) and Sylvan_Elf for the 
+    neveredit icons and splash screen, respectively.
+
+    Full credit should go to Torlack (torlack.com) for his great
+    documentation on the mdl binary file format, and his nss script
+    compiler (now maintained bythe openknights for linux and mac)
+    that is used in neveredit.
+
+    Neveredit contains some code from OpenGLContext (mainly the quaternion
+    implementation), pyopengl.sf.net.
+
+    I am now including the NWN Lexicon from http://nwnlexicon.com in
+    the neveredit help. Thanks to all the contributors for putting together
+    that great resource.
+
+Installation:
+        If you have the Mac dmg distribution: drag the application to your
+        applications folder. Double-click it there.
+
+        If you have the Linux binary distribution: run 'neveredit' or 'neverscript'
+        in the untarred/unzipped package (whichever one you downloaded).
+
+        If you have the source distribution: you will need to install the
+        requirements under 'Requirements' below. Then you have a choice:
+        1) execute run/neveredit, run/neverscript or run/nevercommand to run directly
+                from the source
+        2) do a 'python setup.py install --home=<somedir>' where <somedir>
+                is where you'd like neveredit to install. The executables will be
+                under 'bin' in that dir.
+        3) do a 'python setup.py install' with root priviliges, and neveredit
+                will be install into your system-wide python tree, together with
+                the main scripts. Make sure your python bin dir is on your PATH.
+
+        If you do 1) or 2), neveredit needs to do some funky python path manipulation
+        to figure out where the package is relative to its script. Thus, 3) is
+        certainly the preferred method. Remember, no guarantees.
+
+Requirements:
+
+        If you downloaded the Mac dmg distribution that contains a
+        neveredit application there should be NO EXTRA REQUIREMENTS
+        on Mac OS X 10.3. Just double-click the app.
+
+        If you downloaded the linux binary distribution, there should
+        also be NO EXTRA REQUIREMENTS. Simply cd to the archive you
+        untared and run './neveredit'. I cannot guarantee that
+        this distribution works on any but the distro I build on,
+        which currently is Fedora Core 3.
+
+        Sorry, I have stopped supporting OS X 10.2 in the dmg dist as of
+        neveredit 0.6b1 as it was sucking up too much of my time. 
+        You should still be able to run from source under 10.2 
+        if you install the packages below.
+
+
+        Requirements for the source (tar.gz dist):
+        Try the instructions for getting all these dependencies at
+        http://openknights.sourceforge.net/tikiwiki/tiki-index.php?page=NeverEditMacInstallFromSource
+        (thanks to Alan Schmitt)
+        For Mac OS X, check out http://undefined.org/python/packages.html where
+        you can find installers for all of the requirements except PyOpenGL and wxPython.
+
+        All Platforms:
+        Python 2.3 (this comes with Mac OS X 10.3. Get the framework
+                    MacPython build if you're on 10.2)
+                    http://www.python.org
+
+        PyOpenGL http://pyopengl.sourceforge.net/ 2.0.1.07
+                 note that there are problems with earlier versions!
+
+        PIL (the python imaging library), 
+                 http://www.pythonware.com/products/pil/
+
+        numarray, http://www.stsci.edu/resources/software_hardware/numarray
+
+        wxPython, http://wxpython.org/download.php#binaries
+                  neveredit requires a version number greater than 2.5, and
+                  greater than 2.5.3 is recommended
+        
+        NWNTools, http://openknights.sf.net
+                To compile scripts you need to compile and install the
+                source version (right now the one in CVS) of Torlack's 
+                tools, now maintained by me.
+                Basically, follow the install instructions with those
+                tools and then cd to nwnnsscomp/python and do a
+                'python setup.py install'
+
+        --------------
+
+        Gentoo hint: I got the following hint from a Gentoo user, saying
+               that this will install all the dependencies for neveredit 0.6:
+               'emerge pyopengl wxpython Imaging numarray'
+
+        Mac extras: For the source (tar.gz) version, Mac OS X requires
+               wxPython and a framework build of python 
+               (you need to install both of these on 
+               Jaguar, but only wxPython on Panther) If you are
+               running from source, you can get all of the
+               additional needed libraries listed here as binary installs 
+               by pointing the python package manager app to bob
+               ipollito's repository, linked off
+               http://undefined.org/python/pimp/
+
+    To run from source, do something like 'python NeverEditMainApp.py', 
+    or if that doesn't work and you're on a Mac try 
+    'pythonw NeverEditMainApp.py'.
+
+
+Instructions:
+    So far, just a short note: I'm trying to emulate the camera controls
+    in NWN in the map display, so try using up/down/left/right arrows
+    as well as q,w,e,s.
+
+Context:
+    Welcome to neveredit. Neveredit strives to be an editor for files from 
+    Bioware's game Neverwinter Nights. One day it may have all of the 
+    functionality of Bioware's windows tools, and maybe more. For now, 
+    I am striving to achieve basic editing functionality on non-Windows 
+    platforms. This means that this is alpha quality software, and will 
+    at the current stage likely do bad things to your files. I'm happy 
+    to receive bug reports, but take no responsibility for any 
+    damages incurred through the use of this software.
+
+    I write neveredit as part of the
+    Openknights Consortium (http://sf.net/projects/openknights)
+    a group of people dedicated to bringing a toolset for NWN to
+    the Mac and to Linux (and maybe back to Windows). Please file any 
+    bug reports on our sourceforge site.
+    
+    This is an application written in Python (http://python.org) 
+    and wxPython (http://wxpython.org).
+
+    Have fun, sumpfork
+
+
+Bug Reporting:
+    Please report bugs at http://sourceforge.net/tracker/?func=add&group_id=71486&atid=532199 by selecting 'neveredit' as a group and assign them to 'sumpfork'.
+
+Contact:
+    sumpfork@users.sourceforge.net
+

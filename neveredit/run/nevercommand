@@ -1,0 +1,165 @@
+#!/usr/bin/env python
+'''neveredit now includes a command line tool for nwn resource listing and extraction.
+
+Assuming the file is executable (otherwise make it so), run it as
+./nevercommand lookup <extension1> [<extension2> <extension3}...]
+./nevercommand print <resourcekey>
+./nevercommand get <resourcekey>
+./nevercommand strref <strref>
+./nevercommand extract <ERF file>
+
+The first version prints all known resource keys with a given extension.
+The second version loads a resource and prints in a human readable format
+The third version retrieves the raw bytes of a resource.
+The fourth version gets a string from dialog.tlk (accepts either hex strrefs such as '0x13'
+                                                  or non-hex such as '13')
+The fifth version dumps the entries of an ERF file to the current working dir
+
+Possible options are
+[-d|--dir]NWNDir specify where you copy of NWN is installed.
+[-m|--module]module load a module to access its resources
+[-o|--outfile]outfile output to this file instead of stdout
+
+Examples:
+./nevercommand lookup NSS 
+ - looks up the names of all uncompiled scripts in your NWN install
+./nevercommand -m coc/coc.mod print module.ifo
+ - prints the contents of the 'module.ifo' resource in the 'coc.mod' module
+./nevercommand -o script.nss get nw_d2_gwiz02.nss
+ - stores the named script from your NWN install in a file called 'script.nss'
+'''
+
+import sys
+import os,os.path
+from optparse import OptionParser
+
+def reexec_with_pythonw():
+    if sys.platform == 'darwin' and\
+           not sys.executable.endswith('MacOS/Python'):
+        print >>sys.stderr,'re-executing using pythonw'
+        os.execvp('pythonw',['pythonw',__file__] + sys.argv[1:])
+
+def lookup(extensions):
+    global r
+    for e in extensions:
+        print >> sys.stderr,'resources with extension "' + e.upper() + '":'
+        for k in r.getKeysWithExtensions(e.upper()):
+            print >> outfile,ResourceManager.ResourceManager.nameFromKey(k)
+
+
+def getNeverDir(path):
+    while os.path.basename(path) != 'neveredit' and\
+          os.path.basename(path) != 'bin' and\
+          os.path.dirname(path) != path:
+        path = os.path.dirname(path)
+    if os.path.basename(path) == 'bin':
+        path = os.path.join(os.path.dirname(path),'lib/python')
+    elif os.path.basename(path) == 'neveredit':
+        path = os.path.dirname(path)
+    return path
+
+commands = ['lookup','get','print','strref','extract','setpref']
+
+if __name__ == "__main__":
+    try:
+        parser = OptionParser(usage='usage: %prog [options] <lookup|get|print> args')
+        parser.add_option('-d','--nwndir',type="string",dest="appDir",
+                          help="NWN Application Dir",
+                          default="/Applications/Neverwinter Nights/")
+        parser.add_option('-m','--module',type='string',dest='module',
+                          help='Module file to read')
+        parser.add_option('-o','--out',type='string',dest='outfile',
+                          help='output file (stdout if not specified)')
+        parser.add_option('--devel',action='store_true',dest='devel',
+                          help='run in development mode (does not use installed version)')
+        parser.add_option('--disable_pythonw',action='store_true',dest='no_pythonw',
+                          help='disable automatically running pythonw on Mac')
+
+        (options,args) = parser.parse_args()
+
+        if not options.no_pythonw:
+            reexec_with_pythonw()
+    
+        if options.devel:
+            sys.path.insert(0,getNeverDir(os.getcwd()))
+
+        try:
+            from neveredit.file.ERFFile import ERFFile
+            from neveredit.util import neverglobals
+            from neveredit.game import ResourceManager
+        except ImportError:            
+            path = os.path.abspath(os.path.dirname(__file__))
+            sys.path.append(getNeverDir(path))
+            try:
+                from neveredit.file.ERFFile import ERFFile
+                from neveredit.util import neverglobals
+                from neveredit.game import ResourceManager
+            except ImportError:
+                print sys.exc_info()[1]
+                print sys.path
+                print >>sys.stderr,'Faulty neveredit installation: could not import classes'
+                sys.exit(1)
+
+
+        outfile = sys.stdout
+        if(len(args) == 0) or not args[0] in commands:
+            print '''possible commands are: lookup get print
+            "lookup" takes a list of extensions and prints all known
+            resources with those extensions
+            "get" retrieves a resource in raw format
+            "print" prints a resource in text format (if possible)
+            "strref" looks up and prints a string ref in dialog.tlk (hex allowed))
+            "extract" takes an ERF file and dumps its contents to the current working dir
+            "setpref" set a preference value for neveredit
+            use the "-h" switch to get a list of options'''
+        else:
+            command = args[0]
+            if command == 'extract':
+                if not len(args) > 1:
+                    print >>sys.stderr,'need an ERF file name for extraction'
+                    sys.exit(1)
+                f = ERFFile()
+                f.fromFile(args[1])
+                f.extractAllEntries()
+                sys.exit()
+            r = neverglobals.getResourceManager()
+            if options.module:
+                r.addMODFile(options.module)
+            if command == 'lookup':
+                if len(args) == 1:
+                    print 'lookup requires a list of extensions'
+                else:
+                    lookup(args[1:])
+            elif command == 'get' or command == 'print':
+                if len(args) == 1:
+                    print 'require key in form resref.ext'
+                else:
+                    if command == 'print':
+                        if options.outfile:
+                            outfile = open(options.outfile,'w')
+                        print >> outfile,r.getResourceByName(args[1])
+                    else:
+                        if options.outfile:
+                            outfile = open(options.outfile,'wb')
+                        outfile.write(r.getRawResourceByName(args[1]))
+            elif command == 'strref':
+                if len(args) == 1:
+                    print 'require strref as integer'
+                else:
+                    for numstr in args[1:]:
+                        num = -1
+                        if numstr.startswith('0x'):
+                            num = int(numstr[2:],16)
+                        else:
+                            num = int(numstr)
+                        print >> outfile,r.getDialogString(num)
+            elif command == 'setpref':
+                if not len(args) == 3:
+                    print >>sys.stderr,'need <key> and <value> for setpref'
+                    sys.exit(1)
+                import neveredit.util.Preferences
+                p = neveredit.util.Preferences.getPreferences()
+                p[args[1]] = args[2]
+                
+    except KeyboardInterrupt:
+        print >>sys.stderr,'\naborting...'
