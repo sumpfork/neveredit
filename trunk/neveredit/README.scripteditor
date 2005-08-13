@@ -1,0 +1,5 @@
+You can now run the script editor in standalone mode. It is also packaged as a
+standalone application called 'neverscript', available from where you got this package.
+
+It's in run/neverscript (or just 'neverscript' if you install this package using
+'python setup.py install')
