@@ -1,0 +1,28 @@
+neveredit now includes a command line tool for nwn resource listing and extraction.
+
+Assuming the file is executable (otherwise make it so), run it as
+./nevercommand lookup <extension1> [<extension2> <extension3}...]
+./nevercommand print <resourcekey>
+./nevercommand get <resourcekey>
+./nevercommand strref <strref>
+./nevercommand extract <ERF file>
+
+The first version prints all known resource keys with a given extension.
+The second version loads a resource and prints in a human readable format
+The third version retrieves the raw bytes of a resource.
+The fourth version gets a string from dialog.tlk (accepts either hex strrefs such as '0x13'
+                                                  or non-hex such as '13')
+The fifth version dumps the entries of an ERF file to the current working dir
+
+Possible options are
+[-d|--dir]NWNDir specify where you copy of NWN is installed.
+[-m|--module]module load a module to access its resources
+[-o|--outfile]outfile output to this file instead of stdout
+
+Examples:
+./nevercommand lookup NSS 
+ - looks up the names of all uncompiled scripts in your NWN install
+./nevercommand -m coc/coc.mod print module.ifo
+ - prints the contents of the 'module.ifo' resource in the 'coc.mod' module
+./nevercommand -o script.nss get nw_d2_gwiz02.nss
+ - stores the named script from your NWN install in a file called 'script.nss'
