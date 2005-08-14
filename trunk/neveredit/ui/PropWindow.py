@@ -394,12 +394,14 @@ class PropWindow(scrolled.ScrolledPanel, ResourceListChangeListener):
     def makeResRefControl(self, typeSpec, prop, parent):
         if len(typeSpec) > 1:
             keyList, index = self.getResRefList(typeSpec, prop)
-            control = wx.Choice(parent,-1,choices=keyList)                
+            control = wx.ComboBox(parent, -1, choices=keyList,
+                                  style=wx.CB_DROPDOWN)
             if len(prop.getValue()) > 0:
                 control.SetSelection(index)
             else:
                 control.SetSelection(0)
-            wx.EVT_CHOICE(self,control.GetId(),self.controlUsed)
+            wx.EVT_COMBOBOX(self,control.GetId(),self.controlUsed)
+            wx.EVT_TEXT_ENTER(self, control.GetId(), self.controlUsed)
         else:
             control = wx.TextCtrl(parent,-1,prop.getValue())
             wx.EVT_TEXT(self,control.GetId(),self.controlUsed)

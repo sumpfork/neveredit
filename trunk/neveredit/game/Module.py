@@ -14,6 +14,7 @@ class Module(Progressor,NeverData):
     """A class the encapsulates an NWN module file and gives access
     to entities contained therein, such as doors and scripts."""
     ifoPropList = {
+        "Mod_CustomTlk":"CExoString",
         "Mod_DawnHour":"Integer,0-23",
         "Mod_Description":"CExoLocString,4",
         "Mod_DuskHour":"Integer,0-23",
