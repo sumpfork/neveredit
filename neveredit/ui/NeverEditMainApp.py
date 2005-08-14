@@ -79,22 +79,21 @@ class NeverEditMainWindow(wx.Frame):
     responsibility for any damages incurred through the use of this
     software.</p>
 
-    <p>I write neveredit as part of the <b>
-    Openknights Consortium (http://sf.net/projects/openknights)</b>,
-    a group of people dedicated to bringing a toolset for NWN to
-    the Mac and to Linux (and maybe back to Windows). Please file any
-    bug reports on our sourceforge site. To discuss this app, please
-    use our sourceforge forums or the neveredit wiki page at
-    http://openknights.sourceforge.net/tikiwiki/tiki-index.php?page=neveredit</p>
-    
-    <p>This is an application written in <b>Python
-    (http://python.org)</b> and <b>wxPython
-    (http://wxpython.org)</b>.</p>
+    <p>I write neveredit in my spare time, but I try to respond to
+    all reports and questions I get about it. Before you write, please
+    see if what you want to know is covered at the neveredit homepage,
+    <i> http://neveredit.sourceforge.net </i>. The page is a wiki, so feel
+    free to add documentation there as you see fit. The wiki also
+    has instructions for developers as to how to check out the source
+    and contribute.
 
-    <p>Thanks to Damon Law (damonDesign.com) for the neveredit image.</p>
-
-    <p>Thanks to Sylvan_Elf for the neveredit splash screen.</p>
-    
+    <ul>
+    <li>Thanks to Torlack for his script compiler and file format documentation.</li>
+    <li>Thanks to Damon Law (damonDesign.com) for the neveredit image.</li>
+    <li>Thanks to Alan Schmitt for the beginnings of a conversation editor.</li>
+    <li>Thanks to Sylvan_Elf for the neveredit splash screen.</li>
+    <li>Thanks to the NWN Lexicon folks for letting me include the lexicon.</li>
+    </ul>
     <p>Have fun,<br><i>sumpfork</i></p>
 
     </body></html>'''
@@ -107,7 +106,7 @@ class NeverEditMainWindow(wx.Frame):
         
         self.splash.Show(True)
 
-        wx.Frame.__init__(self,parent,-1,title,size=(750,600),\
+        wx.Frame.__init__(self,parent,-1,title,size=(760,600),\
                           style=wx.DEFAULT_FRAME_STYLE\
                           |wx.NO_FULL_REPAINT_ON_RESIZE)
 
@@ -151,7 +150,7 @@ class NeverEditMainWindow(wx.Frame):
         self.Bind(wx.EVT_NOTEBOOK_PAGE_CHANGED,self.OnNotebookPageChanged,
                   self.notebook)
         
-        self.SetSizeHints(minW=745,minH=200)
+        self.SetSizeHints(minW=765,minH=200)
         
         splitter.SplitVertically(self.tree,self.notebook,180)
         splitter.SetMinimumPaneSize(100)
