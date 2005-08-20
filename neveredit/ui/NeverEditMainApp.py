@@ -966,14 +966,13 @@ Copyright 2003-2004'''),
                                    _("Error Opening File"),wx.OK|wx.ICON_ERROR)
             dlg.ShowModal()
             return
-        if self.module.needSave:
-            logger.info('hak file list conversion')
-            self.setFileChanged(True)
-            self.SetStatusText(_("Old Module, changing to new format Mod_HakList..."))
         neverglobals.getResourceManager().addModule(self.module)
         self.fname = fname
         self.treeFromERF()
         self.setFileChanged(False)
+        if self.module.needSave:
+            self.setFileChanged(True)
+            self.SetStatusText(_("Converting old module to new style..."))
         self.filehistory.AddFileToHistory(fname)
         self.scriptEditor.setModule(self.module)
         self.SetTitle('neveredit: ' + os.path.basename(self.module.getFileName()))

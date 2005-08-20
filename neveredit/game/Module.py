@@ -51,6 +51,7 @@ class Module(Progressor,NeverData):
     
     def __init__(self,fname):
         NeverData.__init__(self)
+        self.needSave = False
         logger.debug("reading erf file %s",fname)
         self.erfFile = neveredit.file.ERFFile.ERFFile()
         self.erfFile.fromFile(fname)
@@ -60,7 +61,8 @@ class Module(Progressor,NeverData):
         logger.debug("checking for old style Mod_Hak")
         prop = self['Mod_Hak']
         if prop != None:
-            logger.debug('Mod_Hak found, changing to new style')
+            logger.info('Old-Style Mod_Hak found,'
+                        'changing to new style Mod_HakList')
             new_prop = self['Mod_HakList']
             if not new_prop:
                 self.getGFFStruct('ifo').add('Mod_HakList',[],'List')
@@ -68,8 +70,14 @@ class Module(Progressor,NeverData):
             if prop:
                 new_prop.append(prop)
             self.needSave = True
-        else:
-            self.needSave = False
+            
+	prop = self['Mod_CustomTlk']
+	if prop == None:
+            logger.info("Old (pre-1.59) module with no Mod_CustomTlk,"
+                        "adding an empty one")
+            self.getGFFStruct('ifo').add('Mod_CustomTlk',"",'CExoString')
+            self.needSave = True
+                
         self.scripts = None
         self.conversations = None
         self.areas = {}
