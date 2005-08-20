@@ -6,6 +6,14 @@ import wx
 from neveredit.game.Palette import Palette
 from neveredit.ui import WxUtils
 
+#images via resourcepackage
+from neveredit.resources.images import select_icon_png
+from neveredit.resources.images import select_icon_sel_png
+from neveredit.resources.images import paint_icon_png
+from neveredit.resources.images import paint_icon_sel_png
+from neveredit.resources.images import rotate_icon_png
+from neveredit.resources.images import rotate_icon_sel_png
+
 class PaletteWindow(wx.TreeCtrl):
     """A tree control representing a blueprint palette."""
     def __init__(self,parent,id):
@@ -115,20 +123,20 @@ class ToolFrame(wx.MiniFrame):
         self.toolbar.SetBackgroundColour(wx.WHITE)
         self.selectId = SELECTION_TOOL
         self.toolbar.AddCheckTool(self.selectId,
-                                  wx.Bitmap('select_icon.png'),
-                                  wx.Bitmap('select_icon_sel.png'),
+                                  select_icon_png.getBitmap(),
+                                  select_icon_sel_png.getBitmap(),
                                   shortHelp=('Select Object'),
                              longHelp='Select and Move objects on Map')
         self.paintId = PAINT_TOOL        
         self.toolbar.AddCheckTool(self.paintId,
-                                  wx.Bitmap('paint_icon.png'),
-                                  wx.Bitmap('paint_icon_sel.png'),
+                                  paint_icon_png.getBitmap(),
+                                  paint_icon_sel_png.getBitmap(),
                                   shortHelp='Paint Objects',
                                   longHelp='Paint selected objects onto Map Display')
         self.rotateId = ROTATE_TOOL        
         self.toolbar.AddCheckTool(self.rotateId,
-                                  wx.Bitmap('rotate_icon.png'),
-                                  wx.Bitmap('rotate_icon_sel.png'),
+                                  rotate_icon_png.getBitmap(),
+                                  rotate_icon_sel_png.getBitmap(),
                                   shortHelp=('Rotate Object'),
                                   longHelp=('Rotate object shown on Map'))
         self.Bind(wx.EVT_TOOL,self.toolSelected)

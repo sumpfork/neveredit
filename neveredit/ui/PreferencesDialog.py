@@ -3,6 +3,8 @@
 import wx,wx.xrc
 from wx.lib.filebrowsebutton import DirBrowseButton
 
+from neveredit.resources.xrc import PreferencesDialog_xrc
+
 import neveredit.util.Preferences
 
 class PreferencesDialog(wx.Dialog):
@@ -14,7 +16,7 @@ class PreferencesDialog(wx.Dialog):
         if not tablist:
             tablist = ["GeneralPanel","ScriptEditorPanel"]
         self.tablist = tablist
-        resourceText = open('resources/xrc/PreferencesDialog.xrc').read()
+        resourceText = PreferencesDialog_xrc.data
         resource = wx.xrc.EmptyXmlResource()
         resource.LoadFromString(resourceText)
 
