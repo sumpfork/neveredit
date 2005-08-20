@@ -13,3 +13,5 @@
 *.image
 build
 *.cached
+dist
+.sconsign
