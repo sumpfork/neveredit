@@ -53,10 +53,10 @@ def main():
           long_description=__doc__,
           author="Sumpfork",
           author_email="sumpfork@users.sourceforge.net",
-          url="http://openknights.sourceforge.net/tikiwiki/tiki-index.php?page=neveredit",
-          download_url="http://prdownloads.sourceforge.net/openknights/" + name + "-" +\
+          url="http://neveredit.sourceforge.net",
+          download_url="http://prdownloads.sourceforge.net/neveredit/" + name + "-" +\
           version + ".tar.gz?download",
-          license="Freeware but use subject to Bioware's NWN License Agreement",
+          license="BSD-like, but subject to Bioware's NWN License Agreement",
           platforms=['any'],
           classifiers=
           ['Development Status :: 3 - Alpha',
