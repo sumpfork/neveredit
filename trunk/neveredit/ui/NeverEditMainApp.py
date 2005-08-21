@@ -40,6 +40,10 @@ from neveredit.util import Preferences
 from neveredit.util import Utils
 from neveredit.util import neverglobals
 
+#images
+from neveredit.resources.images import neveredit_logo_jpg
+from neveredit.resources.images import neveredit_logo_init_jpg
+
 import os
 import threading
 from sets import Set
@@ -49,8 +53,7 @@ gettext.install('neveredit','translations')
 
 class MySplashScreen(wx.SplashScreen):
     def __init__(self,pic):
-        bmp = wx.Image(pic).ConvertToBitmap()
-        wx.SplashScreen.__init__(self, bmp,
+        wx.SplashScreen.__init__(self, pic,
                                  wx.SPLASH_CENTRE_ON_SCREEN|
                                  wx.SPLASH_NO_TIMEOUT,
                                  4000, None, -1,
@@ -101,12 +104,12 @@ class NeverEditMainWindow(wx.Frame):
     def __init__(self,parent,id,title):
         '''Constructor. Sets up static controls and menus.'''
         wx.InitAllImageHandlers()
-        self.splash = MySplashScreen("neveredit_logo.jpg")
+        self.splash = MySplashScreen(neveredit_logo_jpg.getBitmap())
         wx.EVT_CLOSE(self.splash,self.OnCloseSplash)
         
         self.splash.Show(True)
 
-        wx.Frame.__init__(self,parent,-1,title,size=(760,600),\
+        wx.Frame.__init__(self,parent,-1,title,size=(780,600),\
                           style=wx.DEFAULT_FRAME_STYLE\
                           |wx.NO_FULL_REPAINT_ON_RESIZE)
 
@@ -194,7 +197,7 @@ class NeverEditMainWindow(wx.Frame):
         wx.EVT_SIZE(self,self.OnSize)
 
         tmp = self.splash
-        self.splash = MySplashScreen("neveredit_logo_init.jpg")
+        self.splash = MySplashScreen(neveredit_logo_init_jpg.getBitmap())
         self.splash.Show(True)
         if tmp:
             tmp.Show(False)
