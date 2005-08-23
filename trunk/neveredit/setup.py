@@ -27,16 +27,7 @@ def main():
         name = 'neverscript'
         sys.argv.remove('neverscript')
 
-    resources = ["resources",
-                 "neveredit.jpg",
-                 "neveredit_logo.jpg",
-                 "neveredit_logo_init.jpg",
-                 "paint_icon.png",
-                 "rotate_icon.png",
-                 "select_icon.png",
-                 "paint_icon_sel.png",
-                 "rotate_icon_sel.png",
-                 "select_icon_sel.png",
+    resources = ["neveredit.jpg",
                  "help_nwnlexicon.zip"]
     
     if name == 'neveredit':
@@ -69,7 +60,10 @@ def main():
           package_dir = {'neveredit':'.'},
           packages=['neveredit','neveredit.openglcontext',
                     'neveredit.util','neveredit.file',
-                    'neveredit.game','neveredit.ui'],
+                    'neveredit.game','neveredit.ui',
+                    'neveredit.resources',
+                    'neveredit.resources.images',
+                    'neveredit.resources.xrc'],
           scripts=['run/neveredit','run/neverscript','run/nevercommand'],
           
           options=dict(py2app=dict(
