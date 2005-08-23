@@ -6,5 +6,5 @@ the Openknights Consortium, a group of volunteers teaming up to provide
 tools for this great game.
 """
 
-__version__ = '0.8'
+__version__ = '0.8.1b1'
 
