@@ -535,7 +535,8 @@ Copyright 2003-2004'''),
             compiled,err = script.compile()
         except:
             logger.exception("script compile failed")
-            self.output.InsertStringItem("compiler call failed "
+            self.output.InsertStringItem(0,
+                                         "compiler call failed "
                                          "- compiler not available?")
             return None
         prefix = "Errors occured during compile:\n"
