@@ -1,7 +1,7 @@
 #rules added by sumpfork (sumpfork@users.sf.net) to make mac os app and dmg
 #somewhat messy - sorry
 PROGRAM = neveredit
-VERSION=0.8
+VERSION=$(shell python -c 'import sys;sys.path.insert(0,"..");import neveredit;print neveredit.__version__')
 INSTALL=/usr/bin/install
 RESCOMP = /Developer/Tools/Rez
 IMAGE = /Volumes/neveredit
@@ -47,14 +47,14 @@ freeze:
 	(echo "freezing " $(FREEZE_OUT))
 	rm -fr build/$(FREEZE_OUT)
 	mkdir -p build/$(FREEZE_OUT)
-	python $(CXFREEZE_HOME)/FreezePython.py\
+	cd ui;python $(CXFREEZE_HOME)/FreezePython.py\
 	$(MAINFILE)\
-	--install-dir build/$(FREEZE_OUT)\
-	--include-modules=encodings,encodings.ascii,encodings.latin_1,encodings.utf_8,PIL.TgaImagePlugin,numarray.libnumarray,numarray._ufunc,numarray._ufuncComplex64,numarray._ufuncInt16,numarray._ufuncInt8,numarray._ufuncUInt64,numarray._ufuncBool,numarray._ufuncFloat32,numarray._ufuncInt32,numarray._ufuncUInt16,numarray._ufuncUInt8,numarray._ufuncComplex32,numarray._ufuncFloat64,numarray._ufuncInt64,numarray._ufuncUInt32\
+	--install-dir ../build/$(FREEZE_OUT)\
+	--include-path=../..\
+	--include-modules=neveredit,encodings,encodings.ascii,encodings.latin_1,encodings.utf_8,PIL.TgaImagePlugin,numarray.libnumarray,numarray._ufunc,numarray._ufuncComplex64,numarray._ufuncInt16,numarray._ufuncInt8,numarray._ufuncUInt64,numarray._ufuncBool,numarray._ufuncFloat32,numarray._ufuncInt32,numarray._ufuncUInt16,numarray._ufuncUInt8,numarray._ufuncComplex32,numarray._ufuncFloat64,numarray._ufuncInt64,numarray._ufuncUInt32,numarray.dotblas\
 	--init-script ConsoleSetLibPath\
 	--target-name=$(FREEZE_OUT)
 	cp neveredit*.jpg build/$(FREEZE_OUT)
-	cp *_icon.png build/$(FREEZE_OUT)
 	cp README build/$(FREEZE_OUT)
 	cp COPYING build/$(FREEZE_OUT)
 	cp help_nwnlexicon.zip build/$(FREEZE_OUT)
