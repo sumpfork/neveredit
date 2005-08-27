@@ -228,6 +228,164 @@
 
 	importing an export of the neveredit module from the openknights repository
 
+2005-08-13 11:09  sumpfork
+
+	* ui/NeverEditMainApp.py, file/ERFFile.py, game/Conversation.py,
+	  game/Module.py, ui/Notebook.py:
+
+	new ability to add single resource files to a module
+	major change in how and when notebook pages are loaded: all loads are now delayed until shown
+	new Notebook class to perform bookkeeping for this
+
+2005-08-13 11:03  sumpfork
+
+	* ui/ModelWindow.py:
+
+	eliminate some unecessary code;add some testing code
+
+2005-08-13 11:02  sumpfork
+
+	* game/ResourceManager.py:
+
+	throw exception instead of silent fail on unknown resource type
+
+2005-08-13 11:01  sumpfork
+
+	* ui/GLWindow.py:
+
+	modularize some methods for profiling
+
+2005-08-13 10:59  sumpfork
+
+	* ui/MapWindow.py:
+
+	change to map info menu
+
+2005-08-13 10:57  sumpfork
+
+	* ui/ConversationWindow.py:
+
+	new setConversation method
+
+2005-08-13 10:53  sumpfork
+
+	* ui/PropWindow.py:
+
+	minor fixes
+
+2005-08-13 10:52  sumpfork
+
+	* ui/ScriptEditor.py:
+
+	fix standalone startup of script editor
+
+2005-08-13 10:49  sumpfork
+
+	* SConstruct, setup.py:
+
+	making docs with scons;fix for main classes for py2app
+
+2005-07-09 04:23  brab
+
+	* run/nevercommand:
+
+	nevercommand re-executes as pythonw on the Mac
+	(I needed to extract a bunch of DLG resoures out of a mod, and it worked great)
+
+2005-05-08 14:18  brab
+
+	* ui/PropWindow.py:
+
+	changing Remove into Detach
+
+2005-05-08 13:16  brab
+
+	* file/CExoLocString.py, ui/ConversationWindow.py,
+	  ui/PropWindow.py:
+
+	Multi-lingual editing is in. There is no way to specify a deflault language yet
+	(in preferences)
+
+2005-05-08 04:17  brab
+
+	* ui/: ConversationWindow.py, PropWindow.py:
+
+	- colorized dialog text according to standard (NPC in red, PC in blue, links in
+	  grey)
+	- the CExoLocString control is a separate class (so that it will be easy to
+	  extend it beyond a simple textctrl)
+
+2005-05-07 05:05  brab
+
+	* file/CExoLocString.py, game/ChangeNotification.py,
+	  game/Conversation.py, ui/ConversationWindow.py, ui/PropWindow.py:
+
+	- Started the implementation of the Property notification system that we
+	  discussed.  Some code should be refactored to merge PropertyNotifiers with
+	  VisualChangeNotifiers
+
+	- Using this to update conversation strings in the tree representation in real
+	  time, when the CExoLocString is updated (this also works for nodes that link
+	  to the node being changed)
+
+2005-05-05 05:37  brab
+
+	* file/CExoLocString.py:
+
+	we can now specify whether we want the string to be stored as a Male/Neutral
+	index or at a Female index (i.e. 2*langID or 2*langID + 1)
+
+2005-04-28 15:02  sumpfork
+
+	* ui/ScriptEditor.py:
+
+	fix width of output list box on linux
+
+2005-04-26 18:46  sumpfork
+
+	* game/ResourceManager.py, ui/PropWindow.py, ui/MapWindow.py,
+	  ui/ModelWindow.py:
+
+	eliminate import * usage
+
+2005-04-26 18:38  sumpfork
+
+	* .project:
+
+	eclipse project
+
+2005-04-26 18:37  sumpfork
+
+	* openglcontext/vectorutilities.py, ui/MapWindow.py,
+	  ui/PropWindow.py, ui/TilingWindow.py, file/MDLFile.py:
+
+	cleanups and fixes
+
+2005-04-21 10:39  brab
+
+	* game/: ChangeNotification.py, ResourceManager.py:
+
+	first step toward splitting out change listeners
+
+2005-04-12 09:38  sumpfork
+
+	* file/MDLFile.py, file/TalkTableFile.py,
+	  openglcontext/quaternion.py:
+
+	fix some pylint warnings
+
+2005-03-20 16:51  sumpfork
+
+	* ChangeLog:
+
+	update changelog
+
+2005-03-17 00:04  sumpfork
+
+	* SConstruct:
+
+	add doc target
+
 2005-03-17 00:03  sumpfork
 
 	* game/Module.py, util/plistlib.py:
