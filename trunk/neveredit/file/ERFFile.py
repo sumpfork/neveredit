@@ -3,6 +3,7 @@ logger = logging.getLogger("neveredit.file")
 
 import sys,os
 import pprint
+import time
 
 from neveredit.util import neverglobals
 import neveredit.game.ResourceManager
@@ -54,7 +55,13 @@ class ERFFile(NeverFile):
             f.seek(offset)
             f.write(self.content)
 
-    def __init__(self):
+    HEADERSIZE = 160
+    
+    def __init__(self,typ='ERF'):
+        '''Create an empty erf file.
+        @param typ: one of "ERF" (the default), "MOD", "SAV", "HAK" depending on the type
+                    of erf to be created.
+        '''
         NeverFile.__init__(self)
         self.filename = ""
         self.readFileHandle = None
@@ -63,18 +70,24 @@ class ERFFile(NeverFile):
         self.languageCount = 0
         self.localizedStringSize = 0
         self.entryCount = 0
-        self.offsetToLocalizedString = 0
-        self.offsetToKeyList = 0
-        self.offsetToResourceList = 0
-        self.buildYear = 0
-        self.buildDay = 0
+        self.offsetToLocalizedString = ERFFile.HEADERSIZE
+        self.offsetToKeyList = ERFFile.HEADERSIZE
+        self.offsetToResourceList = ERFFile.HEADERSIZE
+        self.buildYear = time.localtime().tm_year - 1900
+        self.buildDay = time.localtime().tm_yday
         self.descriptionRef = ""
 
         self.localizedStrings = {}
         
         self.entriesByType = {}
         self.entriesByNameAndType = {}
-    
+
+        self.version = 'V1.0'
+        typ = typ.upper()
+        if typ not in ["ERF","MOD","SAV","HAK"]:
+            raise ValueError,'invalid erf type ' + typ
+        self.type = typ + ' '
+            
     def headerFromFile(self,f):
         NeverFile.headerFromFile(self,f)
         self.languageCount = self.dataHandler.readIntFile(f)
@@ -93,7 +106,7 @@ class ERFFile(NeverFile):
         self.localizedStringSize = self.calcLocalizedStringsSize()
         self.languageCount = len(self.localizedStrings.keys())
         self.entryCount = len(self.entriesByNameAndType)
-        offset = self.offsetToLocalizedString # constant header size
+        offset = ERFFile.HEADERSIZE
         offset += self.localizedStringSize
         self.offsetToKeyList = offset
         offset += self.calcKeyListSize()
@@ -217,7 +230,7 @@ class ERFFile(NeverFile):
         f.write(self.getRawEntryContents(entry))
         f.close()
         
-    def extractAllEntries(self):
+    def extractAllEntries(self,verbose=False):
         '''extract all entries to be files in the current working directory.
         The files will have names of the form resref.ext.'''
         self.recalculateParams()
@@ -227,6 +240,8 @@ class ERFFile(NeverFile):
             f = open(fname.lower(),'wb')
             f.write(self.getRawEntryContents(entry))
             f.close()
+            if verbose:
+                print fname.lower()
 
     def writeEntries(self):
         """write the actual file entries of this ERF file. This method
@@ -280,11 +295,12 @@ class ERFFile(NeverFile):
     def toFile(self,fname=''):
         """write this ERF to a file"""
         if len(fname) > 0:
-            if fname == self.readFileHandle.name:
+            if self.readFileHandle and fname == self.readFileHandle.name:
                 print 'error, ERFFile cannot write to file it is reading from'
                 return
             self.writeFileHandle = open(fname,'wb')
         self.recalculateParams()
+        print self.infoStr()
         self.headerToFile()
         self.writeLocalizedStrings()
         self.writeKeys()
@@ -292,7 +308,8 @@ class ERFFile(NeverFile):
         self.writeResourceList()
         self.writeFileHandle.flush()
         self.writeFileHandle.close()
-        self.readFileHandle = open(self.filename,'rb')
+        if self.filename:
+            self.readFileHandle = open(self.filename,'rb')
 
     def reassignReadFile(self,fname):
         self.filename = fname
@@ -441,16 +458,18 @@ class ERFFile(NeverFile):
                     .ResourceManager.extensionFromResType(key[1])
         return self.getRawEntryContents(self.getEntryByNameAndExtension(key[0],
                                                                      extension))
+    def infoStr(self):
+        s = 'erf type/version: ' + `self.type` + '/' + self.version + '\n'
+        s += 'build year/day: ' + `self.buildYear + 1900` + '/' + `self.buildDay` + '\n'
+        s += 'header size: ' + `self.offsetToLocalizedString` + '\n'
+        s += 'erf description in ' + `self.languageCount` + ' languages, using '\
+             + `self.localizedStringSize` + ' bytes' + '\n'
+        s += 'erf has ' + `self.entryCount` + ' entries' + '\n'
+        return s
     
     def __str__(self):
         s =  'ERFFile ' + self.filename + '\n'
-        s += self.type + ' ' + self.version + '\n'
-        s += `self.languageCount` + ' ' + `self.localizedStringSize` + ' '\
-             + `self.entryCount` + '\n'
-        s += `self.offsetToLocalizedString` + ' ' + `self.offsetToKeyList`\
-             + ' ' + `self.offsetToResourceList` + '\n'
-        year = self.buildYear + 1900
-        s += `year` + ' ' + `self.buildDay` + '\n'
+        s += self.infoStr()
         s += self.descriptionRef + '\n'
         s += pprint.PrettyPrinter().pformat(self.localizedStrings)
         s += pprint.PrettyPrinter().pformat(self.entriesByNameAndType)

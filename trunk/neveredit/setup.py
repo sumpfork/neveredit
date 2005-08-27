@@ -64,7 +64,7 @@ def main():
                     'neveredit.resources',
                     'neveredit.resources.images',
                     'neveredit.resources.xrc'],
-          scripts=['run/neveredit','run/neverscript','run/nevercommand'],
+          scripts=['run/neveredit','run/neverscript','run/nevercommand','run/nevererf'],
           
           options=dict(py2app=dict(
                 argv_emulation=True,
