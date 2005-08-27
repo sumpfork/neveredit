@@ -1,8 +1,232 @@
-2005-03-17 00:04  sumpfork
+2005-08-26 18:03  sumpfork
 
-	* SConstruct:
+	* Makefile (tags: v0_8_1_b1):
 
-	add doc target
+	fix linux freezing;get version from __init__.py
+
+2005-08-25 13:44  sumpfork
+
+	* ui/ScriptEditor.py (tags: v0_8_1_b1):
+
+	fix wrong call when compiler not available
+
+2005-08-25 13:41  sumpfork
+
+	* ui/NeverEditMainApp.py (tags: v0_8_1_b1):
+
+	replace flag with disabling event handler
+
+2005-08-23 11:15  sumpfork
+
+	* __init__.py, setup.py (utags: v0_8_1_b1):
+
+	fix bundle making;bump version to 0.8.1b1
+
+2005-08-21 18:39  sumpfork
+
+	* neveredit_logo.jpg, neveredit_logo_init.jpg,
+	  resources/images/__init___py~.py,
+	  resources/images/neveredit_logo.jpg (tags: v0_8_1_b1),
+	  resources/images/neveredit_logo.psd (tags: v0_8_1_b1),
+	  resources/images/neveredit_logo_init.jpg (tags: v0_8_1_b1),
+	  resources/images/neveredit_logo_init.psd (tags: v0_8_1_b1),
+	  resources/images/neveredit_logo_init_jpg.py (tags: v0_8_1_b1),
+	  resources/images/neveredit_logo_init_psd.py (tags: v0_8_1_b1),
+	  resources/images/neveredit_logo_jpg.py (tags: v0_8_1_b1),
+	  resources/images/neveredit_logo_psd.py (tags: v0_8_1_b1),
+	  ui/NeverEditMainApp.py:
+
+	convert splash screens to resourcepackage;new splash screens
+
+2005-08-20 10:37  sumpfork
+
+	* file/.cvsignore, game/.cvsignore, openglcontext/.cvsignore,
+	  ui/.cvsignore, util/.cvsignore (utags: v0_8_1_b1):
+
+	more cvs ignores
+
+2005-08-20 10:35  sumpfork
+
+	* .cvsignore, resources/.cvsignore, resources/images/.cvsignore,
+	  resources/xrc/.cvsignore (utags: v0_8_1_b1):
+
+	adding some cvs ignores
+
+2005-08-20 10:33  sumpfork
+
+	* paint_icon.png, paint_icon_sel.png, rotate_icon.png,
+	  rotate_icon_sel.png, select_icon.png, select_icon_sel.png,
+	  resources/__init__.py (tags: v0_8_1_b1),
+	  resources/images/__init__.py (tags: v0_8_1_b1),
+	  resources/images/__init___py~.py, resources/images/paint_icon.png
+	  (tags: v0_8_1_b1), resources/images/paint_icon_png.py (tags:
+	  v0_8_1_b1), resources/images/paint_icon_sel.png (tags:
+	  v0_8_1_b1), resources/images/paint_icon_sel_png.py (tags:
+	  v0_8_1_b1), resources/images/rotate_icon.png (tags: v0_8_1_b1),
+	  resources/images/rotate_icon_png.py (tags: v0_8_1_b1),
+	  resources/images/rotate_icon_sel.png (tags: v0_8_1_b1),
+	  resources/images/rotate_icon_sel_png.py (tags: v0_8_1_b1),
+	  resources/images/select_icon.png (tags: v0_8_1_b1),
+	  resources/images/select_icon_png.py (tags: v0_8_1_b1),
+	  resources/images/select_icon_sel.png (tags: v0_8_1_b1),
+	  resources/images/select_icon_sel_png.py (tags: v0_8_1_b1),
+	  resources/xrc/PreferencesDialog_xrc.py (tags: v0_8_1_b1),
+	  resources/xrc/__init__.py (tags: v0_8_1_b1),
+	  ui/PreferencesDialog.py (tags: v0_8_1_b1), ui/ToolPalette.py
+	  (tags: v0_8_1_b1):
+
+	converting to use resourcepackage so that resources are included as python files
+
+2005-08-20 08:58  sumpfork
+
+	* neverscript.icns (tags: v0_8_1_b1), setup.py:
+
+	adding missing icons file
+
+2005-08-20 08:54  sumpfork
+
+	* neveredit.icns (tags: v0_8_1_b1):
+
+	re-adding as binary
+
+2005-08-20 08:54  sumpfork
+
+	* neveredit.icns:
+
+	removing to re-add as binary
+
+2005-08-20 08:38  sumpfork
+
+	* game/Module.py (tags: v0_8_1_b1), ui/NeverEditMainApp.py:
+
+	patch for Mod_CustomTlk from Mickael Leduque with some fixes
+
+2005-08-20 08:37  sumpfork
+
+	* README (tags: v0_8_1_b1):
+
+	update, point to new info on website
+
+2005-08-14 11:54  sumpfork
+
+	* game/Module.py, ui/PropWindow.py (tags: v0_8_1_b1):
+
+	applying patch from Mickael Leduque: combo boxes for resrefs and addition of custom tlk control
+
+2005-08-14 11:52  sumpfork
+
+	* ui/NeverEditMainApp.py:
+
+	update welcome window/doc string
+
+2005-08-13 11:58  sumpfork
+
+	* ui/NeverEditMainApp.py:
+
+	fix notebook page syncing loop
+
+2005-08-13 11:38  sumpfork
+
+	* help_nwnlexicon.zip, makebundle.py, Makefile, neveredit.icns,
+	  neveredit.jpg, neveredit.r, neveredit_logo.jpg, NEWS,
+	  neveredit_logo_init.jpg, README, README.commandline,
+	  README.scripteditor, paint_icon.png, paint_icon_sel.png,
+	  SConstruct, rotate_icon.png, rotate_icon_sel.png,
+	  select_icon.png, select_icon_sel.png, setup.py, doxygen/Doxyfile,
+	  doxygen/pythfilter.py, file/.cvsignore, file/BIFFile.py,
+	  file/BinaryDataHandler.py, file/CExoLocString.py,
+	  file/__init__.py, file/ERFFile.py, file/GFFFile.py,
+	  file/KeyFile.py, file/MDLFile.py, file/NeverFile.py,
+	  file/TalkTableFile.py, file/TileSetFile.py, file/TwoDAFile.py,
+	  game/.cvsignore, game/Area.py, game/ChangeNotification.py,
+	  game/__init__.py, game/Conversation.py, game/Creature.py,
+	  game/Door.py, game/Item.py, game/Module.py, game/NeverData.py,
+	  game/Palette.py, game/Placeable.py, game/ResourceManager.py,
+	  game/Script.py, game/SituatedObject.py, game/Tile.py,
+	  openglcontext/.cvsignore, openglcontext/__init__.py,
+	  openglcontext/quaternion.py, openglcontext/utilities.py,
+	  openglcontext/vectorutilities.py,
+	  resources/xrc/PreferencesDialog.xrc, run/nevercommand,
+	  run/neveredit, run/nevererf, run/neversay, run/neverscript,
+	  run/runmodule, ui/.cvsignore, ui/ConversationWindow.py,
+	  ui/__init__.py, ui/GLWindow.py, ui/HelpViewer.py,
+	  ui/MapWindow.py, ui/ModelWindow.py, ui/NeverEditMainApp.py,
+	  ui/Notebook.py, ui/PreferencesDialog.py, ui/PropWindow.py,
+	  ui/ScriptEditor.py, ui/TilingWindow.py, ui/ToolPalette.py,
+	  ui/WxUtils.py, util/.cvsignore, util/Loggers.py,
+	  util/__init__.py, util/check_versions.py, util/neverglobals.py,
+	  util/Preferences.py, util/Progressor.py, util/Utils.py,
+	  util/plistlib.py:
+
+	Initial revision
+
+2005-08-13 11:38  sumpfork
+
+	* help_nwnlexicon.zip (tags: v0_8_1_b1), makebundle.py (tags:
+	  v0_8_1_b1), Makefile, neveredit.icns, neveredit.jpg (tags:
+	  v0_8_1_b1), neveredit.r (tags: v0_8_1_b1), neveredit_logo.jpg,
+	  NEWS (tags: v0_8_1_b1), neveredit_logo_init.jpg, README,
+	  README.commandline (tags: v0_8_1_b1), README.scripteditor (tags:
+	  v0_8_1_b1), paint_icon.png, paint_icon_sel.png, SConstruct (tags:
+	  v0_8_1_b1), rotate_icon.png, rotate_icon_sel.png,
+	  select_icon.png, select_icon_sel.png, setup.py, doxygen/Doxyfile
+	  (tags: v0_8_1_b1), doxygen/pythfilter.py (tags: v0_8_1_b1),
+	  file/.cvsignore, file/BIFFile.py (tags: v0_8_1_b1),
+	  file/BinaryDataHandler.py (tags: v0_8_1_b1),
+	  file/CExoLocString.py (tags: v0_8_1_b1), file/__init__.py (tags:
+	  v0_8_1_b1), file/ERFFile.py (tags: v0_8_1_b1), file/GFFFile.py
+	  (tags: v0_8_1_b1), file/KeyFile.py (tags: v0_8_1_b1),
+	  file/MDLFile.py (tags: v0_8_1_b1), file/NeverFile.py (tags:
+	  v0_8_1_b1), file/TalkTableFile.py (tags: v0_8_1_b1),
+	  file/TileSetFile.py (tags: v0_8_1_b1), file/TwoDAFile.py (tags:
+	  v0_8_1_b1), game/.cvsignore, game/Area.py (tags: v0_8_1_b1),
+	  game/ChangeNotification.py (tags: v0_8_1_b1), game/__init__.py
+	  (tags: v0_8_1_b1), game/Conversation.py (tags: v0_8_1_b1),
+	  game/Creature.py (tags: v0_8_1_b1), game/Door.py (tags:
+	  v0_8_1_b1), game/Item.py (tags: v0_8_1_b1), game/Module.py,
+	  game/NeverData.py (tags: v0_8_1_b1), game/Palette.py (tags:
+	  v0_8_1_b1), game/Placeable.py (tags: v0_8_1_b1),
+	  game/ResourceManager.py (tags: v0_8_1_b1), game/Script.py (tags:
+	  v0_8_1_b1), game/SituatedObject.py (tags: v0_8_1_b1),
+	  game/Tile.py (tags: v0_8_1_b1), openglcontext/.cvsignore,
+	  openglcontext/__init__.py (tags: v0_8_1_b1),
+	  openglcontext/quaternion.py (tags: v0_8_1_b1),
+	  openglcontext/utilities.py (tags: v0_8_1_b1),
+	  openglcontext/vectorutilities.py (tags: v0_8_1_b1),
+	  resources/xrc/PreferencesDialog.xrc (tags: v0_8_1_b1),
+	  run/nevercommand (tags: v0_8_1_b1), run/neveredit (tags:
+	  v0_8_1_b1), run/nevererf (tags: v0_8_1_b1), run/neversay (tags:
+	  v0_8_1_b1), run/neverscript (tags: v0_8_1_b1), run/runmodule
+	  (tags: v0_8_1_b1), ui/.cvsignore, ui/ConversationWindow.py (tags:
+	  v0_8_1_b1), ui/__init__.py (tags: v0_8_1_b1), ui/GLWindow.py
+	  (tags: v0_8_1_b1), ui/HelpViewer.py (tags: v0_8_1_b1),
+	  ui/MapWindow.py (tags: v0_8_1_b1), ui/ModelWindow.py (tags:
+	  v0_8_1_b1), ui/NeverEditMainApp.py, ui/Notebook.py (tags:
+	  v0_8_1_b1), ui/PreferencesDialog.py, ui/PropWindow.py,
+	  ui/ScriptEditor.py, ui/TilingWindow.py (tags: v0_8_1_b1),
+	  ui/ToolPalette.py, ui/WxUtils.py (tags: v0_8_1_b1),
+	  util/.cvsignore, util/Loggers.py (tags: v0_8_1_b1),
+	  util/__init__.py (tags: v0_8_1_b1), util/check_versions.py (tags:
+	  v0_8_1_b1), util/neverglobals.py (tags: v0_8_1_b1),
+	  util/Preferences.py (tags: v0_8_1_b1), util/Progressor.py (tags:
+	  v0_8_1_b1), util/Utils.py (tags: v0_8_1_b1), util/plistlib.py
+	  (tags: v0_8_1_b1) (utags: openknights_import):
+
+	importing an export of the neveredit module from the openknights repository
+
+2005-08-13 11:27  sumpfork
+
+	* .cvsignore, .project, AUTHORS, __init__.py, ChangeLog, COPYING:
+
+	Initial revision
+
+2005-08-13 11:27  sumpfork
+
+	* .cvsignore, .project (tags: v0_8_1_b1), AUTHORS (tags:
+	  v0_8_1_b1), __init__.py, ChangeLog (tags: v0_8_1_b1), COPYING
+	  (tags: v0_8_1_b1) (utags: openknights_import):
+
+	importing an export of the neveredit module from the openknights repository
 
 2005-03-17 00:03  sumpfork
 
