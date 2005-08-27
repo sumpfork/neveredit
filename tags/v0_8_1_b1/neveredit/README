@@ -1,0 +1,46 @@
+Credits:
+    Alan Schmitt has been contributing a good chunk of code, especially
+    the beginnings of a conversation editor.
+
+    Thank you to Damon Law (damondesign.com) and Sylvan_Elf for the 
+    neveredit icons and splash screen, respectively.
+
+    Full credit should go to Torlack (torlack.com) for his great
+    documentation on the mdl binary file format, and his nss script
+    compiler (now maintained bythe openknights for linux and mac)
+    that is used in neveredit.
+
+    Neveredit contains some code from OpenGLContext (mainly the quaternion
+    implementation), pyopengl.sf.net.
+
+    I am now including the NWN Lexicon from http://nwnlexicon.com in
+    the neveredit help. Thanks to all the contributors for putting together
+    that great resource.
+
+Installation:
+        If you have the Mac dmg distribution: drag the application to your
+        applications folder. Double-click it there.
+
+        If you have the Linux binary distribution: run 'neveredit' or 
+        'neverscript' in the untarred/unzipped package 
+       (whichever one you downloaded).
+
+        If you're trying to run neveredit on another platform, or want
+        to run neveredit from source for some other reason, or if the
+        packaged version doesn't work for you at all:
+        Check 
+        http://neveredit.sourceforge.net/cgi-bin/moin.cgi/RunningNevereditFromSource
+        for instructions as to how to satisfy the dependencies for running
+        neveredit from source.
+
+Instructions:
+    So far, just a short note: I'm trying to emulate the camera controls
+    in NWN in the map display, so try using up/down/left/right arrows
+    as well as q,w,e,s.
+
+Bugs and Comments:
+    Please see http://neveredit.sf.net under 'For Users'.
+
+Contact:
+    sumpfork@users.sourceforge.net
+
