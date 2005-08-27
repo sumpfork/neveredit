@@ -25,26 +25,39 @@ parser.add_option('--devel',action='store_true',dest='devel',
                   help='run in development mode (does not use installed version)')
 parser.add_option('--disable_pythonw',action='store_true',dest='no_pythonw',
                   help='disable automatically running pythonw on Mac')
+parser.add_option('-v','--version',action='store_true',dest='version',
+                  help='Display neveredit version')
 
 options,args = parser.parse_args()
-
+    
 if not options.no_pythonw:
     reexec_with_pythonw()
     
 if options.devel:
     sys.path.insert(0,getNeverDir(os.getcwd()))
-    
+
 try:
-    import neveredit.ui.NeverEditMainApp
+    if options.version:
+        import neveredit
+    else:
+        import neveredit.ui.NeverEditMainApp
 except ImportError:
     sys.path.append(getNeverDir(os.path.abspath(os.path.dirname(__file__))))
     try:
-        import neveredit.ui.NeverEditMainApp
+        if options.version:
+            import neveredit
+        else:
+            import neveredit.ui.NeverEditMainApp
     except ImportError:
         print sys.exc_info()[1]
         print sys.path
         print >>sys.stderr,'Faulty neveredit installation: could not import main class'
         sys.exit(1)
 
+if options.version:
+    print 'neveredit module at',neveredit.__file__
+    print 'neveredit version',neveredit.__version__
+    sys.exit()
+    
 print 'Using main class from:',neveredit.ui.NeverEditMainApp.__file__
 neveredit.ui.NeverEditMainApp.run(args)
