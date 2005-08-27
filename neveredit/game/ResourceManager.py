@@ -149,7 +149,7 @@ class ResourceManager(Progressor,VisualChangeNotifier,ResourceListChangeNotifier
         try:
             k2 = cls.resTypeFromExtension(parts[1])
         except KeyError:
-            logger.error('unknown extension "' + parts[1].upper() + '"')
+            #logger.error('unknown extension "' + parts[1].upper() + '"')
             raise ValueError,'unknown nwn extension .' + parts[1]
         return (k1,k2)
     keyFromName = classmethod(keyFromName)
