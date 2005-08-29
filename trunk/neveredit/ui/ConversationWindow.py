@@ -88,7 +88,7 @@ class ConversationWindow(wx.SplitterWindow):
         wx.SplitterWindow.__init__(self,parent)
 
         tID = wx.NewId()
-        self.tree = ConversationTree(self, tID,data)
+        self.tree = ConversationTree(self,tID,data)
 
         self.selectedTreeItem = None
 
@@ -105,9 +105,15 @@ class ConversationWindow(wx.SplitterWindow):
         self.fileChangeCallback = None
 
     def setConversation(self, data):
-        self.tree.Destroy()
-        self.tree = ConversationTree(self, tID, data)
-        self.SplitHorizontally(self.tree, self.notebook, 180)
+        oldTree = self.tree
+
+        tID = wx.NewId()
+        self.tree = ConversationTree(self,tID, data)
+        wx.EVT_TREE_SEL_CHANGED(self,tID,self.treeSelChanged)
+
+        self.ReplaceWindow(oldTree,self.tree)
+
+        oldTree.Destroy()
         
     def addChangeListener(self,callback):
         self.fileChangeCallback = callback
