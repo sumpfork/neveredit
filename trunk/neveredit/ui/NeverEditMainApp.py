@@ -256,6 +256,10 @@ class NeverEditMainWindow(wx.Frame):
         if not self.toolPalette:
             self.toolPalette = ToolPalette.ToolFrame()
             self.toolPalette.GetToolBar().Enable(False)
+            self.Bind(wx.EVT_CLOSE,self.OnCloseToolPalette,self.toolPalette)
+            if self.map:
+                ToolPalette.EVT_TOOLSELECTION(self.toolPalette,
+                                              self.map.toolSelected)
         self.toolPalette.Show(True)
 
     def setupMenus(self):
@@ -729,7 +733,8 @@ class NeverEditMainWindow(wx.Frame):
         tag = self.notebook.getSelectedTag()
         if tag == 'props':
             self.notebook.selectPageByTag('welcome') # blank out to hide creation of controls
-        self.toolPalette.GetToolBar().Enable(False)
+        if self.toolPalette:
+            self.toolPalette.GetToolBar().Enable(False)
         if tag == 'props':
             self.props.makePropsForItem(data,self)
             self.notebook.selectPageByTag(tag)
@@ -740,11 +745,11 @@ class NeverEditMainWindow(wx.Frame):
                                              self.OnMapSelection)
             MapWindow.EVT_MAPMOVE(self.map,self.OnMapMove)
             MapWindow.EVT_MAPTHINGADDED(self.map,self.OnMapThingAdded)
-            ToolPalette.EVT_TOOLSELECTION(self.toolPalette,
-                                          self.map.toolSelected)
-            self.toolPalette.GetToolBar().Enable(True)
-            self.map.selectThingById(data.getNevereditId())
-            self.toolPalette.GetToolBar().Enable(True)            
+            if self.toolPalette:
+                ToolPalette.EVT_TOOLSELECTION(self.toolPalette,
+                                              self.map.toolSelected)
+                self.toolPalette.GetToolBar().Enable(True)
+                self.map.selectThingById(data.getNevereditId())
         elif tag == 'model':
             self.model.setModel(data.getModel(True))
         self.notebook.setCurrentPageSync(False)
@@ -871,6 +876,9 @@ Copyright 2003-2004'''),
         else:
             return True
 
+    def OnCloseToolPalette(self,event):
+        self.toolPalette = None
+        
     def OnCloseSplash(self,event):
         self.splash = None
 
