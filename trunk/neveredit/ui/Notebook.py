@@ -27,15 +27,15 @@ class Notebook (wx.Notebook):
 
     def removePageByTag(self, tag, doDelete=False):
         if tag not in self.pageMap:
-            logger.warning('trying to delete page not in notebookMap: ' + `tag`
-                           + ' notebookMap: ' + `self.pageMap`)
+            #logger.warning('trying to delete page not in notebookMap: ' + `tag`
+            #               + ' notebookMap: ' + `self.pageMap`)
             return
         else:
             pageNum = self.pageMap[tag][0]
             for name,page in self.pageMap.iteritems():
                 if page[0] > pageNum:
                     self.pageMap[name][0] -= 1
-            print 'removing page',pageNum,tag
+            #print 'removing page',pageNum,tag
             if doDelete:
                 self.DeletePage(pageNum)
             else:
@@ -65,7 +65,11 @@ class Notebook (wx.Notebook):
             return False
         else:
             return True
-        
+
+    def setSyncAllPages(self, sync):
+        for tag, info in self.pageMap.iteritems():
+            info[1] = sync
+            
     def setCurrentPageSync(self, sync):
         info = self.getPageInfo(self.GetSelection())
         if not info:
