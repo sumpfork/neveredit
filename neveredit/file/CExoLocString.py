@@ -1,4 +1,9 @@
 import string
+
+from neveredit.util import Loggers
+import logging
+logger = logging.getLogger("neveredit.file")
+
 from neveredit.util import neverglobals
 
 class CExoLocString:
@@ -19,21 +24,21 @@ class CExoLocString:
             return (self.locStrings[index],index)
         elif self.strref != -1:
             if not neverglobals.getResourceManager():
-                print 'error, no resource manager in CExoLocString'
+                logger.error('no resource manager in CExoLocString')
                 return ('',-1)
             else:
                 s = neverglobals.getResourceManager().getDialogString(self.strref)
                 if s != None:
                     return (s,-1)
                 else:
-                    print 'error, Invalid Strref in CExoLocString'
+                    logger.error('error, Invalid Strref in CExoLocString')
                     return ('',-1)
         else:
-            print string.join (['error, no string for language',
-                                `index`,
-                                 'in CExoLocString for embedded strings',
-                                 `self.locStrings`
-                                 ])
+            #print string.join (['error, no string for language',
+            #                    `index`,
+            #                     'in CExoLocString for embedded strings',
+            #                     `self.locStrings`
+            #                     ])
             return ('',-1)
 
     def getString(self,langID=0,gender=0):
@@ -45,7 +50,7 @@ class CExoLocString:
         s = None
         if self.strref != -1:
             if not neverglobals.getResourceManager():
-                print 'error, no resource manager in CExoLocString'
+                logger.error('no resource manager in CExoLocString')
                 return
             else:
                 s = neverglobals.getResourceManager().getDialogString(self.strref)
