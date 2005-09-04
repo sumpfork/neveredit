@@ -33,6 +33,7 @@ class ModelWindow(GLWindow, VisualChangeListener):
         self.lookingAtY = self.getBaseHeight()/2.0
         self.lookingAtZ = self.model.getRootNode().boundingBox[1][2]/2.0
         self.preprocessed = False
+        self.requestRedraw()
         
     def DrawGLScene(self):
         GLWindow.DrawGLScene(self)
