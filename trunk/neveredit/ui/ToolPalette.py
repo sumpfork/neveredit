@@ -119,26 +119,30 @@ class ToolFrame(wx.MiniFrame):
         wx.MiniFrame.__init__(self,None,-1,"Tools",(800,50),(300,600))
         self.SetBackgroundColour('WHITE')
         self.CreateStatusBar()
-        self.toolbar = self.CreateToolBar()
+        self.toolbar = self.CreateToolBar(wx.TB_FLAT | wx.NO_BORDER | wx.TB_HORIZONTAL)
         self.toolbar.SetBackgroundColour(wx.WHITE)
+        self.toolbar.SetToolBitmapSize((26,24))
         self.selectId = SELECTION_TOOL
-        self.toolbar.AddCheckTool(self.selectId,
-                                  select_icon_png.getBitmap(),
-                                  select_icon_sel_png.getBitmap(),
-                                  shortHelp=('Select Object'),
-                             longHelp='Select and Move objects on Map')
+        self.toolbar.AddRadioLabelTool(self.selectId,
+                                       "Select/Move",
+                                       select_icon_png.getBitmap(),
+                                       select_icon_sel_png.getBitmap(),
+                                       shortHelp=('Select Object'),
+                                       longHelp='Select and Move objects on Map')
         self.paintId = PAINT_TOOL        
-        self.toolbar.AddCheckTool(self.paintId,
-                                  paint_icon_png.getBitmap(),
-                                  paint_icon_sel_png.getBitmap(),
-                                  shortHelp='Paint Objects',
-                                  longHelp='Paint selected objects onto Map Display')
+        self.toolbar.AddRadioLabelTool(self.paintId,
+                                       "Paint",
+                                       paint_icon_png.getBitmap(),
+                                       paint_icon_sel_png.getBitmap(),
+                                       shortHelp='Paint Objects',
+                                       longHelp='Paint selected objects onto Map Display')
         self.rotateId = ROTATE_TOOL        
-        self.toolbar.AddCheckTool(self.rotateId,
-                                  rotate_icon_png.getBitmap(),
-                                  rotate_icon_sel_png.getBitmap(),
-                                  shortHelp=('Rotate Object'),
-                                  longHelp=('Rotate object shown on Map'))
+        self.toolbar.AddRadioLabelTool(self.rotateId,
+                                       "Rotate",
+                                       rotate_icon_png.getBitmap(),
+                                       rotate_icon_sel_png.getBitmap(),
+                                       shortHelp=('Rotate Object'),
+                                       longHelp=('Rotate object shown on Map'))
         self.Bind(wx.EVT_TOOL,self.toolSelected)
         self.toolbar.AddSeparator()
         self.toolbar.Realize()
