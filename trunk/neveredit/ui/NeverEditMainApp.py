@@ -720,17 +720,23 @@ class NeverEditMainWindow(wx.Frame):
         '''Callback for notebook page changing event'''
         self.maybeApplyPropControlValues()
         self.syncDisplayedPage()
+
     
     def syncDisplayedPage(self):
         if not self.selectedTreeItem:
             return        
         data = self.tree.GetPyData(self.selectedTreeItem)
-        if not data:
+        area = self.getAreaForTreeItem(self.selectedTreeItem)
+        tag = self.notebook.getSelectedTag()
+        if not data and not area:
             return
         if not self.notebook.doesCurrentPageNeedSync():
+            if tag == 'map' and self.toolPalette:
+                self.toolPalette.GetToolBar().Enable(True)
+            else:
+                self.toolPalette.GetToolBar().Enable(False)
             return
         self.SetEvtHandlerEnabled(False)
-        tag = self.notebook.getSelectedTag()
         if tag == 'props':
             self.notebook.selectPageByTag('welcome') # blank out to hide creation of controls
         if self.toolPalette:
@@ -739,7 +745,6 @@ class NeverEditMainWindow(wx.Frame):
             self.props.makePropsForItem(data,self)
             self.notebook.selectPageByTag(tag)
         elif tag == 'map':
-            area = self.getAreaForTreeItem(self.selectedTreeItem)
             self.map.setArea(area)
             MapWindow.EVT_MAPSINGLESELECTION(self.map,
                                              self.OnMapSelection)
@@ -749,9 +754,11 @@ class NeverEditMainWindow(wx.Frame):
                 ToolPalette.EVT_TOOLSELECTION(self.toolPalette,
                                               self.map.toolSelected)
                 self.toolPalette.GetToolBar().Enable(True)
-                self.map.selectThingById(data.getNevereditId())
+                if data:
+                    self.map.selectThingById(data.getNevereditId())
         elif tag == 'model':
             self.model.setModel(data.getModel(True))
+            print 'setting model'
         self.notebook.setCurrentPageSync(False)
         self.SetEvtHandlerEnabled(True)
         
@@ -772,7 +779,6 @@ class NeverEditMainWindow(wx.Frame):
             self.makePropPage()
         elif not hasattr(data,'iterateProperties'):
             self.notebook.deletePageByTag('props')
-        self.notebook.setPageSyncByTag('props',True)
         area = self.getAreaForTreeItem(self.selectedTreeItem)
         oldArea = self.getAreaForTreeItem(lastItem)
         if oldArea and area != oldArea:
@@ -811,14 +817,16 @@ class NeverEditMainWindow(wx.Frame):
                     self.notebook.getPageByTag('conversation').setConversation(data)
             else:
                 self.notebook.deletePageByTag('conversation')
-
+        else:
+            self.notebook.deletePageByTag('conversation')
                     
         if notebookSelection < self.notebook.GetPageCount() and\
                not notebookSelection == self.notebook.getPageInfoByTag('welcome')[0]:
             self.notebook.SetSelection(notebookSelection)
         else:
             self.notebook.selectPageByTag('props')
-            
+
+        self.notebook.setSyncAllPages(True)
         self.syncDisplayedPage()
             
     def maybeApplyPropControlValues(self):
