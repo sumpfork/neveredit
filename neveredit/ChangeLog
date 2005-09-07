@@ -1,6 +1,18 @@
+2005-09-06 22:40  sumpfork
+
+	* __init__.py:
+
+	bump version to 0.8.1
+
+2005-09-06 22:37  sumpfork
+
+	* ChangeLog (tags: v0_8_1):
+
+	update changelog
+
 2005-09-06 22:36  sumpfork
 
-	* ui/TilingWindow.py:
+	* ui/TilingWindow.py (tags: v0_8_1):
 
 	introduce model window: drawing not quite right initially yet
 
