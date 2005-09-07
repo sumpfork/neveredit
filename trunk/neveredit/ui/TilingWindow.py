@@ -12,6 +12,7 @@ from neveredit.ui import WxUtils
 from neveredit.game.Tile import Tile
 from neveredit.util import Utils
 from neveredit.util import neverglobals
+from neveredit.ui.ModelWindow import ModelWindow
 
 class TileShape(ogl.BitmapShape):
     def __init__(self,t,tilesize=32):
@@ -88,18 +89,26 @@ class TilingWindow(wx.Panel):
         self.tilelist = None
         self.mapWindow.SetBackgroundColour("LIGHT BLUE")
 
-        #self.map.SetGridSpacing(tilesize)
-        #self.map.SetSnapToGrid(True)
+        self.map.SetGridSpacing(tilesize)
+        self.map.SetSnapToGrid(True)
         
         self.map.ShowAll(True)
-
+        self.vertSizer = wx.BoxSizer(wx.VERTICAL)
         self.tileListCtrl = wx.ListCtrl(self,
                                         style=wx.LC_REPORT|wx.LC_NO_HEADER|wx.LC_SINGLE_SEL)
-        self.sizer.Add(self.tileListCtrl,False,wx.EXPAND)
+        self.vertSizer.Add(self.tileListCtrl,True,wx.EXPAND)
+        self.modelWindow = ModelWindow(self)
+        self.modelWindow.SetSize((150,150))
+        self.vertSizer.Add(self.modelWindow,False,wx.ALIGN_RIGHT|wx.ALIGN_BOTTOM)
+        self.sizer.Add(self.vertSizer,False,wx.EXPAND)
         
-        self.SetSizer(self.sizer)
         self.SetAutoLayout(True)
+        self.SetSizer(self.sizer)
+        self.sizer.Fit(self)
 
+        self.Layout()
+        self.Update()
+        
         self.tilesize = tilesize
         self.tileshapes = []
         self.tileImageList = wx.ImageList(self.tilesize,self.tilesize)
@@ -147,6 +156,9 @@ class TilingWindow(wx.Panel):
         self.tileListCtrl.ClearAll()
         self.tileListCtrl.SetImageList(self.tileImageList,wx.IMAGE_LIST_NORMAL)
         self.tileListCtrl.SetImageList(self.tileImageList,wx.IMAGE_LIST_SMALL)
+
+        self.Layout()
+        self.Update()
         
     def updateTileListCtrl(self,tiles):
         self.tileListCtrl.ClearAll()
@@ -160,6 +172,8 @@ class TilingWindow(wx.Panel):
                                                                       + `int(t.getBearing())`])
         
     def selected(self,shape):
+        self.modelWindow.setModel(shape.getTile().getModel())
+        self.modelWindow.Refresh(True)
         x = shape.GetX() / self.tilesize
         y = self.area.getHeight() - (shape.GetY() / self.tilesize)
         #print 'shape',shape.getTile().getId(),'at',x,y
