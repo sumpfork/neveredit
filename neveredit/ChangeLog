@@ -1,3 +1,93 @@
+2005-09-06 22:36  sumpfork
+
+	* ui/TilingWindow.py:
+
+	introduce model window: drawing not quite right initially yet
+
+2005-09-04 19:50  sumpfork
+
+	* ui/NeverEditMainApp.py:
+
+	make sure toolbar gets updated even without data object\nmark all pages as dirty when tree item changes\nremove conversation page when no data object
+
+2005-09-04 19:48  sumpfork
+
+	* doxygen/.cvsignore, resources/.cvsignore:
+
+	update some ignores
+
+2005-09-04 19:47  sumpfork
+
+	* file/CExoLocString.py:
+
+	use loggers instead of prints;get rid of often occurring warning
+
+2005-09-04 19:45  sumpfork
+
+	* ui/ModelWindow.py:
+
+	make sure model redraws when changed
+
+2005-09-04 19:45  sumpfork
+
+	* ui/Notebook.py:
+
+	get rid of warning (it is ok) and provide way to request for all pages to be synced at once
+
+2005-09-04 19:44  sumpfork
+
+	* ui/ToolPalette.py:
+
+	increase toolbar button size to match actual icon size; some minor changes
+
+2005-09-04 19:43  sumpfork
+
+	* util/Loggers.py:
+
+	set default log level to WARN
+
+2005-08-29 20:06  sumpfork
+
+	* ui/NeverEditMainApp.py:
+
+	fix deleted tool palette exception
+
+2005-08-29 20:05  sumpfork
+
+	* __init__.py:
+
+	take out another ok reference
+
+2005-08-29 08:43  brab
+
+	* ui/ConversationWindow.py:
+
+	This fixes the recent Conversation bugs
+
+2005-08-27 14:59  sumpfork
+
+	* setup.py, file/ERFFile.py, game/ResourceManager.py, run/nevererf:
+
+	first pass at erf file creation for nevererf; add nevererf as script; improve creation of new ERFFile in the process
+
+2005-08-27 14:58  sumpfork
+
+	* run/neveredit:
+
+	add version printout via command line arg -v/--version
+
+2005-08-27 07:58  sumpfork
+
+	* ChangeLog:
+
+	merge in changelog from old cvs tree
+
+2005-08-27 07:43  sumpfork
+
+	* ChangeLog (tags: v0_8_1_b1):
+
+	update changelog
+
 2005-08-26 18:03  sumpfork
 
 	* Makefile (tags: v0_8_1_b1):
