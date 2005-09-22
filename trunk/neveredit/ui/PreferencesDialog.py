@@ -6,6 +6,7 @@ from wx.lib.filebrowsebutton import DirBrowseButton
 from neveredit.resources.xrc import PreferencesDialog_xrc
 
 import neveredit.util.Preferences
+import neveredit.file.Language
 
 class PreferencesDialog(wx.Dialog):
     __doc__ = globals()['__doc__']
@@ -14,7 +15,9 @@ class PreferencesDialog(wx.Dialog):
             prefs = neveredit.util.Preferences.getPreferences()
         self.preferences = prefs
         if not tablist:
-            tablist = ["GeneralPanel","ScriptEditorPanel"]
+            tablist = ["GeneralPanel","ScriptEditorPanel","TextPanel"]
+	    # tablist list all tabs that will be activated, the other ones do
+	    # not show
         self.tablist = tablist
         resourceText = PreferencesDialog_xrc.data
         resource = wx.xrc.EmptyXmlResource()
@@ -47,7 +50,17 @@ class PreferencesDialog(wx.Dialog):
                                          wx.xrc.XRCCTRL(dialog,
                                                         "ScriptEditorPanel"))
             notebook.DeletePage(index)
-        dialog.Bind(wx.EVT_BUTTON, self.OnOk, id=wx.xrc.XRCID("ID_OK"))
+	if "TextPanel" in self.tablist :
+		self.DefaultLocStringLang = wx.xrc.XRCCTRL(
+					dialog,"DefaultLocStringLang")
+		self.DefaultLocStringLang.SetSelection(neveredit.file.Language.\
+			convertFromBIOCode(prefs["DefaultLocStringLang"]))
+	else:
+		index = self.__getPanelIndex(notebook,
+					 wx.xrc.XRCCTRL(dialog, "TextPanel"))
+		notebook.DeletePage(index)
+
+	dialog.Bind(wx.EVT_BUTTON, self.OnOk, id=wx.xrc.XRCID("ID_OK"))
         dialog.Bind(wx.EVT_BUTTON, self.OnCancel, id=wx.xrc.XRCID("ID_CANCEL"))
         self.PostCreate(dialog)
 
@@ -66,6 +79,9 @@ class PreferencesDialog(wx.Dialog):
                            self.scriptAntiAlias.GetValue(),
                            'ScriptAutoCompile':
                            self.scriptAutoCompile.GetValue()})
+	if "TextPanel" in self.tablist:
+	    values.update({"DefaultLocStringLang":neveredit.file.Language.\
+		convertToBIOCode(self.DefaultLocStringLang.GetSelection())})
         return values
 
     def ShowAndInterpret(self):

@@ -15,6 +15,9 @@ from neveredit.file.GFFFile import GFFStruct
 from neveredit.game.ChangeNotification import ResourceListChangeListener
 from neveredit.game.ChangeNotification import PropertyChangeNotifier
 
+import neveredit.util.Preferences
+import neveredit.file.Language
+
 def cleanstr(str):
     return str
 #    import string
@@ -39,14 +42,17 @@ class PropControl(PropertyChangeNotifier):
         self.control = control
 
 class CExoLocStringControl(wx.BoxSizer):
-    def __init__(self,typeSpec,prop,propWindow):
+    def __init__(self,typeSpec,prop,propWindow, defaultlang=0):
+	# the defaultlang parameter should be the BIOWARE code for the language
+	# see file/Language or Bioware documentation for those codes
         wx.BoxSizer.__init__(self,wx.VERTICAL)
 
-        langChoices = ['Default', 'French']
+        langChoices = neveredit.file.Language.BIOorderedLangs
         genderChoices = ['Default', 'Female']
 
         # TODO change this to use some default value fetched from preferences
-        self.langID = 0
+	# # Comment, maybe this should be done *once* in the parent - Micka
+        self.langID = defaultlang
         self.gender = 0
         self.prop = prop
 
@@ -67,7 +73,8 @@ class CExoLocStringControl(wx.BoxSizer):
         self.label = wx.StaticText(propWindow,-1,'')
 
         self.langIDChoice = wx.Choice(propWindow,-1,choices=langChoices)
-        self.langIDChoice.SetSelection(self.langID)
+        self.langIDChoice.SetSelection(
+			neveredit.file.Language.convertFromBIOCode(self.langID))
         wx.EVT_CHOICE(propWindow,self.langIDChoice.GetId(),self.langSelection)
 
         self.genderChoice = wx.Choice(propWindow,-1,choices=genderChoices)
@@ -95,7 +102,7 @@ class CExoLocStringControl(wx.BoxSizer):
         self.textCtrl.SetValue(text)
   
     def langSelection(self,event):
-        self.langID = self.langIDChoice.GetSelection()
+        self.langID = neveredit.file.Language.convertToBIOCode(self.langIDChoice.GetSelection())
         self.gender = self.genderChoice.GetSelection()
         self.fetchText()
 
@@ -132,6 +139,12 @@ class PropWindow(scrolled.ScrolledPanel, ResourceListChangeListener):
         
         self.propLabels = []
         self.propControls = {}
+	# get default language preference for CEXOLocStrings
+	p = neveredit.util.Preferences.getPreferences()
+	self.defaultlang = p['DefaultLocStringLang']
+	# TODO on module loading, if the default language is not the same as the
+	# locstrings in the module, *even if no modification is made*, the module
+	# is marked as dirty. Maybe we should try and check is save is necesary
          
     def getControlByPropName(self,name):
         for propControl,prop in self.propControls.values():
@@ -276,7 +289,7 @@ class PropWindow(scrolled.ScrolledPanel, ResourceListChangeListener):
         typeSpec = prop.getSpec()
         type = typeSpec[0]
         if type == 'CExoLocString':
-            control = CExoLocStringControl(typeSpec,prop,self)
+            control = CExoLocStringControl(typeSpec,prop,self,self.defaultlang)
         elif type == 'CExoString':
             if len(typeSpec) > 1:
                 control = self.makeCustomChoiceControl(typeSpec, prop, parent)

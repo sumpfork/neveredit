@@ -41,6 +41,7 @@ class Preferences:
         self.values = {'NWNAppDir':None,
                        'ScriptAntiAlias':False,
                        'ScriptAutoCompile':True,
+		       "DefaultLocStringLang":0,	# english=0
                        'FileHistory':[]}
 
     def __getitem__(self,key):

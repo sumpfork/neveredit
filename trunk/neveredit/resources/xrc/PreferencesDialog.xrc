@@ -45,6 +45,46 @@
               <tooltip>Script Editor Specific Preferences</tooltip>
             </object>
           </object>
+          <object class="notebookpage">
+            <label>Text</label>
+            <object class="wxPanel" name="TextPanel">
+              <object class="wxBoxSizer">
+                <orient>wxVERTICAL</orient>
+                <object class="sizeritem">
+                  <object class="wxBoxSizer">
+                    <orient>wxHORIZONTAL</orient>
+                    <object class="sizeritem">
+			    <object class="wxChoice" name="DefaultLocStringLang">
+                        <content>
+                          <item>english</item>
+                          <item>french</item>
+                          <item>german</item>
+                          <item>italian</item>
+                          <item>spanish</item>
+                          <item>polish</item>
+                          <item>korean</item>
+                          <item>chinese traditional</item>
+                          <item>chinese simplified</item>
+                          <item>japanese</item>
+                        </content>
+                        <selection>0</selection>
+                      </object>
+                      <flag>wxALL|wxGROW</flag>
+                      <border>10</border>
+                    </object>
+                    <object class="sizeritem">
+                      <object class="wxStaticText" name="defaultLangLabel">
+                        <label>Default language for translatable strings</label>
+                      </object>
+                      <flag>wxALL|wxGROW</flag>
+                      <border>10</border>
+                    </object>
+                  </object>
+                </object>
+              </object>
+              <tooltip>Text specific preferences</tooltip>
+            </object>
+          </object>
         </object>
         <flag>wxBOTTOM|wxALL|wxEXPAND|wxGROW</flag>
         <border>5</border>
