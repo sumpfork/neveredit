@@ -10,6 +10,8 @@ if sys.version_info[0] < 2 or (sys.version_info[0] == 2 and sys.version_info[1] 
     print >>sys.stderr,"Sorry, neveredit needs python >= 2.3. Download from python.org"
     sys.exit()
 
+import tempfile
+
 try:
     import wx
     import wx.html
@@ -165,7 +167,7 @@ class NeverEditMainWindow(wx.Frame):
 
         helps = [file for file in os.listdir(os.getcwd())
                  if (file[:5] == 'help_' and file[-4:] == '.zip')]
-        self.helpviewer = HelpViewer.makeHelpViewer(helps,os.getcwd())
+        self.helpviewer = HelpViewer.makeHelpViewer(helps,tempfile.gettempdir())
 
         self.toolPalette = None
         self.props = None
