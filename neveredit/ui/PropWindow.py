@@ -8,15 +8,17 @@ import wx.lib.scrolledpanel as scrolled
 import wx.lib.rcsizer as rcs
 from wx.lib.buttons import GenButton
 
-from neveredit.util import neverglobals
 from neveredit.ui import WxUtils
+from neveredit.ui.HAKListControl import HAKListControl
 
-from neveredit.file.GFFFile import GFFStruct
 from neveredit.game.ChangeNotification import ResourceListChangeListener
 from neveredit.game.ChangeNotification import PropertyChangeNotifier
 
-import neveredit.util.Preferences
+from neveredit.file.GFFFile import GFFStruct
 import neveredit.file.Language
+
+from neveredit.util import neverglobals
+import neveredit.util.Preferences
 
 def cleanstr(str):
     return str
@@ -255,17 +257,29 @@ class PropWindow(scrolled.ScrolledPanel, ResourceListChangeListener):
             elif pName == 'Script':
                 s = control.getScript(prop.getName())
                 prop.setValue(s.replace('\n','\r\n'))
+            elif pName == 'List':
+                type = prop.getSpec()[1]
+                sel_list = []
+                if type == 'HAKs':
+                    haknames = control.GetStringSelections()
+                    for hakFileName in haknames:
+                        s = GFFStruct()
+                        s.add('Mod_Hak',hakFileName,'CExoString')
+                        logger.info(repr(s)+" "+s['Mod_Hak'])
+                        #print s,s['Mod_Hak']
+                        sel_list.append(s)
+                prop.setValue(sel_list)
             elif pName == 'CheckList':
                 type = prop.getSpec()[1]
                 checkedList = []
-                if type == 'HAKs':
-                    for i in range(control.GetCount()):
-                        if control.IsChecked(i):
-                            hakFileName = control.GetString(i)
-                            s = GFFStruct()
-                            s.add('Mod_Hak',hakFileName,"CExoString")
-                            print s,s['Mod_Hak']
-                            checkedList.append(s)
+#                if type == 'HAKs':
+#                    for i in range(control.GetCount()):
+#                        if control.IsChecked(i):
+#                            hakFileName = control.GetString(i)
+#                            s = GFFStruct()
+#                            s.add('Mod_Hak',hakFileName, "CExoString")
+#                            print s,s['Mod_Hak']
+#                            checkedList.append(s)
                 prop.setValue(checkedList)
             elif pName == '2daIndex':
                 prop.setValue(int(control.GetSelection()))
@@ -330,20 +344,23 @@ class PropWindow(scrolled.ScrolledPanel, ResourceListChangeListener):
             control.SetForegroundColour(wx.Colour(red,green,blue))
             control.SetBackgroundColour(wx.Colour(red,green,blue))
             wx.EVT_BUTTON(self,control.GetId(),self.handleColourButton)
+        elif type == "List":
+            if typeSpec[1] == 'HAKs':
+                control = HAKListControl(prop, parent)            
         elif type == "CheckList":
             choices = []
-            if typeSpec[1] == 'HAKs':
-                choices = [x['Mod_Hak'].lower()
-                           for x in prop.getValue()]
-                choices.extend([x.split('.')[0].lower() for x in
-                                neverglobals.getResourceManager().getHAKFileNames()
-                                if x.split('.')[0].lower() not in choices])
+#            if typeSpec[1] == 'HAKs':
+#                choices = [x['Mod_Hak'].lower()
+#                           for x in prop.getValue()]
+#                choices.extend([x.split('.')[0].lower() for x in
+#                                neverglobals.getResourceManager().getHAKFileNames()
+#                                if x.split('.')[0].lower() not in choices])
             control = wx.CheckListBox(parent,-1,
                                      wx.DefaultPosition,(200,200),choices)
             for i in range(len(choices)):
                 control.Check(i,False)
-            for n in prop.getValue():
-                control.Check(choices.index(n['Mod_Hak'].lower()))
+#            for n in prop.getValue():
+#                control.Check(choices.index(n['Mod_Hak'].lower()))
             wx.EVT_CHECKLISTBOX(self,control.GetId(),self.controlUsed)
         elif type == '2daIndex':
             twoda = neverglobals.getResourceManager().getResourceByName(typeSpec[1])

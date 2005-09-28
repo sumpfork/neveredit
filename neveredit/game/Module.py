@@ -19,7 +19,7 @@ class Module(Progressor,NeverData):
         "Mod_Description":"CExoLocString,4",
         "Mod_DuskHour":"Integer,0-23",
         "Mod_Entry_Area":"ResRef,ARE",
-        "Mod_HakList":"CheckList,HAKs",
+        "Mod_HakList":"List,HAKs",
         "Mod_Hak":"CheckList,HAK",
         "Mod_Name":"CExoLocString",
         "Mod_MinPerHour": "Integer,1-255",
