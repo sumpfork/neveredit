@@ -11,16 +11,7 @@ class HAKListControl(wx.BoxSizer) :
 # the |->| and |<-| buttons (arrow pixmaps and wxBitmapButton would be nicer)
 # Then, one can set the HAK order in the Module using "up" and "down" buttons
 # (the higher the HAK is in the ListBox, the higher is its priority).
-# Finally, a TextCtrl allows to manually add a HAK (even if not in the
-# filesystem) by typing it in and hitting enter.
 
-# BUG : The selection/deselection does not work as wanted. Multiple selection
-# just by clicking (no problem), but you can only deselect by holding Ctrl
-# and clicking, at least on linux/gtk2.
-
-# BUG : resizing the neveredit window will move everything alright, but the
-# StaticText ant the TextCtrl will divide in two, with one part that follow
-# the rest, and one that is stricly still, at least under linux/gtk2.
 
     def __init__(self, prop, propWindow) :
         wx.BoxSizer.__init__(self,wx.VERTICAL)
@@ -36,28 +27,30 @@ class HAKListControl(wx.BoxSizer) :
         self.nonused_haks = wx.ListBox(propWindow, -1, size=(-1,100),\
                 choices = [x for x in self.getAvaibleHAKs()\
                 if x not in self.getUsedHAKs()],\
-                style = wx.LB_MULTIPLE|wx.LB_NEEDED_SB|wx.LB_SORT)
+                style = wx.LB_SINGLE|wx.LB_NEEDED_SB|wx.LB_SORT)
+                # The selection mode is "wx.LB_SINGLE" for the moment
+                # because I couldn't have the good behaviour with wx.LB_EXTENDED
+                # I'm not sure it won't we kept that way
         self.used_haks = wx.ListBox(propWindow, -1, size=(-1,100),\
                 choices = self.getUsedHAKs(),
-                style = wx.LB_MULTIPLE|wx.LB_NEEDED_SB)
+                style = wx.LB_SINGLE|wx.LB_NEEDED_SB)
         self.to_used = wx.Button(propWindow, -1, "->", style=wx.BU_EXACTFIT)
         self.to_nonused = wx.Button(propWindow, -1, "<-", style=wx.BU_EXACTFIT)
         self.up_button = wx.Button(propWindow, -1, _("  up  "), style=wx.BU_EXACTFIT)
         self.down_button = wx.Button(propWindow, -1, _("down"), style=wx.BU_EXACTFIT)
-        self.text_edit = wx.TextCtrl(propWindow, -1, style = wx.TE_PROCESS_ENTER)
 
-        self.label = wx.StaticText(propWindow,-1,'')
-        self.Add(self.label, 0, wx.ALL, 5)
-
+        self.unused_label = wx.StaticText(propWindow,-1,_('Avaible HAKs'))
+        self.used_label = wx.StaticText(propWindow,-1,_('Selected HAKs'))
         arrows_sizer.Add(self.to_used)
         arrows_sizer.Add(self.to_nonused)
 
         updown_sizer.Add(self.up_button)
         updown_sizer.Add(self.down_button)
 
-        usedhaks_sizer.Add(self.text_edit,flag=wx.EXPAND)
+        usedhaks_sizer.Add(self.used_label,flag=wx.TOP)
         usedhaks_sizer.Add(self.used_haks)
-        nonused_sizer.Add(wx.StaticText(propWindow,-1,_('Avaible HAKs')),flag=wx.TOP)
+
+        nonused_sizer.Add(self.unused_label,flag=wx.TOP)
         nonused_sizer.Add(self.nonused_haks,flag=wx.ALIGN_BOTTOM)
 
         exterior_sizer.Add(nonused_sizer,flag=wx.ALIGN_BOTTOM)
@@ -69,18 +62,18 @@ class HAKListControl(wx.BoxSizer) :
         wx.EVT_BUTTON(propWindow, self.to_nonused.GetId(), self.HAKRemove)
         wx.EVT_BUTTON(propWindow, self.up_button.GetId(), self.HAKMoveUp)
         wx.EVT_BUTTON(propWindow, self.down_button.GetId(), self.HAKMoveDown)
-        wx.EVT_TEXT_ENTER(propWindow, self.text_edit.GetId(), self.HAKManualAdd)
 
         self.Add(exterior_sizer)
 
     def Destroy(self) :
-        self.label.Destroy()
         self.nonused_haks.Destroy()
         self.used_haks.Destroy()
         self.up_button.Destroy()
         self.down_button.Destroy()
         self.to_used.Destroy()
         self.to_nonused.Destroy()
+        self.used_label.Destroy()
+        self.unused_label.Destroy()
         # should I also destroy th wx.Sizer-s?
         wx.BoxSizer.Destroy(self)
 
@@ -145,7 +138,7 @@ class HAKListControl(wx.BoxSizer) :
                     self.used_haks.SetSelection(i-1)
 
         elif len(n_haks)>1 :
-            self.warnMoveHAKsOneByOne(frame)
+            self.warnMoveHAKsOneByOne(self.parent)
 
 
     def HAKMoveDown(self, event) :
@@ -168,19 +161,4 @@ class HAKListControl(wx.BoxSizer) :
     def warnMoveHAKsOneByOne(parent) :
         # use whatever to warn the user to move the haks one by one
         pass
-
-    def HAKManualAdd(self, event) :
-        hakname = self.text_edit.GetValue()
-        if len(hakname)!=0 :
-            selected = self.GetStringSelections()
-            if hakname not in selected:
-
-                event.SetId(self.GetId())
-                self.propWindow.controlUsed(event)
-
-                self.used_haks.Append(hakname)
-                avaible = self.GetRejectedStrings()
-                if hakname in avaible:
-                    index = self.nonused_haks.FindString(hakname)
-                    self.nonused_haks.Delete(index)
 
