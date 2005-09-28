@@ -144,9 +144,6 @@ class PropWindow(scrolled.ScrolledPanel, ResourceListChangeListener):
 	# get default language preference for CEXOLocStrings
 	p = neveredit.util.Preferences.getPreferences()
 	self.defaultlang = p['DefaultLocStringLang']
-	# TODO on module loading, if the default language is not the same as the
-	# locstrings in the module, *even if no modification is made*, the module
-	# is marked as dirty. Maybe we should try and check is save is necesary
          
     def getControlByPropName(self,name):
         for propControl,prop in self.propControls.values():
@@ -266,7 +263,6 @@ class PropWindow(scrolled.ScrolledPanel, ResourceListChangeListener):
                         s = GFFStruct()
                         s.add('Mod_Hak',hakFileName,'CExoString')
                         logger.info(repr(s)+" "+s['Mod_Hak'])
-                        #print s,s['Mod_Hak']
                         sel_list.append(s)
                 prop.setValue(sel_list)
             elif pName == 'CheckList':
