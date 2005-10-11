@@ -113,8 +113,11 @@ class ResourceManager(Progressor,VisualChangeNotifier,ResourceListChangeNotifier
         self.resourcesByType = {}
         self.hakFileNames = []
         self.mainDialogFile = None
+        self.customTlkFile = None
         self.modMap = {}
         self.module = None
+        self.BMUFileNames = []
+        self.ambientSoundFileNames = []
 
     def resTypeFromExtension(cls,ext):
         '''Class method that converts a resource type into a string extension'''
@@ -248,6 +251,14 @@ class ResourceManager(Progressor,VisualChangeNotifier,ResourceListChangeNotifier
                     if mod[-4:] == '.mod':
                         #self.addMODFile(os.path.join(self.getAppDir(),f,mod))
                         self.modMap[os.path.basename(f)] = os.path.join(self.getAppDir(),f)
+            if f == 'music':
+                for mus in os.listdir(os.path.join(self.getAppDir(),f)):
+                    if mus[-4:] == '.bmu':
+                        self.BMUFileNames.append(mus)
+            if f == 'ambient':
+                for ambsound in os.listdir(os.path.join(self.getAppDir(),f)):
+                    if ambsound[-4:] == '.wav':
+                        self.ambientSoundFileNames.append(ambsound)
         self.setProgress(0)
         print >>sys.stderr
         if not self.mainDialogFile:
@@ -265,6 +276,14 @@ class ResourceManager(Progressor,VisualChangeNotifier,ResourceListChangeNotifier
     def getHAKFileNames(self):
         '''return a list of all hak file names found in the game install'''
         return self.hakFileNames
+
+    def getBMUFileNames(self):
+        '''return a list of all bmu (music) file names found in the game install'''
+        return self.BMUFileNames
+
+    def getAmbSoundFileNames(self):
+        '''return a list of all bmu (music) file names found in the game install'''
+        return self.ambientSoundFileNames
 
     def loadHAKsForModule(self,mod):
         '''Given a module, add all the resources in its hak files to the
