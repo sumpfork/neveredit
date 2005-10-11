@@ -38,6 +38,7 @@ from neveredit.ui import HelpViewer
 from neveredit.ui import ToolPalette
 from neveredit.ui import PreferencesDialog
 from neveredit.ui import Notebook
+from neveredit.ui import SoundControl
 from neveredit.util import Preferences
 from neveredit.util import Utils
 from neveredit.util import neverglobals
@@ -898,6 +899,8 @@ Copyright 2003-2004'''),
     def OnClose(self,doForce=False):
         '''Window closing callback method for the main app.'''
         self.savePrefs()
+        # kill any thread playing BMU sound
+        SoundControl.Event_Die.set()
         if self.maybeSave():
             sys.exit()
         else:

@@ -10,6 +10,7 @@ from wx.lib.buttons import GenButton
 
 from neveredit.ui import WxUtils
 from neveredit.ui.HAKListControl import HAKListControl
+from neveredit.ui.SoundControl import SoundControl
 
 from neveredit.game.ChangeNotification import ResourceListChangeListener
 from neveredit.game.ChangeNotification import PropertyChangeNotifier
@@ -374,9 +375,13 @@ class PropWindow(scrolled.ScrolledPanel, ResourceListChangeListener):
             else:
                 choices = [twoda.getEntry(i,col)
                            for i in xrange(twoda.getRowCount())]
-            control = wx.Choice(parent,-1,choices=[cleanstr(s) for s in choices])
+            if typeSpec[1] in ['ambientmusic.2da','ambientsound.2da','soundset.2da']:
+                # may be used for other 2das in the future
+                control = SoundControl(prop,parent,choices,typeSpec[1])
+            else:
+                control = wx.Choice(parent,-1,choices=[cleanstr(s) for s in choices])
             control.SetSelection(prop.getValue())
-            wx.EVT_CHOICE(self,control.GetId(),self.controlUsed)
+                
         elif type == 'Portrait':
             p = neverglobals.getResourceManager().getPortraitByIndex(prop.getValue(),'s')
             if p:
