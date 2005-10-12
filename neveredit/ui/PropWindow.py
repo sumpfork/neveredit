@@ -142,9 +142,9 @@ class PropWindow(scrolled.ScrolledPanel, ResourceListChangeListener):
         
         self.propLabels = []
         self.propControls = {}
-	# get default language preference for CEXOLocStrings
-	p = neveredit.util.Preferences.getPreferences()
-	self.defaultlang = p['DefaultLocStringLang']
+        # get default language preference for CEXOLocStrings
+        p = neveredit.util.Preferences.getPreferences()
+        self.defaultlang = p['DefaultLocStringLang']
          
     def getControlByPropName(self,name):
         for propControl,prop in self.propControls.values():
@@ -367,7 +367,8 @@ class PropWindow(scrolled.ScrolledPanel, ResourceListChangeListener):
                 for i in xrange(twoda.getRowCount()):
                     entry = 'invalid'
                     try:
-                        entry = neverglobals.getResourceManager().getDialogString(int(twoda.getEntry(i,col)))
+                        entry = neverglobals.getResourceManager().\
+                                    getDialogString(int(twoda.getEntry(i,col)))
                     except ValueError:
                         if len(typeSpec) > 4:
                             entry = twoda.getEntry(i,typeSpec[4])
