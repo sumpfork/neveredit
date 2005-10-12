@@ -7,6 +7,7 @@ from neveredit.util import neverglobals
 import neveredit.file.SoundSetFile as SoundSetFile
 
 import os.path
+import sys
 import threading
 from cStringIO import StringIO
 
@@ -38,11 +39,9 @@ NOTE : pygame.mixer.Sound doesn't support mp3 files, and pygame.mixer.music does
 allow loading from a file object (it only loads from a file name). So I had to use
 pygame.movie.Movie (!) to play mp3 files.
 
-TODO : -change the "play" button to a "stop" one after begining playing *music* (the
-        longer of the sounds)
-       -cycle through the many sounds in a soundset on each consecutive play
+TODO : -cycle through the many sounds in a soundset on each consecutive play
        -set playback duration in preferences - maybe one pref for each
-       -
+       
 
 BUG : I experience some segfaults with mp3 playing...
 
@@ -63,6 +62,7 @@ BUG : I experience some segfaults with mp3 playing...
         self.SoundType = None
         self.SoundObject = None
         self.hasChanged = False
+        self.firstTime = True
 
     def Destroy(self):
         self.sound_list.Destroy()
@@ -72,7 +72,7 @@ BUG : I experience some segfaults with mp3 playing...
     def soundChanged(self,event):
         self.hasChanged = True
         event.SetId(self.GetId())
-        parent.controlUsed(event)
+        self.parent.controlUsed(event)
 
     def SetSelection(self,n):
         self.sound_list.SetSelection(n)
@@ -84,7 +84,10 @@ BUG : I experience some segfaults with mp3 playing...
         return self.sound_list.GetId()
 
     def playButtonHit(self, event):
-        if not self.hasChanged:
+        print('playButtonHit entered with hasChanged = ',self.hasChanged)
+        if self.hasChanged or self.firstTime:
+            self.hasChanged = False
+            self.firstTime = False
             if self.twodaName=='ambientmusic.2da':
                 self.playButtonHit_music()
             elif self.twodaName=='ambientsound.2da':
@@ -160,38 +163,60 @@ BUG : I experience some segfaults with mp3 playing...
             self.SoundType = 'WAV'
             self.hasChanged = False
             self.playSound()
-            # I should here change the button text to "stop" and allow the user
-            # to stop music playback - as it can in fact be very long
 
     def playSound(self):
         # two cases, either we have a wav, or we have a mp3
         Event_Die.set()
         Event_Die.clear()
+        self.changeButton()
         if self.SoundType == 'WAV':
-            import pygame.mixer
-            if not pygame.mixer.get_init():
-                pygame.mixer.init(22050,-16,True,1024)
-            if pygame.mixer.get_busy():
-                pygame.mixer.stop()
-            snd = pygame.mixer.Sound(self.SoundObject)
-            snd.play(0,6000) # maxtime should be set in Preferences
-        elif self.SoundType == 'BMU':
-            self.snd_player = Sound_Thread(self.SoundObject)
+            self.snd_player = WAV_Thread(self.SoundObject)
             self.snd_player.start()
+        elif self.SoundType == 'BMU':
+            self.snd_player = MP3_Thread(self.SoundObject)
+            self.snd_player.start()
+            self.hasChanged = True # force the long way, pygame.movie closes the file!
         else:
-            pass
+            self.stopButtonHit(None)
 
-class Sound_Thread(threading.Thread ):
+    def stopButtonHit(self,event):
+        Event_Die.set()
+        Event_Die.clear()
+        self.play_button.SetLabel('play')
+        wx.EVT_BUTTON(self.parent,self.play_button.GetId(),self.playButtonHit)
+        self.play_button.Refresh()
+
+    def changeButton(self):
+        self.play_button.SetLabel('stop')
+        wx.EVT_BUTTON(self.parent,self.play_button.GetId(),self.stopButtonHit)
+        self.play_button.Refresh()
+
+
+class MP3_Thread(threading.Thread ):
     def __init__(self,fobject):
         threading.Thread.__init__(self)
         self.sound = fobject
 
     def run(self):
-        import pygame.movie,pygame.display
-        pygame.mixer.quit()
-        pygame.display.init()
+        import pygame.movie
+        self.sound.seek(0)
         snd = pygame.movie.Movie(self.sound)
         snd.set_volume(1.0)
         snd.set_display(None)
         snd.play()
-        Event_Die.wait(15)
+        Event_Die.wait()
+
+
+class WAV_Thread(threading.Thread ):
+    def __init__(self,fobject):
+        threading.Thread.__init__(self)
+        self.sound = fobject
+
+    def run(self):
+        import pygame.mixer
+        pygame.mixer.init(22050,-16,True,1024)
+        self.sound.seek(0)
+        snd = pygame.mixer.Sound(self.sound)
+        snd.play(0,6000) # maxtime should be set in Preferences
+        Event_Die.wait()
+        pygame.mixer.quit()
