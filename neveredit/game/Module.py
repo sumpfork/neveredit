@@ -71,8 +71,8 @@ class Module(Progressor,NeverData):
                 new_prop.append(prop)
             self.needSave = True
             
-	prop = self['Mod_CustomTlk']
-	if prop == None:
+        prop = self['Mod_CustomTlk']
+        if prop == None:
             logger.info("Old (pre-1.59) module with no Mod_CustomTlk,"
                         "adding an empty one")
             self.getGFFStruct('ifo').add('Mod_CustomTlk',"",'CExoString')
