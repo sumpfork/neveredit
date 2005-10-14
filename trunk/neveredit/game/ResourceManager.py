@@ -271,7 +271,22 @@ class ResourceManager(Progressor,VisualChangeNotifier,ResourceListChangeNotifier
             print >>sys.stderr,'not initialized, cannot return dialog string'
             return None
         else:
-            return self.mainDialogFile.getString(strref)
+            special = (strref & 0xFF000000) >> 24
+            alternate = special & 0x01
+            if alternate:
+                basevalue = (strref & 0xFF000000) ^ strref
+                if self.customTlkFile:
+                    ctlkstring = self.customTlkFile.getString(basevalue)
+                    if not ctlkstring:
+                        # then we should fall back to the main tlk string - according to Bioware
+                        return self.mainDialogFile.getString(basevalue)
+                    else:
+                        return ctlkstring
+                else:
+                    # then we should fall back to the main tlk string - according to Bioware
+                    return self.mainDialogFile.getString(strref)
+            else:
+                return self.mainDialogFile.getString(strref)
         
     def getHAKFileNames(self):
         '''return a list of all hak file names found in the game install'''
@@ -335,7 +350,21 @@ class ResourceManager(Progressor,VisualChangeNotifier,ResourceListChangeNotifier
             self.dirResourceKeys[key] = mod.getERFFile()
         self.loadHAKsForModule(mod)
         self.buildResourceTable()
+        tlkfile = self.module['Mod_CustomTlk']
+        self.addCustomTlkFile(os.path.join(self.getAppDir(),'tlk',tlkfile + '.tlk'))
         
+    def addCustomTlkFile(self,tlk):
+        if len(tlk)>0:
+            ctlkFile = neveredit.file.TalkTableFile.TalkTableFile()
+            try:
+                ctlkFile.fromFile(tlk)
+                self.customTlkFile = ctlkFile
+            except IOError:
+                logger.error(_("specified tlk file %s not found - I will ignore it"),tlk)
+                self.customTlkFile = None
+        else:
+            self.customTlkFile = None
+
     def buildResourceTable(self):
         for key in self.hakResourceKeys.keys() +\
             self.dirResourceKeys.keys() +\
