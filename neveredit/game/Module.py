@@ -46,7 +46,8 @@ class Module(Progressor,NeverData):
         "Mod_StartYear": "Integer,0-2000",
         "Mod_Tag": "CExoString",
         "Mod_XPScale": "Integer,0-255",
-        "Mod_Area_list": "Hidden"
+        "Mod_Area_list": "Hidden",
+        "VarTable": "List,Vars"
         }
     
     def __init__(self,fname):
@@ -77,7 +78,12 @@ class Module(Progressor,NeverData):
                         "adding an empty one")
             self.getGFFStruct('ifo').add('Mod_CustomTlk',"",'CExoString')
             self.needSave = True
-                
+        prop = self['VarTable']
+        if prop == None:
+            logger.error("no VarTable found, adding an empty one")
+            self.getGFFStruct('ifo').add('VarTable',[],'List')
+            self.NeedSave = True
+
         self.scripts = None
         self.conversations = None
         self.areas = {}

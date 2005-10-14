@@ -11,6 +11,7 @@ from wx.lib.buttons import GenButton
 from neveredit.ui import WxUtils
 from neveredit.ui.HAKListControl import HAKListControl
 from neveredit.ui.SoundControl import SoundControl
+from neveredit.ui.VarTableControl import VarListControl
 
 from neveredit.game.ChangeNotification import ResourceListChangeListener
 from neveredit.game.ChangeNotification import PropertyChangeNotifier
@@ -265,6 +266,8 @@ class PropWindow(scrolled.ScrolledPanel, ResourceListChangeListener):
                         s.add('Mod_Hak',hakFileName,'CExoString')
                         logger.info(repr(s)+" "+s['Mod_Hak'])
                         sel_list.append(s)
+                elif type == 'Vars':
+                    sel_list = control.GetData()
                 prop.setValue(sel_list)
             elif pName == 'CheckList':
                 type = prop.getSpec()[1]
@@ -343,7 +346,9 @@ class PropWindow(scrolled.ScrolledPanel, ResourceListChangeListener):
             wx.EVT_BUTTON(self,control.GetId(),self.handleColourButton)
         elif type == "List":
             if typeSpec[1] == 'HAKs':
-                control = HAKListControl(prop, parent)            
+                control = HAKListControl(prop, parent)
+            elif typeSpec[1] == 'Vars':
+                control = VarListControl(prop,parent)
         elif type == "CheckList":
             choices = []
 #            if typeSpec[1] == 'HAKs':
