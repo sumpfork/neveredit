@@ -1,5 +1,4 @@
 import wx
-import neveredit.ui.CExoLocStringControl
 from neveredit.file.GFFFile import GFFStruct
 
 class VarControl(wx.BoxSizer):
