@@ -7,6 +7,8 @@ from OpenGL.GL import *
 from OpenGL.GLUT import *
 from OpenGL.GLU import *
 import math,sys
+glutInit(sys.argv)      # must be initialized once and only once
+
 from sets import Set
 
 from neveredit.util import Utils
