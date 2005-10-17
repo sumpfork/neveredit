@@ -160,6 +160,7 @@ class MapWindow(GLWindow,Progressor,VisualChangeListener):
         self.placeables = None
         self.doors = None
         self.creatures = None
+        self.waypoints = None
         self.lock = threading.Lock()
         self.highlight = None
         self.beingDragged = None
@@ -558,6 +559,15 @@ class MapWindow(GLWindow,Progressor,VisualChangeListener):
                     self.preprocessedModels.add(t.modelName)                
             else:
                 print 'warning, no model for',t.getName()
+        self.setProgress(90)
+        self.setStatus("Preparing waypoint display...")
+        for i,w in enumerate(self.waypoints):
+            if w.getModel():
+                if not w.modelName in self.preprocessedModels:
+                    self.preprocessNodes(w.getModel(),'w'+`i`,bbox=True)
+                    self.preprocessedModels.add(w.modelName)
+            else:
+                print 'warning, no model for',w.getName()
         self.setProgress(0)
         self.setStatus("Map display prepared.")
         self.preprocessed = True
@@ -738,6 +748,7 @@ class MapWindow(GLWindow,Progressor,VisualChangeListener):
             self.doors = None
             self.creatures = None
             self.tiles = None
+            self.waypoints = None
         else:
             self.thingMap = [area.getWidth()*[None]
                              for i in range(area.getHeight())]
@@ -753,6 +764,7 @@ class MapWindow(GLWindow,Progressor,VisualChangeListener):
             self.doors = area.getDoors()
             self.creatures = area.getCreatures()
             self.tiles = area.getTiles()
+            self.waypoints = area.getWayPoints()
             self.preprocessed = False
             self.setProgress(0)
             self.refreshThingList()
@@ -766,7 +778,7 @@ class MapWindow(GLWindow,Progressor,VisualChangeListener):
         self.requestRedraw()
 
     def refreshThingList(self):
-        self.fullThingList = self.doors + self.placeables + self.creatures
+        self.fullThingList = self.doors + self.placeables + self.creatures + self.waypoints
         
     def getBaseWidth(self):
         if self.area:
