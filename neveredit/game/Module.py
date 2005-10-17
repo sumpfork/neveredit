@@ -80,7 +80,7 @@ class Module(Progressor,NeverData):
             self.needSave = True
         prop = self['VarTable']
         if prop == None:
-            logger.error("no VarTable found, adding an empty one")
+            logger.info("no VarTable found, adding an empty one")
             self.getGFFStruct('ifo').add('VarTable',[],'List')
             self.NeedSave = True
 
