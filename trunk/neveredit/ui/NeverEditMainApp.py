@@ -675,6 +675,15 @@ class NeverEditMainWindow(wx.Frame):
                                                 item.getName())
                 self.tree.SetPyData(itemItem,item)
                 self.idToTreeItemMap[item.getNevereditId()] = itemItem
+
+        waypoints = area.getWayPoints()
+        if len(waypoints)>0:
+            waypointParentItem = self.tree.AppendItem(areaItem,_('WayPoints'))
+            for waypoint in waypoints:
+                waypointItem = self.tree.AppendItem(waypointParentItem,
+                                                waypoint.getName())
+                self.tree.SetPyData(waypointItem,waypoint)
+                self.idToTreeItemMap[waypoint.getNevereditId()] = waypointItem
         
     def isAreaItem(self,item):
         data = self.tree.GetPyData(item)

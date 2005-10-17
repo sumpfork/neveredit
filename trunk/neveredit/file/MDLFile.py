@@ -546,6 +546,7 @@ class MDLFile(NeverFile):
         else:
             print "unknown model classification:",classification
             self.model.classification = "None"
+            # this seems to include waypoint models
         self.model.fogged = dataHandler.readUByteFile(f)
         f.seek(4,1)
         self.animationHeaderPointers = self.arrayFromFile(f)

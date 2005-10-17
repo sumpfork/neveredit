@@ -6,6 +6,7 @@ from neveredit.game.Door import DoorBP
 from neveredit.game.Placeable import PlaceableBP
 from neveredit.game.Creature import CreatureBP
 from neveredit.game.Item import ItemBP
+from neveredit.game.WayPoint import WayPointBP
 
 class TreeNode:
     def __init__(self,nodeStruct,bptype):
@@ -95,8 +96,8 @@ class TreeNode:
             raise NotImplementedError("no store blueprints yet")
             #self.blueprint = StoreBP(gffroot)
         elif self.bptype == 'Waypoint':
-            raise NotImplementedError("no waypoint blueprints yet")
-            #self.blueprint = WaypointBP(gffroot)
+            #raise NotImplementedError("no waypoint blueprints yet")
+            self.blueprint = WayPointBP(gffroot)
         return self.blueprint
 
     def getTypeAsString(self):

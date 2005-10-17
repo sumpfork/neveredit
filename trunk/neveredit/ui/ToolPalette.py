@@ -149,7 +149,7 @@ class ToolFrame(wx.MiniFrame):
         self.toolIds = [self.selectId,self.paintId,self.rotateId]
 
         sublist = [ptype for ptype in Palette.PALETTE_TYPES
-                   if ptype not in ['Sound','Encounter','Waypoint',
+                   if ptype not in ['Sound','Encounter',
                                     'Trigger','Store','Item']]
         self.stdPalettes = dict(zip(sublist,
                                     [Palette.getStandardPalette(ptype)

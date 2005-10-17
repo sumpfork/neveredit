@@ -7,6 +7,7 @@ from neveredit.game.Placeable import PlaceableInstance
 from neveredit.game.Item import ItemInstance
 from neveredit.game.Creature import CreatureInstance
 from neveredit.game.Tile import Tile
+from neveredit.game.WayPoint import WayPointInstance
 from neveredit.util import neverglobals
 
 class Area (NeverData.NeverData):
@@ -82,6 +83,7 @@ class Area (NeverData.NeverData):
         self.placeableList = None
         self.itemList = None
         self.tileList = None
+        self.waypointList = None
         
     def readContents(self):
         if self.creatureList == None:
@@ -93,12 +95,15 @@ class Area (NeverData.NeverData):
             self.placeableList = [PlaceableInstance(placeable) for placeable in placeables]
             items = self.gffstructDict['git'].getInterpretedEntry('List')
             self.itemList = [ItemInstance(item) for item in items]
+            waypoints = self.gffstructDict['git'].getInterpretedEntry('WaypointList')
+            self.waypointList = [WayPointInstance(waypoint) for waypoint in waypoints]
 
     def discardContents(self):
         self.creatureList = None
         self.doorList = None
         self.placeableList = None
         self.itemList = None
+        self.waypointList = None
         
     def readTiles(self):
         if not self.tileList:
@@ -118,6 +123,7 @@ class Area (NeverData.NeverData):
         'doors': [<door_tag_1>,<door_tag_2>...],
         'items': [<item_tag_1>,<item_tag_2>...],
         'placeables': [<placeable_tag_1>,<placeable_tag_2>...],
+        'waypoints':[<waypoint_tag_1>,<waypoint_tag_1>...]
         }
         
         @return: the tag dictionary for this area
@@ -127,6 +133,7 @@ class Area (NeverData.NeverData):
         tags['doors'] = [d['Tag'] for d in self.getDoors()]
         tags['placeables'] = [p['Tag'] for p in self.getPlaceables()]
         tags['items'] = [i['Tag'] for i in self.getItems()]
+        tags['waypoints']=[w['Tag'] for w in self.getWayPoints()]
         return tags
     
     def getCreatures(self):
@@ -144,6 +151,10 @@ class Area (NeverData.NeverData):
     def getItems(self):
         self.readContents()
         return self.itemList
+
+    def getWayPoints(self):
+        self.readContents()
+        return self.waypointList
 
     def addThing(self,thing):
         logger.info('trying to add thing ' + `thing.getNevereditId()` + ' (class ' + `thing.__class__` + ') to area')
@@ -163,6 +174,9 @@ class Area (NeverData.NeverData):
         elif thing.__class__ == PlaceableInstance:
             self['Placeable List'].append(gff)
             self.placeableList.append(thing)
+        elif thing.__class__ == WayPointInstance:
+            self['WaypointList'].append(gff)
+            self.waypointList.append(thing)
         
     def getTileSet(self):
         resref = self.gffstructDict['are'].getInterpretedEntry('Tileset')
