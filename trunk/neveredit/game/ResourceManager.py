@@ -351,7 +351,8 @@ class ResourceManager(Progressor,VisualChangeNotifier,ResourceListChangeNotifier
         self.loadHAKsForModule(mod)
         self.buildResourceTable()
         tlkfile = self.module['Mod_CustomTlk']
-        self.addCustomTlkFile(os.path.join(self.getAppDir(),'tlk',tlkfile + '.tlk'))
+        if len(tlkfile)>0:
+            self.addCustomTlkFile(os.path.join(self.getAppDir(),'tlk',tlkfile + '.tlk'))
         
     def addCustomTlkFile(self,tlk):
         if len(tlk)>0:
