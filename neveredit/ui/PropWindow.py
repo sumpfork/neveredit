@@ -185,6 +185,12 @@ class PropWindow(scrolled.ScrolledPanel, ResourceListChangeListener):
                 (label,propControl) = self.makeControlForProp(p,self)
                 control = propControl.control
                 if control:
+                    # add here specific notification cases
+                    spec = p.getSpec()
+                    if len(spec)>1:
+                        if p.getSpec()[1] == 'FactionName':
+                            propControl.addPropertyChangeListener(self.mainAppWindow)
+                if control:
                     logger.debug("made control for " + p.getName())
                     self.propControls[control.GetId()] = (propControl,p)
                     if first:
@@ -218,6 +224,7 @@ class PropWindow(scrolled.ScrolledPanel, ResourceListChangeListener):
                 if width > minWidth:
                     minWidth = width
         self.propGrid.Layout()
+        self.SetupScrolling()
         self.SetSizeHints(minW = minWidth, minH=-1)
         self.propGrid.FitInside(self)
         self.propsChanged = False
@@ -306,7 +313,12 @@ class PropWindow(scrolled.ScrolledPanel, ResourceListChangeListener):
             control = CExoLocStringControl(typeSpec,prop,self,self.defaultlang)
         elif type == 'CExoString':
             if len(typeSpec) > 1:
-                control = self.makeCustomChoiceControl(typeSpec, prop, parent)
+                if typeSpec[1] != 'FactionName':
+                    control = self.makeCustomChoiceControl(typeSpec, prop, parent)
+                else:
+                    control = wx.TextCtrl(parent,-1,prop.getValue(),wx.DefaultPosition,\
+                                                        (250,24),style=wx.TE_PROCESS_ENTER)
+                    wx.EVT_TEXT_ENTER(self,control.GetId(),self.controlUsed)
             else:
                 control = wx.TextCtrl(parent,-1,prop.getValue(),wx.DefaultPosition,(250,24))
                 wx.EVT_TEXT(self,control.GetId(),self.controlUsed)
@@ -329,7 +341,13 @@ class PropWindow(scrolled.ScrolledPanel, ResourceListChangeListener):
                 max = int(maxMin[1])
             control = wx.SpinCtrl(parent,-1)
             control.SetRange(min,max)
-            control.SetValue(prop.getValue())
+            try:
+                control.SetValue(prop.getValue())
+            except OverflowError:
+                # I got that with some factions that have 0xFFFFFFFF as parents
+                # and as they shouldn't be edited anyway..
+                control.SetValue(-1)
+                control.Disable()
             wx.EVT_SPINCTRL(self,control.GetId(),self.controlUsed)
             wx.EVT_TEXT(self,control.GetId(),self.controlUsed)
         elif type == "ResRef":

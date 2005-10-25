@@ -4,11 +4,13 @@ import logging
 logger = logging.getLogger('neveredit')
 
 import neveredit.file.ERFFile
-from neveredit.file.GFFFile import GFFStruct
+from neveredit.file.GFFFile import GFFStruct,GFFFile
 from neveredit.game.Area import Area
 from neveredit.game.NeverData import NeverData
+import neveredit.game.Factions
 from neveredit.util import neverglobals
 from neveredit.util.Progressor import Progressor
+from cStringIO import StringIO
 
 class Module(Progressor,NeverData):    
     """A class the encapsulates an NWN module file and gives access
@@ -87,6 +89,9 @@ class Module(Progressor,NeverData):
         self.scripts = None
         self.conversations = None
         self.areas = {}
+
+        self.facObject = neveredit.game.Factions.Factions(self.erfFile)
+        self.factions= {}
     
     def getFileName(self):
         return self.erfFile.filename
@@ -188,6 +193,14 @@ class Module(Progressor,NeverData):
                 self.scripts[s.name.strip('\0')] = self.erfFile.getEntryContents(s)
         return self.scripts
 
+    def getFactions(self):
+        """Get the factions in the module"""
+        if not self.factions:
+            self.facObject.readContents()
+            for f in self.facObject.factionList:
+                self.factions[f.getName()] = f
+        return self.factions
+
     def addScript(self,s):
         if not self.scripts:
             self.getScripts()
@@ -201,9 +214,27 @@ class Module(Progressor,NeverData):
                 self.erfFile.addResourceByName(s.getName(),s)
                 if s.getCompiledScript():
                     self.erfFile.addResourceByName(s.getName()[:-4] + '.ncs',s.getCompiledScript())
-                    
+
+    def updateReputeFac(self):
+        raw_repute_fac = self.erfFile.getRawEntryContents(self.erfFile.\
+                    getEntryByNameAndExtension('repute','FAC'))
+        repute_gff = GFFFile()
+        repute_gff.fromFile(StringIO(raw_repute_fac))
+        repute_gff.rootStructure.removeEntry('FactionList')
+        repute_gff.rootStructure.removeEntry('RepList')
+        repute_gff.add('FactionList',[x.getGFFStruct('factStruct') for x\
+                                                 in self.facObject.factionList],'List')
+        repute_gff.add('RepList',[x.getGFFStruct('repStruct') for x in\
+                                                self.facObject.RepList],'List')
+        f = StringIO()
+        repute_gff.toFile(f)
+        raw_repute_fac = f.getvalue()
+        f.close()
+        self.erfFile.addRawResourceByName(('repute.FAC'),raw_repute_fac)        
+
     def saveToReadFile(self):
         self.commit()
+        self.updateReputeFac()
         self.erfFile.saveToReadFile()
 
     def toFile(self,fpath):

@@ -26,9 +26,11 @@ except:
 from neveredit.game import Module
 from neveredit.game import Area
 from neveredit.game import ResourceManager
+from neveredit.game.ChangeNotification import PropertyChangeListener
 from neveredit.game.Placeable import Placeable
 from neveredit.game.Script import Script
 from neveredit.game.Conversation import Conversation
+from neveredit.game.Factions import Factions,FactionStruct
 from neveredit.ui import MapWindow
 from neveredit.ui import ConversationWindow
 from neveredit.ui import ModelWindow
@@ -39,6 +41,7 @@ from neveredit.ui import ToolPalette
 from neveredit.ui import PreferencesDialog
 from neveredit.ui import Notebook
 from neveredit.ui import SoundControl
+from neveredit.ui.FactionGridWindow import FactionGridWindow,FactionGrid
 from neveredit.util import Preferences
 from neveredit.util import Utils
 from neveredit.util import neverglobals
@@ -65,7 +68,7 @@ class MySplashScreen(wx.SplashScreen):
                                  |wx.STAY_ON_TOP)
 
 ##\mainpage
-class NeverEditMainWindow(wx.Frame):
+class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
     '''<html><body>
 
     <table width="100%" border=0>
@@ -460,6 +463,7 @@ class NeverEditMainWindow(wx.Frame):
     def makePropPage(self):
         '''Initialize the static controls for the properties notebook page.'''
         self.props = PropWindow.PropWindow(self.notebook)
+        self.props.mainAppWindow = self
         self.notebook.AddPage(self.props, _("Properties"), 'props')
 
     def treeFromERF(self):
@@ -500,6 +504,8 @@ class NeverEditMainWindow(wx.Frame):
         self.addScripts()
         self.conversationRoot = self.tree.AppendItem(self.treeRoot,_('Conversations'))
         self.addConversations()
+        self.factionRoot = self.tree.AppendItem(self.treeRoot,_('Factions'))
+        self.addFactions()
         self.notebook.Refresh()
         self.SetStatusText(_("Read ") + self.fname)
         self.filemenu.Enable(self.ID_SAVEAS,True)
@@ -546,6 +552,16 @@ class NeverEditMainWindow(wx.Frame):
             name = c.split('.')[0]
             conversationItem = self.tree.AppendItem(self.conversationRoot,name)
             self.tree.SetPyData(conversationItem,Conversation(c,conversations[c]))
+
+    def addFactions(self):
+        '''Add the factions contained in our module to the interface'''
+        self.tree.DeleteChildren(self.factionRoot)
+        factions = self.module.getFactions()
+        factionNames = factions.keys()
+        factionNames.sort()
+        for f in factionNames:
+            factionItem = self.tree.AppendItem(self.factionRoot,f)
+            self.tree.SetPyData(factionItem,factions[f])
 
     def init(self):
         '''Schedule the the app init routine.'''
@@ -819,6 +835,7 @@ class NeverEditMainWindow(wx.Frame):
                 self.selectedTreeItem = lastItem #we didn't actually change the main display
                 return
             if data.__class__ == Conversation:
+                self.notebook.deletePageByTag('factions')
                 if not self.notebook.getPageByTag('conversation'):
                     conversationPage = ConversationWindow\
                                        .ConversationWindow(self.notebook,
@@ -827,10 +844,19 @@ class NeverEditMainWindow(wx.Frame):
                     self.notebook.AddPage(conversationPage, _("Conversation"), 'conversation')
                 else:
                     self.notebook.getPageByTag('conversation').setConversation(data)
+            elif data.__class__ == FactionStruct:
+                self.notebook.deletePageByTag('conversation')
+                if self.notebook.getPageByTag('factions'):
+                    # I destroy and rebuild, to keep in sync with the 'factionName' property
+                    self.notebook.deletePageByTag('factions')
+                facGrid = FactionGridWindow(self.notebook,self.module.facObject,self)
+                self.notebook.AddPage(facGrid,_('Factions reactions'),'factions')
             else:
+                self.notebook.deletePageByTag('factions')
                 self.notebook.deletePageByTag('conversation')
         else:
             self.notebook.deletePageByTag('conversation')
+            self.notebook.deletePageByTag('factions')
                     
         if notebookSelection < self.notebook.GetPageCount() and\
                not notebookSelection == self.notebook.getPageInfoByTag('welcome')[0]:
@@ -853,12 +879,16 @@ class NeverEditMainWindow(wx.Frame):
         '''This method reads back in the values of currently
         displayed property controls and updates the actual
         module file to reflect these values.'''
-        if not self.props:
-            return
-        if self.props.applyPropControlValues(self.tree\
-                                             .GetPyData(self.selectedTreeItem)):
-            self.setFileChanged(True)
-
+        if self.props:
+            # a PropWindow is in the tab list
+            if self.props.applyPropControlValues(self.tree\
+                                                 .GetPyData(self.selectedTreeItem)):
+                self.setFileChanged(True)
+        factions_notebook = self.notebook.getPageByTag('factions')
+        if factions_notebook:
+            # we have a faction window in the tabs
+            if factions_notebook.applyPropControlValues(self.module.facObject):
+                self.setFileChanged(True)
             
     def OnFileChanged(self,event):
         self.setFileChanged(True)
@@ -1111,7 +1141,37 @@ loaded and save any changes you have made so far. Proceed?'''),
         self.setFileChanged(False)
         self.SetTitle('neveredit: ' + self.module.getFileName())
         self.setStatus("Saved " + self.module.getFileName() + '.')
-        
+
+    def simulateTreeSelChange(self):
+        lastSelected = self.selectedTreeItem
+        self.selectedTreeItem = None
+        self.tree.SelectItem(lastSelected,False)
+        self.tree.SelectItem(lastSelected,True)
+
+    def propertyChanged(self,control,prop):
+        print('NeverEditMainApp.propertyChanged reached')
+        if control.__class__ == wx.Button and control.GetName() == "Faction_addButton":
+            factionItem = self.tree.AppendItem(self.factionRoot,\
+                prop.getName())
+            self.tree.SetPyData(factionItem,prop)
+            self.tree.Refresh()
+            self.simulateTreeSelChange()
+            self.setFileChanged(True)
+        elif control.__class__ == wx.Button and control.GetName() == "Faction_delButton":
+            pass
+        elif prop.getName() == 'FactionName':
+            # the modified item should be the one selected...
+            item = self.tree.GetSelection()
+            self.tree.SetItemText(item,control.control.GetValue())
+            data = self.tree.GetPyData(item)
+            data.setProperty('FactionName',control.control.GetValue())
+            self.simulateTreeSelChange()
+            self.setFileChanged(True)
+        elif control.__class__ == FactionGrid:
+            self.simulateTreeSelChange()
+
+
+
 def run(args=None):
     app = wx.PySimpleApp()
     app.SetVendorName('org.openknights')
