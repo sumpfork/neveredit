@@ -459,6 +459,7 @@ class GFFFile(NeverFile):
         return struct
 
     currentListIndexCount = 0
+
     def flattenList(self,list):
         index = self.currentListIndexCount
         flatList = []
@@ -466,7 +467,7 @@ class GFFFile(NeverFile):
         self.currentListIndexCount += 1 + len(list)
         for e in list:
             flatList.append(len(self.structs))
-            assert e.__class__ == GFFStruct
+            assert isinstance(e,GFFStruct)
             self.flattenStructure(e)
         return self.dataHandler.writeUIntBuf(index * 4)
 
