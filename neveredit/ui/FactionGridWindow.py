@@ -39,6 +39,9 @@ class FactionGridWindow(wx.Panel,PropertyChangeNotifier):
         wx.EVT_BUTTON(self,self.addBtn.GetId(),self.addFaction)
         wx.EVT_BUTTON(self,self.delBtn.GetId(),self.delFaction)
 
+        # while this is not done
+        self.delBtn.Disable()
+
     def addFaction(self,event):
         name = self.choice.GetValue()
         factions = map(lambda x:x.getName(),self.grid.FactionObject.factionList)
