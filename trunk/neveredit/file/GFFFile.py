@@ -44,6 +44,14 @@ FIELDTYPENAMES = {
     'List'          : 15 }
 
 class GFFStruct:
+    ''' A class that represents a GFF structure as used by GFFFile
+   * GFFStruct.entries is a dictionnary {label: [value,type],...}, possible types are given
+   in the tables above (FIELDTYPES and FIELDTYPENAMES). The List and Struct types will allow
+   to nest GFFStructs.
+   * The function getTargetStruct allows to refer to members of a struct e.g.
+       'AreaProperties.AmbientSndDayVol' refers to AmbientSndDayVol substructure of AreaProperties
+       calling getTargetStruct() on it will thus return <AGFFStruct>,AmbientSndDayVol'''
+
     def __init__(self,t=0):
         self.type = t
         self.entries = {}
@@ -135,16 +143,16 @@ class GFFStruct:
                 print >>sys.stderr,'possible entries are:',s.getEntryNames()
                 return
             else:
-                s.entries[label] = (value,FIELDTYPENAMES['List'])
+                s.entries[n] = (value,FIELDTYPENAMES['List'])
                 return
         if entry[1] == FIELDTYPENAMES['CExoLocString']\
            and value.__class__ != CExoLocString.CExoLocString:
             logger.info("making new CExoLocString")
             value = CExoLocString.CExoLocString(value)
         if value.__class__ == CExoLocString.CExoLocString:                
-            s.entries[label] = (value.toGFFEntry(),entry[1])
+            s.entries[n] = (value.toGFFEntry(),entry[1])
         else:
-            s.entries[label] = (value,entry[1])
+            s.entries[n] = (value,entry[1])
             
     def removeEntry(self,label):
         s,t = self.getTargetStruct(label)
@@ -162,6 +170,18 @@ class GFFStruct:
         return copy.deepcopy(self)
     
 class GFFFile(NeverFile):    
+    ''' A class that represents a GFF file (one of the basic file formats in NWN)
+
+   The data is stored as in a tree, with nested structures. Each structure (except for
+   anonymous data in a List for example) has a label, a data type, and data.
+   * A GFFFile has a field named rootStructure that is the parent of all GFF Structs
+   in the file.
+   * many fields refer to physical data of the GFF file, i.e. offsets for specific places
+   in the file (see clearHeaderData)
+   * GFFFile.structs is a list of physical (file) GFF struct data (!= GFFStruct class as it's a
+   binary file representation). GFFFile.fields and GFFFile.labels are the same thing for GFF
+   fields (data) and labels.'''
+
     def __init__(self):
         NeverFile.__init__(self)
         self.clearHeaderData()
@@ -329,7 +349,8 @@ class GFFFile(NeverFile):
         c = 0
         for l in beginIndices:
             if l*4+self.offset+self.listIndicesOffset != f.tell():
-                print >>sys.stderr,'hmmm, list index is',l*4+self.offset+self.listIndicesOffset,'but file is at',f.tell()
+                print >>sys.stderr,'hmmm, list index is',l*4+self.offset+self.listIndicesOffset,\
+                                                                        'but file is at',f.tell()
                 print >>sys.stderr,'error on list',c,l
             c += 1
             self.dataHandler.writeUIntFile(len(self.lists[l]),f)
@@ -444,7 +465,8 @@ class GFFFile(NeverFile):
             try:
                 field = self.interpretField(f,entry[1])
             except:
-                logger.exception('exception on making struct field "' + self.labels[self.fields[entry[1]]] + '": ' + `f`)
+                logger.exception('exception on making struct field "' +\
+                                            self.labels[self.fields[entry[1]]] + '": ' + `f`)
                 raise
             struct.addEntry(field[0],(field[1],field[2]))
         else:
@@ -453,7 +475,8 @@ class GFFFile(NeverFile):
                 try:
                     field = self.interpretField(f,self.fieldIndices[index + i])
                 except:
-                    logger.exception('exception on making struct field "' + self.labels[self.fields[self.fieldIndices[index+1]]] + '" ' + `f`)
+                    logger.exception('exception on making struct field "' +\
+                            self.labels[self.fields[self.fieldIndices[index+1]]] + '" ' + `f`)
                     raise
                 struct.addEntry(field[0],(field[1],field[2]))
         return struct
@@ -488,7 +511,8 @@ class GFFFile(NeverFile):
                                  + label + '": ' + `entry[0]` + ' ' + `type(self.fieldData)`)
                 raise
             if t != type(self.fieldData):
-                logger.warning('warning, type of fielddata changed from ' + `t` + ' to ' + `type(self.fieldData)` + ' after ' + `entry`)
+                logger.warning('warning, type of fielddata changed from ' + `t` + ' to ' +\
+                                                `type(self.fieldData)` + ' after ' + `entry`)
             index = len(self.fields)
             self.fields.append(flattened)
             self.structs[structIndex][1] = index
@@ -508,7 +532,8 @@ class GFFFile(NeverFile):
                                      + '": ' + `entry[0]`  + ' ' + `type(self.fieldData)`)
                     raise
                 if t != type(self.fieldData):
-                    logger.warning('warning, type of fielddata changed from ' + `t` + ' to ' + `type(self.fieldData)` + ' after ' + `entry`)
+                    logger.warning('warning, type of fielddata changed from ' + `t` + ' to '\
+                                                 + `type(self.fieldData)` + ' after ' + `entry`)
             #the children probably wrote their own struct fields, so adjust our index
             self.structs[structIndex][1] = len(self.fieldIndices) * 4
             #and finally write out our entries in a contiguous chunk
@@ -540,6 +565,10 @@ class GFFFile(NeverFile):
         self.flattenRootStructure()
         self.recalculateParams()
         self.headerToFile(f)
+        #logger.debug('writing GFF : Fields and Structs for:')
+        #logger.debug(self.type+' file')
+        #for i in self.fields:
+        #    logger.debug(str(self.fields.index(i))+' '+FIELDTYPES[i[0]]+' '+self.labels[i[1]])
         self.structsToFile(f)
         self.fieldsToFile(f)
         self.labelsToFile(f)
