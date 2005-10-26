@@ -29,7 +29,22 @@ class NeverData:
     that all have properties stored in one or more gff files. Each
     subclass only has to add property list dictionaries and gff
     structs to their superclass, which handles access to the
-    properties by name as well as iterating through them.'''
+    properties by name as well as iterating through them.
+
+    NeverData.propListDict is a dict of PropLists indexed by strings. A PropList
+    is a dict of {label: type,...}, made mainly to indicate to the UI how to display
+    the data (which control to use).
+    NeverData.gffstructDict is a dict of GFFStructs indexed by strings.
+    To each of the strings, the NeverData associates one proplist and one gff struct. The
+    GFF Struct is interpreted with *this* PropList.
+
+    For a given label, a PropList/GFFStruct couple may (or may not) return a NeverProperty.
+    When asked to search for one, the NeverData will iterate over its couples.
+    One can also add a property (but must tell in which PropList/GFFStruct)
+
+    NeverData.IterItem() allows to iterate over NeverData.propListDict, returning the next
+    NeverProperty each time.
+    '''
 
     globalID = 0
     
