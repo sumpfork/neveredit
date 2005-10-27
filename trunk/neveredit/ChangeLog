@@ -1,6 +1,205 @@
+2005-10-26 19:12  ledmicka
+
+	* game/NeverData.py:
+
+	adding some doc for NeverData class
+
+2005-10-26 19:10  ledmicka
+
+	* game/Trigger.py:
+
+	adding a Neverdata subclass to handle triggers
+
+2005-10-26 17:12  ledmicka
+
+	* file/GFFFile.py:
+
+	this should fix bug  1281419 on sf ('Music changes don't stick')
+
+2005-10-25 18:11  ledmicka
+
+	* ui/FactionGridWindow.py:
+
+	disable removal of a faction - until the code is written
+
+2005-10-25 18:07  ledmicka
+
+	* game/Module.py, ui/NeverEditMainApp.py, ui/PropWindow.py:
+
+	finalize faction integration into neveredit
+
+2005-10-25 18:02  ledmicka
+
+	* file/GFFFile.py:
+
+	preparation for faction inclusion - allow to "flattenList" lists of GFFStructs subclasses instead of only lists of GFFSTructs
+
+2005-10-25 17:59  ledmicka
+
+	* ui/FactionGridWindow.py:
+
+	adding a grid control to display and edit faction reactions
+
+2005-10-25 17:56  ledmicka
+
+	* game/Factions.py:
+
+	adding a NeverData class to handle factions
+
+2005-10-24 05:41  ledmicka
+
+	* game/ResourceManager.py:
+
+	add a correct non-emptiness test for Mod_CustomTlk
+
+2005-10-17 10:09  ledmicka
+
+	* game/Area.py, game/Palette.py, file/MDLFile.py, ui/MapWindow.py,
+	  ui/NeverEditMainApp.py, ui/ToolPalette.py:
+
+	add support for waypoint display (model), and addition (palette)
+
+2005-10-17 09:59  ledmicka
+
+	* game/WayPoint.py:
+
+	add Module to read waypoint data from GFF
+
+2005-10-17 09:42  ledmicka
+
+	* game/Module.py:
+
+	use logger.info instead of logger.error for informational message
+
+2005-10-17 09:38  ledmicka
+
+	* ui/GLWindow.py:
+
+	add a call to glutInit() in ui.GLWindow - fixes a crash with a mouseover on an obect in a MapWindow (in mapWindow.DrawTextBox , with glutBitmapWidth with GLUT not initialized)
+
+2005-10-16 08:59  sumpfork
+
+	* ui/VarTableControl.py:
+
+	removing erroneous/extraneous import
+
+2005-10-14 10:14  ledmicka
+
+	* game/ResourceManager.py:
+
+	adding support for custom tlk reading
+
+2005-10-14 09:56  ledmicka
+
+	* game/Module.py, ui/PropWindow.py:
+
+	adding support for VarTable - integration of the control into Neveredit
+
+2005-10-13 17:27  ledmicka
+
+	* ui/VarTableControl.py:
+
+	adding a control for the VarTable property - basic support : adding a variable, modifying a value or a type. Limited to Int, String or Float
+
+2005-10-13 14:58  ledmicka
+
+	* game/Module.py:
+
+	fix a tab vs spaces error : there was a tab were 3 spaces were expected
+
+2005-10-12 11:06  ledmicka
+
+	* ui/PropWindow.py:
+
+	fix a tab vs spaces error - one tab was inserted where 3 spaces were expected
+
+2005-10-12 06:36  ledmicka
+
+	* ui/SoundControl.py:
+
+	rework of the sound control, using a thread for wav playing (mp3 already did)
+	allows the control to store the sound unless changed by the user
+
+2005-10-11 10:20  ledmicka
+
+	* game/ResourceManager.py, ui/NeverEditMainApp.py,
+	  ui/PropWindow.py:
+
+	PropWindow makes use of the SoundControl object for ambientsound.2da, ambientmusic.2da and soundset.2da related properties
+
+2005-10-11 08:39  ledmicka
+
+	* ui/SoundControl.py:
+
+	adding the main file for the sound playing control - integration in neveredit main app still not commited
+
+2005-10-10 10:34  ledmicka
+
+	* file/SoundSetFile.py:
+
+	addition of file/SoundSetFile.py to get data from .ssf files
+
+2005-10-10 05:43  ledmicka
+
+	* ui/NeverEditMainApp.py:
+
+	widen the main window
+
+2005-09-28 17:39  ledmicka
+
+	* ui/PropWindow.py:
+
+	removing obsolete comments
+
+2005-09-28 17:34  ledmicka
+
+	* ui/HAKListControl.py:
+
+	fix the "duplicate controls" bug
+	fix the multiple selection in hak lists problem
+	remove the TextCtrl manual insertion
+
+2005-09-28 14:11  sumpfork
+
+	* game/Module.py, ui/PropWindow.py:
+
+	preliminary haklist ui implementation from ML
+
+2005-09-23 09:42  sumpfork
+
+	* ui/NeverEditMainApp.py:
+
+	fix for bug #1299052: help viewer should not cache in bundle
+
+2005-09-22 09:48  sumpfork
+
+	* file/Language.py:
+
+	new language code file
+
+2005-09-22 09:46  sumpfork
+
+	* resources/xrc/PreferencesDialog.xrc,
+	  resources/xrc/PreferencesDialog_xrc.py, ui/PreferencesDialog.py,
+	  ui/PropWindow.py, util/Preferences.py:
+
+	applying language patch from ML
+
+2005-09-22 09:43  ledmicka
+
+	* ui/HAKListControl.py:
+
+	Adding HAKListControl.py - contains a control for Mod_HakLists, which allows to select and order HAKs
+
 2005-09-06 22:40  sumpfork
 
-	* __init__.py:
+	* ChangeLog (tags: v0_8_1):
+
+	changelog update
+
+2005-09-06 22:40  sumpfork
+
+	* __init__.py (tags: v0_8_1):
 
 	bump version to 0.8.1
 
