@@ -145,6 +145,7 @@ BUG : I experience some segfaults with mp3 playing...
     def playButtonHit_ambient(self):
         sound_name = self.twoda.getEntry(self.sound_list.GetSelection(),'Resource')
         sound_name = sound_name.lower()
+        sndfile_name = ''
         ambient_sounds = [x.split('.')[0].lower() for x in\
             neverglobals.getResourceManager().getAmbSoundFileNames()]
         try:
