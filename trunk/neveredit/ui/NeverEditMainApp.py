@@ -700,7 +700,7 @@ class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
                                                 waypoint.getName())
                 self.tree.SetPyData(waypointItem,waypoint)
                 self.idToTreeItemMap[waypoint.getNevereditId()] = waypointItem
-        
+
     def isAreaItem(self,item):
         data = self.tree.GetPyData(item)
         return data and data.__class__ == Area.Area
@@ -868,6 +868,8 @@ class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
         self.syncDisplayedPage()
             
     def maybeApplyPropControlValues(self):
+        # kill any thread playing BMU sound
+        SoundControl.Event_Die.set()
         if self.selectedTreeItem:
             data = self.tree.GetPyData(self.selectedTreeItem)
             if data:
@@ -938,8 +940,6 @@ Copyright 2003-2004'''),
     def OnClose(self,doForce=False):
         '''Window closing callback method for the main app.'''
         self.savePrefs()
-        # kill any thread playing BMU sound
-        SoundControl.Event_Die.set()
         if self.maybeSave():
             sys.exit()
         else:
@@ -1151,6 +1151,7 @@ loaded and save any changes you have made so far. Proceed?'''),
     def propertyChanged(self,control,prop):
         print('NeverEditMainApp.propertyChanged reached')
         if control.__class__ == wx.Button and control.GetName() == "Faction_addButton":
+            # add a faction
             factionItem = self.tree.AppendItem(self.factionRoot,\
                 prop.getName())
             self.tree.SetPyData(factionItem,prop)
@@ -1158,8 +1159,10 @@ loaded and save any changes you have made so far. Proceed?'''),
             self.simulateTreeSelChange()
             self.setFileChanged(True)
         elif control.__class__ == wx.Button and control.GetName() == "Faction_delButton":
+            # remove a faction
             pass
         elif prop.getName() == 'FactionName':
+            # change a faction name
             # the modified item should be the one selected...
             item = self.tree.GetSelection()
             self.tree.SetItemText(item,control.control.GetValue())
