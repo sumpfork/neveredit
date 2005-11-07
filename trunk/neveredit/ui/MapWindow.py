@@ -41,7 +41,10 @@ class SingleSelectionEvent(wx.PyCommandEvent):
         return self.objectID
     
     def Clone(self):
-        self.__class__(self.GetId(),self.objectID)
+        evt = self.__class__(0,self.objectID)
+        evt.SetId(self.GetId())
+        return evt
+        
 
 OBJECTSELECTIONEVENT = wx.NewEventType()
 
@@ -63,12 +66,14 @@ class ThingAddedEvent(wx.PyCommandEvent):
     def __init__(self,windowID,oid):
         wx.PyCommandEvent.__init__(self,self.eventType,windowID)
         self.oid = oid
-
+        
     def getSelectedId(self):
         return self.oid
     
     def Clone(self):
-        self.__class__(self.GetId(),self.oid)
+        evt = ThingAddedEvent(0,self.oid)
+        evt.SetId(self.GetId())
+        return evt
 
 MOVEEVENT = wx.NewEventType()
 def EVT_MAPMOVE(window,function):
@@ -97,7 +102,9 @@ class MoveEvent(wx.PyCommandEvent):
         return self.bearing
     
     def Clone(self):
-        self.__class__(self.GetId(),self.objectID,self.x,self.y)
+        evt = self.__class__(0,self.objectID,self.x,self.y)
+        evt.SetId(self.getId())
+        return evt
 
 class QuadTreeNode:
     def __init__(self):
@@ -241,11 +248,13 @@ class MapWindow(GLWindow,Progressor,VisualChangeListener):
         self.beingDragged = self.getThingHit(self.highlight)
         event = SingleSelectionEvent(self.GetId(),
                                      self.beingDragged.getNevereditId())
-        self.GetEventHandler().AddPendingEvent(event)
+        # to remove if AddPending event clones the event
+        self.GetEventHandler().AddPendingEvent(event.Clone())
         try:
             objectid = self.beingDragged.getObjectId()
             event = ObjectSelectionEvent(self.GetId(),objectid)
-            self.GetEventHandler().AddPendingEvent(event)
+            # to remove if AddPending event clones the event
+            self.GetEventHandler().AddPendingEvent(event.Clone())
         except:
             # that's fine, this is only for uses
             # other than neveredit itself                    
@@ -286,8 +295,9 @@ class MapWindow(GLWindow,Progressor,VisualChangeListener):
             self.preprocessNodes(self.beingPainted.getModel(),
                                  'beingPainted',
                                  bbox=True)
-            self.GetEventHandler().AddPendingEvent(event)
-            
+            # .Clone() : to remove if AddPendingEvent clones the event
+            self.GetEventHandler().AddPendingEvent(event.Clone())
+
     def OnMouseUp(self, evt):
         self.beingDragged = None
 
@@ -352,7 +362,8 @@ class MapWindow(GLWindow,Progressor,VisualChangeListener):
                               self.beingDragged.getNevereditId(),
                               x,y,
                               self.beingDragged.getBearing())
-            self.GetEventHandler().AddPendingEvent(event)
+            # Clone() to remove if AddPendingEvent clones the event
+            self.GetEventHandler().AddPendingEvent(event.Clone())
 
             self.requestRedraw()
 
@@ -366,7 +377,8 @@ class MapWindow(GLWindow,Progressor,VisualChangeListener):
                               self.beingDragged.getX(),
                               self.beingDragged.getY(),
                               self.beingDragged.getBearing())
-            self.GetEventHandler().AddPendingEvent(event)
+            # Clone() to remove if AddPendingEvent clones the event
+            self.GetEventHandler().AddPendingEvent(event.Clone())
             self.requestRedraw()
         elif self.mode == ToolPalette.PAINT_TOOL and\
            self.beingPainted:
@@ -418,8 +430,7 @@ class MapWindow(GLWindow,Progressor,VisualChangeListener):
                     self.requestRedraw()
                 didSelect = True
         if not didSelect:
-            print >>sys.stderr,__name__,'cannot find thing with id',id
-        
+            logger.warning(__name__+' cannot find thing with id %i' % id)
 
     def lookAt(self,x,y):
         self.lookingAtX = x
@@ -531,7 +542,7 @@ class MapWindow(GLWindow,Progressor,VisualChangeListener):
                     self.preprocessNodes(d.getModel(),'d'+`i`,bbox=True)
                     self.preprocessedModels.add(d.modelName)
             else:
-                print 'warning, no model for',d.getName()
+                logger.warning('no model for %s' % d.getName())
         self.setProgress(30)
         self.setStatus("Preparing placeable display...")
         for i,p in enumerate(self.placeables):
@@ -540,7 +551,7 @@ class MapWindow(GLWindow,Progressor,VisualChangeListener):
                     self.preprocessNodes(p.getModel(),'p'+`i`,bbox=True)
                     self.preprocessedModels.add(p.modelName)
             else:
-                print 'warning, no model for',p.getName()
+                logger.warning('no model for %s' % p.getName())
         self.setProgress(50)
         self.setStatus("Preparing creature display...")
         for i,c in enumerate(self.creatures):
@@ -558,7 +569,7 @@ class MapWindow(GLWindow,Progressor,VisualChangeListener):
                     self.preprocessNodes(t.getModel(),'t'+`i`,bbox=True)
                     self.preprocessedModels.add(t.modelName)                
             else:
-                print 'warning, no model for',t.getName()
+                logger.warning('no model for %s' % t.getName())
         self.setProgress(90)
         self.setStatus("Preparing waypoint display...")
         for i,w in enumerate(self.waypoints):
@@ -567,7 +578,7 @@ class MapWindow(GLWindow,Progressor,VisualChangeListener):
                     self.preprocessNodes(w.getModel(),'w'+`i`,bbox=True)
                     self.preprocessedModels.add(w.modelName)
             else:
-                print 'warning, no model for',w.getName()
+                logger.warning('no model for %s ' % w.getName())
         self.setProgress(0)
         self.setStatus("Map display prepared.")
         self.preprocessed = True
