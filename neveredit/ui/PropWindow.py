@@ -258,7 +258,7 @@ class PropWindow(scrolled.ScrolledPanel, ResourceListChangeListener):
                 c = control.GetBackgroundColour()
                 prop.setValue((c.Blue() << 16) | (c.Green() << 8) | c.Red())
             elif pName == 'ResRef':
-                prop.setValue(control.GetStringSelection())
+                prop.setValue(control.GetValue())
             elif pName == 'Script':
                 s = control.getScript(prop.getName())
                 prop.setValue(s.replace('\n','\r\n'))
