@@ -102,8 +102,8 @@ class MoveEvent(wx.PyCommandEvent):
         return self.bearing
     
     def Clone(self):
-        evt = self.__class__(0,self.objectID,self.x,self.y)
-        evt.SetId(self.getId())
+        evt = self.__class__(0,self.objectID,self.x,self.y,self.bearing)
+        evt.SetId(self.GetId())
         return evt
 
 class QuadTreeNode:
