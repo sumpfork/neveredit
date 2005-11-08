@@ -47,15 +47,14 @@ class PropControl(PropertyChangeNotifier):
 
 class CExoLocStringControl(wx.BoxSizer):
     def __init__(self,typeSpec,prop,propWindow, defaultlang=0):
-	# the defaultlang parameter should be the BIOWARE code for the language
-	# see file/Language or Bioware documentation for those codes
+        # the defaultlang parameter should be the BIOWARE code for the language
+        # see file/Language or Bioware documentation for those codes
         wx.BoxSizer.__init__(self,wx.VERTICAL)
 
         langChoices = neveredit.file.Language.BIOorderedLangs
         genderChoices = ['Default', 'Female']
 
         # TODO change this to use some default value fetched from preferences
-	# # Comment, maybe this should be done *once* in the parent - Micka
         self.langID = defaultlang
         self.gender = 0
         self.prop = prop
