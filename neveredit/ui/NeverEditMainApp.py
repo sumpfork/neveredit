@@ -570,7 +570,7 @@ class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
     def kick(self,event):
         '''kick the idle func even without events'''
         wx.WakeUpIdle()
-        
+
     def idle(self,event):
         '''Called on idle events. This is where the interface updates for
         other threads happen (they cannot update the interface themselves).
@@ -611,7 +611,7 @@ class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
             self.tree.SelectItem(item)
         else:
             logger.warning('cannot find tree item with id %d' % id)
-
+        
     def OnScriptAdded(self,event):
         """event handler for new script being added to module"""
         self.scriptEditor.addChangeListener(self.setFileChanged)
@@ -637,7 +637,10 @@ class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
         self.unselectTreeItem()
         self.tree.DeleteChildren(self.lastAreaItem)
         self.subtreeFromArea(self.lastAreaItem,self.map.getArea())
-        self.selectTreeItemById(event.getSelectedId())
+        # self.selectTreeItemById(event.getSelectedId())
+        # removing this line prevents a crash - good as a *temporary*
+        # fix, but the crash should be investigated
+        # this also cause functionality loss (auto-selection of the thing added
         self.setFileChanged(True)
 
     def unselectTreeItem(self):
@@ -700,7 +703,6 @@ class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
                                                 waypoint.getName())
                 self.tree.SetPyData(waypointItem,waypoint)
                 self.idToTreeItemMap[waypoint.getNevereditId()] = waypointItem
-
     def isAreaItem(self,item):
         data = self.tree.GetPyData(item)
         return data and data.__class__ == Area.Area
@@ -730,7 +732,7 @@ class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
             area = self.getAreaForTreeItem(item)
             area.readContents()
             self.subtreeFromArea(item,area)
-            
+
     def treeItemCollapsed(self,event):
         item = event.GetItem()
         if self.isAreaItem(item):
@@ -748,8 +750,7 @@ class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
         '''Callback for notebook page changing event'''
         self.maybeApplyPropControlValues()
         self.syncDisplayedPage()
-
-    
+        
     def syncDisplayedPage(self):
         if not self.selectedTreeItem:
             return        
@@ -789,7 +790,7 @@ class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
             print 'setting model'
         self.notebook.setCurrentPageSync(False)
         self.SetEvtHandlerEnabled(True)
-        
+
     def treeSelChanged(self,event):
         '''Callback to handle the user changing the selection
         in the main tree.'''
@@ -866,7 +867,7 @@ class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
 
         self.notebook.setSyncAllPages(True)
         self.syncDisplayedPage()
-            
+
     def maybeApplyPropControlValues(self):
         # kill any thread playing BMU sound
         SoundControl.Event_Die.set()
