@@ -455,7 +455,7 @@ class PropWindow(scrolled.ScrolledPanel, ResourceListChangeListener):
             else:
                 control.SetSelection(0)
             wx.EVT_COMBOBOX(self,control.GetId(),self.controlUsed)
-            wx.EVT_TEXT_ENTER(self, control.GetId(), self.controlUsed)
+            wx.EVT_TEXT(self, control.GetId(), self.controlUsed)
         else:
             control = wx.TextCtrl(parent,-1,prop.getValue())
             wx.EVT_TEXT(self,control.GetId(),self.controlUsed)
