@@ -385,7 +385,16 @@ class ERFFile(NeverFile):
         @return: a list of ERFKey objects"""
         type = neveredit.game.ResourceManager\
                .ResourceManager.resTypeFromExtension(ext)
-        return self.entriesByType.get(type, [])
+        try:
+            temp = self.entriesByType[type]
+            if not isinstance(temp,list):
+                #then we have only one element, not in a list
+                entry = [temp]
+            else:
+                entry = temp
+        except KeyError:
+            entry = []
+        return entry
 
     def getEntryByNameAndExtension(self,name,ext):
         """get an entry with a specific name and extension (that's
