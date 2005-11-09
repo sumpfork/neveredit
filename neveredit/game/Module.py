@@ -10,7 +10,9 @@ from neveredit.game.NeverData import NeverData
 import neveredit.game.Factions
 from neveredit.util import neverglobals
 from neveredit.util.Progressor import Progressor
+
 from cStringIO import StringIO
+from os.path import basename
 
 class Module(Progressor,NeverData):    
     """A class the encapsulates an NWN module file and gives access
@@ -247,7 +249,11 @@ class Module(Progressor,NeverData):
         self.erfFile.reassignReadFile(fpath)
 
     def addResourceFile(self,fname):
-        self.erfFile.addRawResourceByName(fname,open(fname,'rb').read())
+        key = neveredit.game.ResourceManager.ResourceManager.keyFromName(\
+                                                                basename(fname))
+        resource = neverglobals.getResourceManager().interpretResourceContents(\
+                                                key,open(fname,'rb').read())
+        self.erfFile.addResource(key,resource)
         
     def addERFFile(self,fname):
         self.erfFile.addFile(fname)
