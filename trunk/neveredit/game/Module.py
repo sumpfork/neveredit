@@ -257,6 +257,45 @@ class Module(Progressor,NeverData):
         
     def addERFFile(self,fname):
         self.erfFile.addFile(fname)
+        self.updateAreaList()
+
+    def updateAreaList(self):
+        ''' rebuild area list from the contents of the ERF file '''
+        # first get all the area names, and check if areas have all 3 parts: ARE, GIC and GIT
+        areKeys = neverglobals.getResourceManager().getKeysWithExtensions('ARE')
+        gitKeys = neverglobals.getResourceManager().getKeysWithExtensions('GIT')
+        gicKeys = neverglobals.getResourceManager().getKeysWithExtensions('GIC')
+        areaNames = []
+        gitNames = []
+        gicNames = []
+        for a in areKeys:
+            areaNames.append(a[0])
+        for a in gitKeys:
+            gitNames.append(a[0])
+        for a in gicKeys:
+            gicNames.append(a[0])
+        for a in areaNames:
+            try:
+                tmp1 = gitNames.index(a)
+                tmp2 = gicNames.index(a)
+            except ValueError:
+                logger.warning('''area file without a GIC or a GIT part : %s - not including
+                            it in Mod_AreaList''' % a)
+                areaNames.remove(a)
+        # sets the new Mod_Area_list
+        newAreaList = []
+        for a in areaNames:
+            s = GFFStruct()
+            s.add('Area_Name',a,'ResRef')
+            newAreaList.append(s)
+        self.setProperty("Mod_Area_list",newAreaList)
+        self.needSave = True
+        # check if Mod_Entry_Area is a present area
+        try:
+            map(lambda x: x.strip('\0'),areaNames).index(self['Mod_Entry_Area'])
+        except KeyError:
+            logger.warning('''Module starting point set in non-existant area : "%s" - please
+                    change Mod_Entry_Area value''' % self['Mod_Entry_Area'])
 
     def getKeyList(self):
         return self.erfFile.getKeyList()
