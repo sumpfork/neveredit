@@ -1,0 +1,41 @@
+#!/usr/bin/env pythonw
+
+import sys,os,os.path
+from optparse import OptionParser
+
+
+def getNeverDir(path):
+    while os.path.basename(path) != 'neveredit' and\
+          os.path.basename(path) != 'bin' and\
+          os.path.dirname(path) != path:
+        path = os.path.dirname(path)
+    if os.path.basename(path) == 'bin':
+        path = os.path.join(os.path.dirname(path),'lib/python')
+    elif os.path.basename(path) == 'neveredit':
+        path = os.path.dirname(path)
+    return path
+
+parser = OptionParser()
+parser.add_option('--devel',action='store_true',dest='devel',
+                  help='run in development mode (does not use installed version)')
+options,args = parser.parse_args()
+
+if options.devel:
+    sys.path.insert(0,getNeverDir(os.getcwd()))
+    
+try:
+    import neveredit.ui.ConversationEditor
+except ImportError:
+    sys.path.append(getNeverDir(os.path.abspath(os.path.dirname(__file__))))
+    try:
+        import neveredit.ui.ConversationEditor
+    except ImportError:
+        print sys.exc_info()[1]
+        print sys.path
+        print >>sys.stderr,'Faulty neveredit installation: could not import main class'
+        sys.exit(1)
+
+print 'Using main class from:',neveredit.ui.ConversationEditor.__file__
+neveredit.ui.ConversationEditor.run(args)
+
+

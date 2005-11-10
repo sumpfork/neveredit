@@ -1,0 +1,4035 @@
+2005-11-09 19:40  sumpfork
+
+	* __init__.py:
+
+	bump version to 0.8.2b1
+
+2005-11-09 18:20  ledmicka
+
+	* game/Module.py:
+
+	use the basename of the resource included for ResRef instead of the full pathname
+	use addResource instead of addRawResourceByName
+	fix bug # 1352336
+
+2005-11-09 18:18  ledmicka
+
+	* file/ERFFile.py:
+
+	getEntriesWithExtension did not return a list if only one element was found
+
+2005-11-08 16:20  ledmicka
+
+	* ui/PropWindow.py:
+
+	use GetValue instead of GetStringSelection for ComboBox. This is a bug since control type change, and the user changes in this control weren't saved.
+
+2005-11-08 16:18  ledmicka
+
+	* ui/PropWindow.py:
+
+	use good eventtype : having to hit enter after each edition is counter-intuitive
+
+2005-11-08 16:16  ledmicka
+
+	* ui/PropWindow.py:
+
+	tab vs space fix
+
+2005-11-08 14:22  ledmicka
+
+	* ui/NeverEditMainApp.py:
+
+	temporary fix for bug # 1291111 : not calling selectTreeItemById prevents triggering it - at the cost of autoselection of the object added
+
+2005-11-08 14:17  ledmicka
+
+	* ui/MapWindow.py:
+
+	correction on a previous patch commited too hastily on MoveEvent.Clone method
+
+2005-11-07 09:24  ledmicka
+
+	* ui/MapWindow.py:
+
+	replace the events Clone methods with ones that really create different objects, with distinct C++ part, so that segfault doesn't occur anymore when destroying both the original and the clone.
+
+2005-10-30 17:13  ledmicka
+
+	* ui/NeverEditMainApp.py:
+
+	fix : the sound thread was not called at the good place, it only happened when one closed neveredit (not even when loading another module)
+
+2005-10-26 23:00  sumpfork
+
+	* ChangeLog:
+
+	update changelog
+
+2005-10-26 23:00  sumpfork
+
+	* ui/SoundControl.py:
+
+	initialize variable in error condition
+
+2005-10-26 19:12  ledmicka
+
+	* game/NeverData.py:
+
+	adding some doc for NeverData class
+
+2005-10-26 19:10  ledmicka
+
+	* game/Trigger.py:
+
+	adding a Neverdata subclass to handle triggers
+
+2005-10-26 17:12  ledmicka
+
+	* file/GFFFile.py:
+
+	this should fix bug  1281419 on sf ('Music changes don't stick')
+
+2005-10-25 18:11  ledmicka
+
+	* ui/FactionGridWindow.py:
+
+	disable removal of a faction - until the code is written
+
+2005-10-25 18:07  ledmicka
+
+	* game/Module.py, ui/NeverEditMainApp.py, ui/PropWindow.py:
+
+	finalize faction integration into neveredit
+
+2005-10-25 18:02  ledmicka
+
+	* file/GFFFile.py:
+
+	preparation for faction inclusion - allow to "flattenList" lists of GFFStructs subclasses instead of only lists of GFFSTructs
+
+2005-10-25 17:59  ledmicka
+
+	* ui/FactionGridWindow.py:
+
+	adding a grid control to display and edit faction reactions
+
+2005-10-25 17:56  ledmicka
+
+	* game/Factions.py:
+
+	adding a NeverData class to handle factions
+
+2005-10-24 05:41  ledmicka
+
+	* game/ResourceManager.py:
+
+	add a correct non-emptiness test for Mod_CustomTlk
+
+2005-10-17 10:09  ledmicka
+
+	* game/Area.py, game/Palette.py, file/MDLFile.py, ui/MapWindow.py,
+	  ui/NeverEditMainApp.py, ui/ToolPalette.py:
+
+	add support for waypoint display (model), and addition (palette)
+
+2005-10-17 09:59  ledmicka
+
+	* game/WayPoint.py:
+
+	add Module to read waypoint data from GFF
+
+2005-10-17 09:42  ledmicka
+
+	* game/Module.py:
+
+	use logger.info instead of logger.error for informational message
+
+2005-10-17 09:38  ledmicka
+
+	* ui/GLWindow.py:
+
+	add a call to glutInit() in ui.GLWindow - fixes a crash with a mouseover on an obect in a MapWindow (in mapWindow.DrawTextBox , with glutBitmapWidth with GLUT not initialized)
+
+2005-10-16 08:59  sumpfork
+
+	* ui/VarTableControl.py:
+
+	removing erroneous/extraneous import
+
+2005-10-14 10:14  ledmicka
+
+	* game/ResourceManager.py:
+
+	adding support for custom tlk reading
+
+2005-10-14 09:56  ledmicka
+
+	* game/Module.py, ui/PropWindow.py:
+
+	adding support for VarTable - integration of the control into Neveredit
+
+2005-10-13 17:27  ledmicka
+
+	* ui/VarTableControl.py:
+
+	adding a control for the VarTable property - basic support : adding a variable, modifying a value or a type. Limited to Int, String or Float
+
+2005-10-13 14:58  ledmicka
+
+	* game/Module.py:
+
+	fix a tab vs spaces error : there was a tab were 3 spaces were expected
+
+2005-10-12 11:06  ledmicka
+
+	* ui/PropWindow.py:
+
+	fix a tab vs spaces error - one tab was inserted where 3 spaces were expected
+
+2005-10-12 06:36  ledmicka
+
+	* ui/SoundControl.py:
+
+	rework of the sound control, using a thread for wav playing (mp3 already did)
+	allows the control to store the sound unless changed by the user
+
+2005-10-11 10:20  ledmicka
+
+	* game/ResourceManager.py, ui/NeverEditMainApp.py,
+	  ui/PropWindow.py:
+
+	PropWindow makes use of the SoundControl object for ambientsound.2da, ambientmusic.2da and soundset.2da related properties
+
+2005-10-11 08:39  ledmicka
+
+	* ui/SoundControl.py:
+
+	adding the main file for the sound playing control - integration in neveredit main app still not commited
+
+2005-10-10 10:34  ledmicka
+
+	* file/SoundSetFile.py:
+
+	addition of file/SoundSetFile.py to get data from .ssf files
+
+2005-10-10 05:43  ledmicka
+
+	* ui/NeverEditMainApp.py:
+
+	widen the main window
+
+2005-09-28 17:39  ledmicka
+
+	* ui/PropWindow.py:
+
+	removing obsolete comments
+
+2005-09-28 17:34  ledmicka
+
+	* ui/HAKListControl.py:
+
+	fix the "duplicate controls" bug
+	fix the multiple selection in hak lists problem
+	remove the TextCtrl manual insertion
+
+2005-09-28 14:11  sumpfork
+
+	* game/Module.py, ui/PropWindow.py:
+
+	preliminary haklist ui implementation from ML
+
+2005-09-23 09:42  sumpfork
+
+	* ui/NeverEditMainApp.py:
+
+	fix for bug #1299052: help viewer should not cache in bundle
+
+2005-09-22 09:48  sumpfork
+
+	* file/Language.py:
+
+	new language code file
+
+2005-09-22 09:46  sumpfork
+
+	* resources/xrc/PreferencesDialog.xrc,
+	  resources/xrc/PreferencesDialog_xrc.py, ui/PreferencesDialog.py,
+	  ui/PropWindow.py, util/Preferences.py:
+
+	applying language patch from ML
+
+2005-09-22 09:43  ledmicka
+
+	* ui/HAKListControl.py:
+
+	Adding HAKListControl.py - contains a control for Mod_HakLists, which allows to select and order HAKs
+
+2005-09-06 22:40  sumpfork
+
+	* ChangeLog (tags: v0_8_1):
+
+	changelog update
+
+2005-09-06 22:40  sumpfork
+
+	* __init__.py (tags: v0_8_1):
+
+	bump version to 0.8.1
+
+2005-09-06 22:37  sumpfork
+
+	* ChangeLog (tags: v0_8_1):
+
+	update changelog
+
+2005-09-06 22:36  sumpfork
+
+	* ui/TilingWindow.py (tags: v0_8_1):
+
+	introduce model window: drawing not quite right initially yet
+
+2005-09-04 19:50  sumpfork
+
+	* ui/NeverEditMainApp.py:
+
+	make sure toolbar gets updated even without data object\nmark all pages as dirty when tree item changes\nremove conversation page when no data object
+
+2005-09-04 19:48  sumpfork
+
+	* doxygen/.cvsignore, resources/.cvsignore:
+
+	update some ignores
+
+2005-09-04 19:47  sumpfork
+
+	* file/CExoLocString.py:
+
+	use loggers instead of prints;get rid of often occurring warning
+
+2005-09-04 19:45  sumpfork
+
+	* ui/ModelWindow.py:
+
+	make sure model redraws when changed
+
+2005-09-04 19:45  sumpfork
+
+	* ui/Notebook.py:
+
+	get rid of warning (it is ok) and provide way to request for all pages to be synced at once
+
+2005-09-04 19:44  sumpfork
+
+	* ui/ToolPalette.py:
+
+	increase toolbar button size to match actual icon size; some minor changes
+
+2005-09-04 19:43  sumpfork
+
+	* util/Loggers.py:
+
+	set default log level to WARN
+
+2005-08-29 20:06  sumpfork
+
+	* ui/NeverEditMainApp.py:
+
+	fix deleted tool palette exception
+
+2005-08-29 20:05  sumpfork
+
+	* __init__.py:
+
+	take out another ok reference
+
+2005-08-29 08:43  brab
+
+	* ui/ConversationWindow.py:
+
+	This fixes the recent Conversation bugs
+
+2005-08-27 14:59  sumpfork
+
+	* setup.py, file/ERFFile.py, game/ResourceManager.py, run/nevererf:
+
+	first pass at erf file creation for nevererf; add nevererf as script; improve creation of new ERFFile in the process
+
+2005-08-27 14:58  sumpfork
+
+	* run/neveredit:
+
+	add version printout via command line arg -v/--version
+
+2005-08-27 07:58  sumpfork
+
+	* ChangeLog:
+
+	merge in changelog from old cvs tree
+
+2005-08-27 07:43  sumpfork
+
+	* ChangeLog (tags: v0_8_1_b1):
+
+	update changelog
+
+2005-08-26 18:03  sumpfork
+
+	* Makefile (tags: v0_8_1_b1):
+
+	fix linux freezing;get version from __init__.py
+
+2005-08-25 13:44  sumpfork
+
+	* ui/ScriptEditor.py (tags: v0_8_1_b1):
+
+	fix wrong call when compiler not available
+
+2005-08-25 13:41  sumpfork
+
+	* ui/NeverEditMainApp.py (tags: v0_8_1_b1):
+
+	replace flag with disabling event handler
+
+2005-08-23 11:15  sumpfork
+
+	* __init__.py, setup.py (utags: v0_8_1_b1):
+
+	fix bundle making;bump version to 0.8.1b1
+
+2005-08-21 18:39  sumpfork
+
+	* neveredit_logo.jpg, neveredit_logo_init.jpg,
+	  resources/images/__init___py~.py,
+	  resources/images/neveredit_logo.jpg (tags: v0_8_1_b1),
+	  resources/images/neveredit_logo.psd (tags: v0_8_1_b1),
+	  resources/images/neveredit_logo_init.jpg (tags: v0_8_1_b1),
+	  resources/images/neveredit_logo_init.psd (tags: v0_8_1_b1),
+	  resources/images/neveredit_logo_init_jpg.py (tags: v0_8_1_b1),
+	  resources/images/neveredit_logo_init_psd.py (tags: v0_8_1_b1),
+	  resources/images/neveredit_logo_jpg.py (tags: v0_8_1_b1),
+	  resources/images/neveredit_logo_psd.py (tags: v0_8_1_b1),
+	  ui/NeverEditMainApp.py:
+
+	convert splash screens to resourcepackage;new splash screens
+
+2005-08-20 10:37  sumpfork
+
+	* file/.cvsignore, game/.cvsignore, openglcontext/.cvsignore,
+	  ui/.cvsignore, util/.cvsignore (utags: v0_8_1_b1):
+
+	more cvs ignores
+
+2005-08-20 10:35  sumpfork
+
+	* .cvsignore, resources/.cvsignore, resources/images/.cvsignore,
+	  resources/xrc/.cvsignore (utags: v0_8_1_b1):
+
+	adding some cvs ignores
+
+2005-08-20 10:33  sumpfork
+
+	* paint_icon.png, paint_icon_sel.png, rotate_icon.png,
+	  rotate_icon_sel.png, select_icon.png, select_icon_sel.png,
+	  resources/__init__.py (tags: v0_8_1_b1),
+	  resources/images/__init__.py (tags: v0_8_1_b1),
+	  resources/images/__init___py~.py, resources/images/paint_icon.png
+	  (tags: v0_8_1_b1), resources/images/paint_icon_png.py (tags:
+	  v0_8_1_b1), resources/images/paint_icon_sel.png (tags:
+	  v0_8_1_b1), resources/images/paint_icon_sel_png.py (tags:
+	  v0_8_1_b1), resources/images/rotate_icon.png (tags: v0_8_1_b1),
+	  resources/images/rotate_icon_png.py (tags: v0_8_1_b1),
+	  resources/images/rotate_icon_sel.png (tags: v0_8_1_b1),
+	  resources/images/rotate_icon_sel_png.py (tags: v0_8_1_b1),
+	  resources/images/select_icon.png (tags: v0_8_1_b1),
+	  resources/images/select_icon_png.py (tags: v0_8_1_b1),
+	  resources/images/select_icon_sel.png (tags: v0_8_1_b1),
+	  resources/images/select_icon_sel_png.py (tags: v0_8_1_b1),
+	  resources/xrc/PreferencesDialog_xrc.py (tags: v0_8_1_b1),
+	  resources/xrc/__init__.py (tags: v0_8_1_b1),
+	  ui/PreferencesDialog.py (tags: v0_8_1_b1), ui/ToolPalette.py
+	  (tags: v0_8_1_b1):
+
+	converting to use resourcepackage so that resources are included as python files
+
+2005-08-20 08:58  sumpfork
+
+	* neverscript.icns (tags: v0_8_1_b1), setup.py:
+
+	adding missing icons file
+
+2005-08-20 08:54  sumpfork
+
+	* neveredit.icns (tags: v0_8_1_b1):
+
+	re-adding as binary
+
+2005-08-20 08:54  sumpfork
+
+	* neveredit.icns:
+
+	removing to re-add as binary
+
+2005-08-20 08:38  sumpfork
+
+	* game/Module.py (tags: v0_8_1_b1), ui/NeverEditMainApp.py:
+
+	patch for Mod_CustomTlk from Mickael Leduque with some fixes
+
+2005-08-20 08:37  sumpfork
+
+	* README (tags: v0_8_1_b1):
+
+	update, point to new info on website
+
+2005-08-14 11:54  sumpfork
+
+	* game/Module.py, ui/PropWindow.py (tags: v0_8_1_b1):
+
+	applying patch from Mickael Leduque: combo boxes for resrefs and addition of custom tlk control
+
+2005-08-14 11:52  sumpfork
+
+	* ui/NeverEditMainApp.py:
+
+	update welcome window/doc string
+
+2005-08-13 11:58  sumpfork
+
+	* ui/NeverEditMainApp.py:
+
+	fix notebook page syncing loop
+
+2005-08-13 11:38  sumpfork
+
+	* help_nwnlexicon.zip, makebundle.py, Makefile, neveredit.icns,
+	  neveredit.jpg, neveredit.r, neveredit_logo.jpg, NEWS,
+	  neveredit_logo_init.jpg, README, README.commandline,
+	  README.scripteditor, paint_icon.png, paint_icon_sel.png,
+	  SConstruct, rotate_icon.png, rotate_icon_sel.png,
+	  select_icon.png, select_icon_sel.png, setup.py, doxygen/Doxyfile,
+	  doxygen/pythfilter.py, file/.cvsignore, file/BIFFile.py,
+	  file/BinaryDataHandler.py, file/CExoLocString.py,
+	  file/__init__.py, file/ERFFile.py, file/GFFFile.py,
+	  file/KeyFile.py, file/MDLFile.py, file/NeverFile.py,
+	  file/TalkTableFile.py, file/TileSetFile.py, file/TwoDAFile.py,
+	  game/.cvsignore, game/Area.py, game/ChangeNotification.py,
+	  game/__init__.py, game/Conversation.py, game/Creature.py,
+	  game/Door.py, game/Item.py, game/Module.py, game/NeverData.py,
+	  game/Palette.py, game/Placeable.py, game/ResourceManager.py,
+	  game/Script.py, game/SituatedObject.py, game/Tile.py,
+	  openglcontext/.cvsignore, openglcontext/__init__.py,
+	  openglcontext/quaternion.py, openglcontext/utilities.py,
+	  openglcontext/vectorutilities.py,
+	  resources/xrc/PreferencesDialog.xrc, run/nevercommand,
+	  run/neveredit, run/nevererf, run/neversay, run/neverscript,
+	  run/runmodule, ui/.cvsignore, ui/ConversationWindow.py,
+	  ui/__init__.py, ui/GLWindow.py, ui/HelpViewer.py,
+	  ui/MapWindow.py, ui/ModelWindow.py, ui/NeverEditMainApp.py,
+	  ui/Notebook.py, ui/PreferencesDialog.py, ui/PropWindow.py,
+	  ui/ScriptEditor.py, ui/TilingWindow.py, ui/ToolPalette.py,
+	  ui/WxUtils.py, util/.cvsignore, util/Loggers.py,
+	  util/__init__.py, util/check_versions.py, util/neverglobals.py,
+	  util/Preferences.py, util/Progressor.py, util/Utils.py,
+	  util/plistlib.py:
+
+	Initial revision
+
+2005-08-13 11:38  sumpfork
+
+	* help_nwnlexicon.zip (tags: v0_8_1_b1), makebundle.py (tags:
+	  v0_8_1_b1), Makefile, neveredit.icns, neveredit.jpg (tags:
+	  v0_8_1_b1), neveredit.r (tags: v0_8_1_b1), neveredit_logo.jpg,
+	  NEWS (tags: v0_8_1_b1), neveredit_logo_init.jpg, README,
+	  README.commandline (tags: v0_8_1_b1), README.scripteditor (tags:
+	  v0_8_1_b1), paint_icon.png, paint_icon_sel.png, SConstruct (tags:
+	  v0_8_1_b1), rotate_icon.png, rotate_icon_sel.png,
+	  select_icon.png, select_icon_sel.png, setup.py, doxygen/Doxyfile
+	  (tags: v0_8_1_b1), doxygen/pythfilter.py (tags: v0_8_1_b1),
+	  file/.cvsignore, file/BIFFile.py (tags: v0_8_1_b1),
+	  file/BinaryDataHandler.py (tags: v0_8_1_b1),
+	  file/CExoLocString.py (tags: v0_8_1_b1), file/__init__.py (tags:
+	  v0_8_1_b1), file/ERFFile.py (tags: v0_8_1_b1), file/GFFFile.py
+	  (tags: v0_8_1_b1), file/KeyFile.py (tags: v0_8_1_b1),
+	  file/MDLFile.py (tags: v0_8_1_b1), file/NeverFile.py (tags:
+	  v0_8_1_b1), file/TalkTableFile.py (tags: v0_8_1_b1),
+	  file/TileSetFile.py (tags: v0_8_1_b1), file/TwoDAFile.py (tags:
+	  v0_8_1_b1), game/.cvsignore, game/Area.py (tags: v0_8_1_b1),
+	  game/ChangeNotification.py (tags: v0_8_1_b1), game/__init__.py
+	  (tags: v0_8_1_b1), game/Conversation.py (tags: v0_8_1_b1),
+	  game/Creature.py (tags: v0_8_1_b1), game/Door.py (tags:
+	  v0_8_1_b1), game/Item.py (tags: v0_8_1_b1), game/Module.py,
+	  game/NeverData.py (tags: v0_8_1_b1), game/Palette.py (tags:
+	  v0_8_1_b1), game/Placeable.py (tags: v0_8_1_b1),
+	  game/ResourceManager.py (tags: v0_8_1_b1), game/Script.py (tags:
+	  v0_8_1_b1), game/SituatedObject.py (tags: v0_8_1_b1),
+	  game/Tile.py (tags: v0_8_1_b1), openglcontext/.cvsignore,
+	  openglcontext/__init__.py (tags: v0_8_1_b1),
+	  openglcontext/quaternion.py (tags: v0_8_1_b1),
+	  openglcontext/utilities.py (tags: v0_8_1_b1),
+	  openglcontext/vectorutilities.py (tags: v0_8_1_b1),
+	  resources/xrc/PreferencesDialog.xrc (tags: v0_8_1_b1),
+	  run/nevercommand (tags: v0_8_1_b1), run/neveredit (tags:
+	  v0_8_1_b1), run/nevererf (tags: v0_8_1_b1), run/neversay (tags:
+	  v0_8_1_b1), run/neverscript (tags: v0_8_1_b1), run/runmodule
+	  (tags: v0_8_1_b1), ui/.cvsignore, ui/ConversationWindow.py (tags:
+	  v0_8_1_b1), ui/__init__.py (tags: v0_8_1_b1), ui/GLWindow.py
+	  (tags: v0_8_1_b1), ui/HelpViewer.py (tags: v0_8_1_b1),
+	  ui/MapWindow.py (tags: v0_8_1_b1), ui/ModelWindow.py (tags:
+	  v0_8_1_b1), ui/NeverEditMainApp.py, ui/Notebook.py (tags:
+	  v0_8_1_b1), ui/PreferencesDialog.py, ui/PropWindow.py,
+	  ui/ScriptEditor.py, ui/TilingWindow.py (tags: v0_8_1_b1),
+	  ui/ToolPalette.py, ui/WxUtils.py (tags: v0_8_1_b1),
+	  util/.cvsignore, util/Loggers.py (tags: v0_8_1_b1),
+	  util/__init__.py (tags: v0_8_1_b1), util/check_versions.py (tags:
+	  v0_8_1_b1), util/neverglobals.py (tags: v0_8_1_b1),
+	  util/Preferences.py (tags: v0_8_1_b1), util/Progressor.py (tags:
+	  v0_8_1_b1), util/Utils.py (tags: v0_8_1_b1), util/plistlib.py
+	  (tags: v0_8_1_b1) (utags: openknights_import):
+
+	importing an export of the neveredit module from the openknights repository
+
+2005-08-13 11:27  sumpfork
+
+	* .cvsignore, .project, AUTHORS, __init__.py, ChangeLog, COPYING:
+
+	Initial revision
+
+2005-08-13 11:27  sumpfork
+
+	* .cvsignore, .project (tags: v0_8_1_b1), AUTHORS (tags:
+	  v0_8_1_b1), __init__.py, ChangeLog (tags: v0_8_1_b1), COPYING
+	  (tags: v0_8_1_b1) (utags: openknights_import):
+
+	importing an export of the neveredit module from the openknights repository
+
+2005-08-13 11:09  sumpfork
+
+	* ui/NeverEditMainApp.py, file/ERFFile.py, game/Conversation.py,
+	  game/Module.py, ui/Notebook.py:
+
+	new ability to add single resource files to a module
+	major change in how and when notebook pages are loaded: all loads are now delayed until shown
+	new Notebook class to perform bookkeeping for this
+
+2005-08-13 11:03  sumpfork
+
+	* ui/ModelWindow.py:
+
+	eliminate some unecessary code;add some testing code
+
+2005-08-13 11:02  sumpfork
+
+	* game/ResourceManager.py:
+
+	throw exception instead of silent fail on unknown resource type
+
+2005-08-13 11:01  sumpfork
+
+	* ui/GLWindow.py:
+
+	modularize some methods for profiling
+
+2005-08-13 10:59  sumpfork
+
+	* ui/MapWindow.py:
+
+	change to map info menu
+
+2005-08-13 10:57  sumpfork
+
+	* ui/ConversationWindow.py:
+
+	new setConversation method
+
+2005-08-13 10:53  sumpfork
+
+	* ui/PropWindow.py:
+
+	minor fixes
+
+2005-08-13 10:52  sumpfork
+
+	* ui/ScriptEditor.py:
+
+	fix standalone startup of script editor
+
+2005-08-13 10:49  sumpfork
+
+	* SConstruct, setup.py:
+
+	making docs with scons;fix for main classes for py2app
+
+2005-07-09 04:23  brab
+
+	* run/nevercommand:
+
+	nevercommand re-executes as pythonw on the Mac
+	(I needed to extract a bunch of DLG resoures out of a mod, and it worked great)
+
+2005-05-08 14:18  brab
+
+	* ui/PropWindow.py:
+
+	changing Remove into Detach
+
+2005-05-08 13:16  brab
+
+	* file/CExoLocString.py, ui/ConversationWindow.py,
+	  ui/PropWindow.py:
+
+	Multi-lingual editing is in. There is no way to specify a deflault language yet
+	(in preferences)
+
+2005-05-08 04:17  brab
+
+	* ui/: ConversationWindow.py, PropWindow.py:
+
+	- colorized dialog text according to standard (NPC in red, PC in blue, links in
+	  grey)
+	- the CExoLocString control is a separate class (so that it will be easy to
+	  extend it beyond a simple textctrl)
+
+2005-05-07 05:05  brab
+
+	* file/CExoLocString.py, game/ChangeNotification.py,
+	  game/Conversation.py, ui/ConversationWindow.py, ui/PropWindow.py:
+
+	- Started the implementation of the Property notification system that we
+	  discussed.  Some code should be refactored to merge PropertyNotifiers with
+	  VisualChangeNotifiers
+
+	- Using this to update conversation strings in the tree representation in real
+	  time, when the CExoLocString is updated (this also works for nodes that link
+	  to the node being changed)
+
+2005-05-05 05:37  brab
+
+	* file/CExoLocString.py:
+
+	we can now specify whether we want the string to be stored as a Male/Neutral
+	index or at a Female index (i.e. 2*langID or 2*langID + 1)
+
+2005-04-28 15:02  sumpfork
+
+	* ui/ScriptEditor.py:
+
+	fix width of output list box on linux
+
+2005-04-26 18:46  sumpfork
+
+	* game/ResourceManager.py, ui/PropWindow.py, ui/MapWindow.py,
+	  ui/ModelWindow.py:
+
+	eliminate import * usage
+
+2005-04-26 18:38  sumpfork
+
+	* .project:
+
+	eclipse project
+
+2005-04-26 18:37  sumpfork
+
+	* openglcontext/vectorutilities.py, ui/MapWindow.py,
+	  ui/PropWindow.py, ui/TilingWindow.py, file/MDLFile.py:
+
+	cleanups and fixes
+
+2005-04-21 10:39  brab
+
+	* game/: ChangeNotification.py, ResourceManager.py:
+
+	first step toward splitting out change listeners
+
+2005-04-12 09:38  sumpfork
+
+	* file/MDLFile.py, file/TalkTableFile.py,
+	  openglcontext/quaternion.py:
+
+	fix some pylint warnings
+
+2005-03-20 16:51  sumpfork
+
+	* ChangeLog:
+
+	update changelog
+
+2005-03-17 00:04  sumpfork
+
+	* SConstruct:
+
+	add doc target
+
+2005-03-17 00:03  sumpfork
+
+	* game/Module.py, util/plistlib.py:
+
+	some docstring fixes
+
+2005-03-17 00:02  sumpfork
+
+	* util/neverglobals.py:
+
+	make sure resource manager is None if it didn't initialize properly
+
+2005-03-17 00:00  sumpfork
+
+	* ui/TilingWindow.py, game/Tile.py, file/TileSetFile.py,
+	  util/Utils.py:
+
+	tiling window now properly displays the possible (non-group) tiles that can be placed into the selected slot
+	needs to be sped up with lookup tables
+
+2005-03-12 21:26  sumpfork
+
+	* ui/MapWindow.py:
+
+	add simple contextual menu to currently selected map object
+	menu items to copy object tag to clipboard and show location
+
+2005-03-12 15:30  brab
+
+	* game/Conversation.py, ui/PropWindow.py:
+
+	CExoString props may now have a Creature_Tags typeSpec to select creature tags.
+	This does not play well yet with creature tag updating.
+
+2005-03-12 14:40  sumpfork
+
+	* run/: neveredit, neverscript, runmodule:
+
+	replace os.system with os.execvp to avoid shell quoting problems and have the original interpreter exit when the new one starts
+
+2005-03-12 14:00  brab
+
+	* ui/ConversationEditor.py:
+
+	Oops, forgot to remove this file
+
+2005-03-12 13:52  sumpfork
+
+	* game/Module.py:
+
+	module tag is stored under Mod_Tag
+
+2005-03-12 13:38  sumpfork
+
+	* game/: Area.py, Module.py:
+
+	adding getTags() methods to Area and Module that return dictionaries of all used tags they contain, organized by object type
+	changing Module to retrieve the list of areas from the IFO file, not by looking through all the resources of the module
+
+2005-03-12 12:55  sumpfork
+
+	* AUTHORS:
+
+	add alan to authors
+
+2005-03-12 12:46  sumpfork
+
+	* run/: nevercommand, neveredit, neverscript, runmodule:
+
+	attempt to replace mac os specific 'pythonw' call with cross-platform version
+	this version checks whether it's on Mac OS, and re-executes itself using 'pythonw' if appropriate
+	this behaviour can be turned off with --disable_pythonw
+	also some untested preference setting code for nevercommand
+
+2005-03-12 11:12  brab
+
+	* game/: Conversation.py, Creature.py:
+
+	I was wrong: a speaker tag is a tag, hence a CExoString (unless there is a way
+	to grab all creature tags from a module). However a creature TemplateResRef is
+	a ResRef,UTC, not a ResRef,NSS.
+
+2005-03-12 10:40  brab
+
+	* game/Conversation.py, ui/ConversationWindow.py,
+	  ui/NeverEditMainApp.py:
+
+	- Merging ConversationEditor and NeverEditMainApp, hence deleting ConversationEditor.
+	- Speaker of a conversation is a "ResRef,UTC" (i.e. a creature tag)
+
+2005-03-09 12:27  sumpfork
+
+	* ui/NeverEditMainApp.py:
+
+	put up a dialog when opening file fails
+
+2005-03-09 11:08  sumpfork
+
+	* game/Creature.py, file/BinaryDataHandler.py, game/Door.py,
+	  game/Item.py, game/Module.py, game/Placeable.py,
+	  game/SituatedObject.py, game/Tile.py, file/CExoLocString.py,
+	  file/GFFFile.py, file/KeyFile.py, file/MDLFile.py,
+	  file/TileSetFile.py, file/TwoDAFile.py:
+
+	some changes/fixes due to pychecker reports
+
+2005-03-09 10:33  sumpfork
+
+	* ui/ToolPalette.py:
+
+	some reformatting, docstrings
+
+2005-03-07 14:45  sumpfork
+
+	* file/BIFFile.py, game/Creature.py, game/Item.py,
+	  game/NeverData.py, game/Palette.py:
+
+	some changes due to pylint complaints
+
+2005-03-07 11:54  sumpfork
+
+	* game/: Area.py, Creature.py, Item.py, Module.py, NeverData.py,
+	  SituatedObject.py, Tile.py:
+
+	some progress on tile laying
+	new parent class NeverInstance to encapsulate funcionality common to instance objects and prevent problems with multiple inheritance
+
+2005-03-07 11:46  sumpfork
+
+	* game/Area.py:
+
+	read area contents automatically on first child list access
+
+2005-03-06 15:53  brab
+
+	* game/Conversation.py, ui/ConversationEditor.py,
+	  ui/ConversationWindow.py:
+
+	- correctly displaying the whole conversation tree (and links)
+	- fixed saving
+
+2005-03-06 15:52  brab
+
+	* ui/PropWindow.py:
+
+	The integer control was not hooked to the right events:
+	- changed SPIN to SPINCTRL
+	- added text event
+
+2005-03-04 11:25  sumpfork
+
+	* game/Script.py:
+
+	print exception info if compiler can't be imported as some are having trouble with the binary release
+
+2005-03-02 04:02  brab
+
+	* game/Conversation.py, ui/ConversationWindow.py:
+
+	getting rid of tabs
+
+2005-03-01 17:41  sumpfork
+
+	* ui/GLWindow.py, ui/MapWindow.py, util/Utils.py,
+	  util/check_versions.py, util/neverglobals.py, util/plistlib.py,
+	  file/ERFFile.py, game/Module.py, openglcontext/quaternion.py,
+	  openglcontext/utilities.py, openglcontext/vectorutilities.py,
+	  game/ResourceManager.py:
+
+	getting rid of all tabs
+	converting some files to unix line endings
+
+2005-03-01 17:33  sumpfork
+
+	* file/ERFFile.py:
+
+	some functionality for nevererf
+
+2005-03-01 17:32  sumpfork
+
+	* run/nevererf:
+
+	a tar-like command for manipulating erf files
+
+2005-02-28 17:38  brab
+
+	* ui/ConversationEditor.py:
+
+	solved the redrawing bug when going from conversation to root of main app
+
+2005-02-28 17:22  brab
+
+	* game/Conversation.py, ui/ConversationEditor.py,
+	  ui/ConversationWindow.py:
+
+	more progress: possible to switch from one conversation to another, and to see
+	the properties of conversation entries. The full tree is not built yet, this is
+	only on the starting entries.
+
+	There is still a bug when switching back to the root of the main application
+	tree that I need to look at.
+
+2005-02-27 13:14  brab
+
+	* file/CExoLocString.py, game/Conversation.py,
+	  ui/ConversationEditor.py, ui/ConversationWindow.py:
+
+	some progress on the conversation front. I still need to figure out how to
+	detach a tree from a frame when I need to put another tree there.
+
+2005-02-26 22:41  sumpfork
+
+	* file/TileSetFile.py, ui/TilingWindow.py, game/Tile.py:
+
+	new (and unfinished) gui control for laying tiles
+
+2005-02-26 22:39  sumpfork
+
+	* game/: Module.py, NeverData.py:
+
+	adding docstrings to superclass so they propagate downwards
+	fixing some docstring warnings
+
+2005-02-26 22:36  sumpfork
+
+	* run/runmodule:
+
+	main script to run an arbitrary module providing a 'run' method in neveredit
+
+2005-02-25 11:25  sumpfork
+
+	* file/MDLFile.py:
+
+	attempt to speed up file reading by consolidating some reads
+	(not sure it actually makes a difference)
+
+2005-02-25 11:24  sumpfork
+
+	* ui/: ConversationEditor.py, NeverEditMainApp.py:
+
+	merging with changes from Alan
+	enable calling of run() without args
+
+2005-02-24 16:04  brab
+
+	* game/Conversation.py, game/ResourceManager.py, run/neveredit,
+	  ui/ConversationEditor.py, ui/NeverEditMainApp.py:
+
+	- neveredit: deal better with --devel argument (pass the "args" argument to the main app)
+	- ResourceManager: "waring" should be "warning"
+	- Conversation: now based on NeverEditMainApp (for future merging)
+
+2005-02-22 15:52  sumpfork
+
+	* ui/PropWindow.py:
+
+	some logging debug messages
+
+2005-02-22 15:51  sumpfork
+
+	* util/Loggers.py:
+
+	don't add duplicate handlers
+	simplify setup by removing common options to hierarchical loggers
+
+2005-02-22 15:50  sumpfork
+
+	* file/: GFFFile.py, ERFFile.py:
+
+	correct logger names
+
+2005-02-22 15:48  sumpfork
+
+	* util/Preferences.py:
+
+	handle missing prefs items more gracefully
+
+2005-02-21 13:26  sumpfork
+
+	* ui/NeverEditMainApp.py, ui/ScriptEditor.py,
+	  ui/PreferencesDialog.py, resources/xrc/PreferencesDialog.xrc:
+
+	don't have preferences dialog stay on top
+	use parent of prefs dialog and center on it properly
+
+2005-02-20 21:01  sumpfork
+
+	* ui/: NeverEditMainApp.py, PropWindow.py, ScriptEditor.py:
+
+	fix mistake I made in last checkin
+	some formatting fixes
+
+2005-02-20 17:48  sumpfork
+
+	* setup.py, game/ResourceManager.py, game/Script.py,
+	  resources/xrc/PreferencesDialog.xrc, ui/NeverEditMainApp.py,
+	  ui/PreferencesDialog.py, ui/ScriptEditor.py, util/Preferences.py,
+	  util/neverglobals.py:
+
+	changing prefs dialog to be constructed from xrc resource file
+	moving prefs dialog into ui.PreferencesDialog
+	changing prefs to behave like a dictionary
+	add dynamic selection of preference panes
+	add preference items for script editor
+	use global preferences object
+
+2005-02-20 14:17  brab
+
+	* game/Conversation.py, game/Module.py, run/neversay,
+	  ui/ConversationEditor.py, ui/ScriptEditor.py:
+
+	- a first sketch of a conversation editor, that does not edit nor display
+	  anything yet
+	- a bugfix in script editor when used standalone (a global was missing
+	  somewhere)
+
+2005-02-20 12:58  sumpfork
+
+	* file/GFFFile.py:
+
+	put in 'add' delegate into GFFFile
+	add documentation for 'add'
+
+2005-02-19 14:04  sumpfork
+
+	* game/ResourceManager.py, ui/GLWindow.py, ui/MapWindow.py,
+	  ui/ModelWindow.py, ui/NeverEditMainApp.py, ui/PropWindow.py:
+
+	implement update mechanism for appearance changes to appear in 3D displays right away
+	fix model caching and copying (this should finally get rid of all 3D display errors that
+	were still happening sometimes)
+	use new NeverProperty class
+	check for multi-preprocessing of models (shouldn't happen anymore)
+	code cleanups and better/more docstrings
+
+2005-02-19 14:00  sumpfork
+
+	* util/plistlib.py:
+
+	clean up docstring for epydoc (not quite done yet)
+
+2005-02-19 14:00  sumpfork
+
+	* util/Loggers.py:
+
+	add some more specific loggers
+
+2005-02-19 13:59  sumpfork
+
+	* game/Tile.py:
+
+	new LocatedNeverData as baseclass for objects that have a model, location, etc.
+	cleanups, use implicit [] instead of getPropertyValue() or getProperty()[]
+	hand back 2D tile as portrait
+
+2005-02-19 13:58  sumpfork
+
+	* game/: Module.py, NeverData.py, Creature.py, Door.py, Item.py,
+	  Placeable.py, SituatedObject.py:
+
+	new LocatedNeverData as baseclass for objects that have a model, location, etc.
+	cleanups, use implicit [] instead of getPropertyValue() or getProperty()[]
+
+2005-02-19 13:55  sumpfork
+
+	* file/MDLFile.py:
+
+	add getName for model class (uses name of root node)
+	store preprocessing state in model
+
+2005-02-19 13:54  sumpfork
+
+	* file/KeyFile.py:
+
+	don't reread BIF files, store them
+	some docstrings
+
+2005-02-19 13:54  sumpfork
+
+	* file/GFFFile.py:
+
+	implicitely make string values into CExoLocString objects where appropriate
+
+2005-02-19 13:53  sumpfork
+
+	* file/CExoLocString.py:
+
+	can now make new locstring from scratch
+	implicit conversion to string on `` or str()
+
+2005-02-19 13:52  sumpfork
+
+	* file/BIFFile.py:
+
+	add docstring
+
+2005-02-18 11:38  sumpfork
+
+	* file/PaletteFile.py, game/Palette.py, ui/ToolPalette.py:
+
+	last move was hasty - Palette should be in game, not file
+
+2005-02-17 17:40  sumpfork
+
+	* file/PaletteFile.py, ui/Palette.py, ui/ToolPalette.py:
+
+	moving ui.Palette to the more appropriate file.PaletteFile
+
+2005-02-14 11:03  sumpfork
+
+	* file/.cvsignore, game/.cvsignore, run/neverscript, ui/.cvsignore,
+	  util/.cvsignore:
+
+	adding missing run/neverscript
+	adding various .cvsignores
+
+2005-02-13 21:13  sumpfork
+
+	* Makefile, __init__.py, doxygen/Doxyfile, doxygen/pythfilter.py,
+	  file/ERFFile.py, file/TwoDAFile.py, file/__init__.py,
+	  game/Module.py, openglcontext/quaternion.py,
+	  openglcontext/vectorutilities.py, ui/HelpViewer.py,
+	  ui/NeverEditMainApp.py, ui/ScriptEditor.py:
+
+	getting rid of epydoc warnings
+	update for pythfiler (though unused) and doxygen
+
+2005-02-13 20:10  sumpfork
+
+	* plistlib.py, util/Preferences.py, util/plistlib.py:
+
+	move plistlib to util
+
+2005-02-13 20:00  sumpfork
+
+	* README, README.commandline, README.scripteditor, command.py,
+	  setup.py, run/nevercommand, run/neveredit, ui/ScriptEditor.py:
+
+	moving command.py to run/nevercommand
+	doing some funky path manipulation to try to find the neveredit main package if the scripts aren't on the python path
+	updating READMEs to reflect new install
+	adding scripts to setup.py
+
+2005-02-13 18:55  sumpfork
+
+	* file/CExoLocString.py, file/ERFFile.py, file/KeyFile.py,
+	  file/TalkTableFile.py, file/__init__.py, game/Item.py,
+	  game/Module.py, game/ResourceManager.py, game/Tile.py,
+	  game/__init__.py, openglcontext/__init__.py, run/neveredit,
+	  ui/NeverEditMainApp.py, ui/ScriptEditor.py, ui/__init__.py,
+	  util/__init__.py:
+
+	correct various problems with the new package structure
+	make many imports use only 'import' to avoid circular imports
+	use neveredit.__version__ where appropriate
+
+2005-02-13 17:21  sumpfork
+
+	* file/TileSetFile.py, game/Area.py, game/Tile.py:
+
+	moving Tile class into game/Tile.py for consistency
+
+2005-02-13 17:16  sumpfork
+
+	* GLWindow.py, HelpViewer.py, Loggers.py, MapWindow.py,
+	  ModelWindow.py, NeverEditMainApp.py, Palette.py, PropWindow.py,
+	  ScriptEditor.py, ToolPalette.py, WxUtils.py, __init__.py,
+	  check_versions.py, command.py, globals.py, file/CExoLocString.py,
+	  file/ERFFile.py, file/KeyFile.py, file/MDLFile.py,
+	  file/TileSetFile.py, game/Area.py, game/Creature.py,
+	  game/Door.py, game/Module.py, game/NeverData.py,
+	  game/Placeable.py, game/ResourceManager.py, game/Script.py,
+	  game/SituatedObject.py, ui/GLWindow.py, ui/HelpViewer.py,
+	  ui/MapWindow.py, ui/ModelWindow.py, ui/NeverEditMainApp.py,
+	  ui/Palette.py, ui/PropWindow.py, ui/ScriptEditor.py,
+	  ui/ToolPalette.py, ui/WxUtils.py, ui/__init__.py,
+	  util/Loggers.py, util/Progressor.py, util/check_versions.py,
+	  util/neverglobals.py:
+
+	moving GUI classes into ui package
+	moving some additional modules into util package
+	replacing 'globals' module with 'neverglobals' to avoid name conflict with builtin
+
+2005-02-13 16:42  sumpfork
+
+	* Area.py, Creature.py, Door.py, Item.py, MapWindow.py,
+	  ModelWindow.py, Module.py, NeverData.py, NeverEditMainApp.py,
+	  Palette.py, Placeable.py, PropWindow.py, ResourceManager.py,
+	  Script.py, ScriptEditor.py, SituatedObject.py, ToolPalette.py,
+	  WxUtils.py, command.py, globals.py, file/ERFFile.py,
+	  file/KeyFile.py, game/Area.py, game/Creature.py, game/Door.py,
+	  game/Item.py, game/Module.py, game/NeverData.py,
+	  game/Placeable.py, game/ResourceManager.py, game/Script.py,
+	  game/SituatedObject.py, game/__init__.py:
+
+	moving game level files into game package
+
+2005-02-13 16:28  sumpfork
+
+	* Area.py, BIFFile.py, BinaryDataHandler.py, CExoLocString.py,
+	  ERFFile.py, GFFFile.py, KeyFile.py, MDLFile.py, MapWindow.py,
+	  ModelWindow.py, Module.py, NeverFile.py, Progressor.py,
+	  PropWindow.py, ResourceManager.py, ScriptEditor.py,
+	  TalkTableFile.py, TileSetFile.py, TwoDAFile.py,
+	  check_versions.py, command.py, file/BIFFile.py,
+	  file/BinaryDataHandler.py, file/CExoLocString.py,
+	  file/ERFFile.py, file/GFFFile.py, file/KeyFile.py,
+	  file/MDLFile.py, file/NeverFile.py, file/TalkTableFile.py,
+	  file/TileSetFile.py, file/TwoDAFile.py, file/__init__.py:
+
+	starting move to the new file package
+
+2005-02-13 15:51  sumpfork
+
+	* Utils.py:
+
+	forgot one
+
+2005-02-13 15:51  sumpfork
+
+	* GLWindow.py, MDLFile.py, MapWindow.py, NeverEditMainApp.py,
+	  Preferences.py, ScriptEditor.py, globals.py, run/neveredit,
+	  util/Preferences.py, util/Utils.py, util/__init__.py:
+
+	starting to move files into sub packages (util being the first)
+	new 'run' dir with scripts the will get installed into 'bin' by setup
+	right now run/neveredit manipulates sys.path to run locally - will turn this off unless called with 'devel' option
+
+2005-02-13 15:31  sumpfork
+
+	* MapWindow.py, Module.py, NeverEditMainApp.py, PropWindow.py,
+	  ResourceManager.py:
+
+	resource manager can now rebuild global key list from the actual sources on demand
+	new notification/listener system for resource changes
+	use new system to update prop controls when scripts get added (bug #1121906)
+
+2005-02-13 15:29  sumpfork
+
+	* TileSetFile.py:
+
+	__getitem__ accessor
+	ability to get door info for tile
+
+2005-02-12 16:51  sumpfork
+
+	* setup.py (tags: neveredit-0-8):
+
+	fix new default
+
+2005-02-12 16:37  sumpfork
+
+	* ChangeLog (tags: neveredit-0-8):
+
+	update for 0.8
+
+2005-02-12 16:25  sumpfork
+
+	* Makefile, __init__.py (utags: neveredit-0-8):
+
+	bump version to 0.8
+
+2005-02-12 16:20  sumpfork
+
+	* GLWindow.py, MDLFile.py, NeverEditMainApp.py, setup.py:
+
+	don't require shininess value on nodes
+	move all code to inside functions in main file
+	remove files properly in setup
+
+2005-02-08 17:25  sumpfork
+
+	* Area.py:
+
+	return in constructor is nonsense - throw exception instead
+
+2005-02-08 17:24  sumpfork
+
+	* setup.py:
+
+	default to neveredit
+
+2005-02-08 17:23  sumpfork
+
+	* ScriptEditor.py:
+
+	use latin1 encoding
+
+2005-02-05 22:49  sumpfork
+
+	* TileSetFile.py:
+
+	make access to properties of tileset easier
+	add retrieval method for 2D tile image
+
+2005-02-05 22:45  sumpfork
+
+	* ResourceManager.py:
+
+	add method to get all keys with a certain name (and any type)
+
+2005-02-05 19:39  sumpfork
+
+	* NeverEditMainApp.py:
+
+	fixing exception due to last changes concerning script dirty flags
+
+2005-02-05 15:17  sumpfork
+
+	* NeverEditMainApp.py, PropWindow.py:
+
+	some minimum sizes to prevent controls from being drawn into scrollbars
+	pack controls in prop window more tightly
+	display name of currently loaded module in title bar
+	give a status message when module successfully saved
+
+2005-02-05 15:15  sumpfork
+
+	* ScriptEditor.py:
+
+	add some docstrings
+	make sure that dirty flag gets set on all events that change the module
+
+2005-02-05 15:14  sumpfork
+
+	* Creature.py:
+
+	'Conversation' should be DLG not NSS
+
+2005-02-05 13:32  sumpfork
+
+	* ScriptEditor.py:
+
+	fix script selection in editor
+
+2005-02-05 12:09  sumpfork
+
+	* GFFFile.py, NeverEditMainApp.py, Script.py, ScriptEditor.py:
+
+	converting some tabs to spaces
+	more pythonesque accessors for GFF files and structures
+
+2005-02-02 21:55  sumpfork
+
+	* Preferences.py:
+
+	don't crash on malformed/incomplete prefs file
+
+2005-02-02 14:28  sumpfork
+
+	* ChangeLog (tags: neveredit-0-8b1):
+
+	update changelog for 0.8b1
+
+2005-02-02 14:26  sumpfork
+
+	* BinaryDataHandler.py, ScriptEditor.py (utags: neveredit-0-8b1):
+
+	taking out remains of prefs dialog from script editor (needs to be reworked)
+	make sure current editor contents get committed before saving module
+	force encode resrefs to ASCII (they might come in as unicode from the 'new script' dialog)
+
+2005-02-01 18:28  sumpfork
+
+	* SConstruct, ScriptEditor.py, setup.py:
+
+	setting up script menu editors again
+	setting module for loaded scripts within script editor (now compile ok)
+	enabling new button in standalone mode
+	trying new icon file for neverscript
+
+2005-02-01 17:38  sumpfork
+
+	* HelpViewer.py, NeverEditMainApp.py, SConstruct, Script.py,
+	  ScriptEditor.py:
+
+	unifying the menu system for main app and script editor
+	edit menu now present and working in main app
+	new scons based build system for dmgs and bundles (soon to completely replace Makefile)
+	fix bug where prop controls were being applied to script in a different window
+
+2005-01-29 15:45  sumpfork
+
+	* Area.py, Creature.py, Door.py, GFFFile.py, Item.py, Placeable.py:
+
+	setting the appropriate gff struct ids for items added to module (nwn
+	must've gotten more strict about this in recent versions, as objects
+	used to show up independent of struct id - they don't anymore). Can
+	save modules with added items successfully and load them in the game.
+
+2005-01-29 14:26  sumpfork
+
+	* CVSROOT/loginfo:
+
+	adding openknights-commits as cvs commit message target
+
+2005-01-28 17:55  sumpfork
+
+	* Area.py, NeverData.py:
+
+	attempt at fixing None exception when adding things to module and saving
+
+2005-01-28 15:33  brab
+
+	* NeverEditMainApp.py, PropWindow.py:
+
+	PropWindow: cleanstr is the identity
+	+ a couple spelling fixes in comments
+
+2005-01-28 15:23  sumpfork
+
+	* MapWindow.py, NeverEditMainApp.py:
+
+	make sure tools are always enabled when there's a map
+	stop painting when switching tools, setting new area
+
+2005-01-28 14:42  sumpfork
+
+	* NeverEditMainApp.py, ScriptEditor.py:
+
+	enabling 'new script' in standalone script editor
+	adjusting save/discard dialog to match the main app one's
+	better detection of change script both in main app and standalone editor
+
+2005-01-27 16:02  sumpfork
+
+	* README:
+
+	some updates
+
+2005-01-27 16:01  sumpfork
+
+	* NeverEditMainApp.py, __init__.py, setup.py:
+
+	unifying version number into __init__
+	better setup.py
+
+2005-01-26 12:15  sumpfork
+
+	* Makefile:
+
+	upload neverscript, too
+
+2005-01-26 03:56  brab
+
+	* .cvsignore, NeverEditMainApp.py:
+
+	hush cvs
+	removed extra wx_EndBusyCursor
+
+2005-01-25 17:42  sumpfork
+
+	* NeverEditMainApp.py:
+
+	set file changed when adding objects to map
+
+2005-01-25 17:35  sumpfork
+
+	* HelpViewer.py, Makefile:
+
+	adding full numarray include for linux freeze
+	discarding buggy wx exception in frozen help viewer
+
+2005-01-25 16:02  sumpfork
+
+	* ERFFile.py, GFFFile.py, Loggers.py, NeverEditMainApp.py:
+
+	make loggers in their own module and split them into main and filehandling loggers
+
+2005-01-25 15:58  sumpfork
+
+	* BinaryDataHandler.py, ERFFile.py, GFFFile.py, Makefile,
+	  Module.py, NeverEditMainApp.py, PropWindow.py,
+	  ResourceManager.py, ToolPalette.py, check_versions.py:
+
+	start of a new logging structure
+	BinaryDataHandler: make sure all strings from GUI are non-unicode
+	GFFFile: some error checking/exception catching
+	GFFFile: clear temporary flat structure after reading/writing to save memory
+	NeverEditMainApp: don't read module in a separate thread
+	PropWindow: keep order of hak packs, convert all to lower case
+	ResourceManager: convert all hak pack names to lower case
+	ToolPalette: set background to white (for linux)
+
+2005-01-24 15:58  sumpfork
+
+	* openglcontext/vectorutilities.py:
+
+	fix for missing savespace arg in numarray (also corresponds to patch from Alan)
+
+2005-01-24 10:45  sumpfork
+
+	* NeverEditMainApp.py, PropWindow.py:
+
+	save menu item wasn't turning on with my last fix.
+
+2005-01-23 20:27  sumpfork
+
+	* NeverEditMainApp.py:
+
+	make sure changed property controls get applied before checking whether we should save
+
+2005-01-23 20:21  sumpfork
+
+	* Area.py, GFFFile.py, NeverData.py, NeverEditMainApp.py,
+	  PropWindow.py, ResourceManager.py, ScriptEditor.py,
+	  SituatedObject.py:
+
+	fixing a serious bug in the property setting code (was trying to set the prop twice)
+	taking out some printouts
+
+2005-01-23 13:06  sumpfork
+
+	* NeverEditMainApp.py:
+
+	patch from Alan Schmitt to replace two unsaved changes dialogs with 1
+
+2005-01-21 17:58  sumpfork
+
+	* Makefile, check_versions.py, setup.py:
+
+	fix py2app building by including numarray whole
+
+2005-01-21 14:10  sumpfork
+
+	* GLWindow.py, Makefile, NeverEditMainApp.py, Preferences.py,
+	  ResourceManager.py, setup.py, openglcontext/quaternion.py,
+	  openglcontext/utilities.py, openglcontext/vectorutilities.py:
+
+	removing Numeric dependencies, should now be able to run without it installed
+	not adding file names that can't be ascii encoded to file history - make wx crash
+	only parse known nwn key files in install dir
+	fixed py2app script, now works beautifully
+	explicitely check for None instead when using numarray (it throws an exception
+	if it finds an array with the implicit check)
+
+2005-01-20 17:50  sumpfork
+
+	* Area.py, Creature.py, Item.py, Makefile, NeverData.py,
+	  SituatedObject.py:
+
+	better name printing for neverdata classes
+	trying to get cxfreeze to work again (and failing)
+
+2004-11-11 12:09  sumpfork
+
+	* NeverEditMainApp.py, PropWindow.py:
+
+	ignoring exceptions from html window - they seem to happen on linux, but not destroy anything
+	now that we're dealing with unicode strings, we shouldn't have to translate unprintable chars anymore
+
+2004-11-10 09:43  sumpfork
+
+	* setup.py:
+
+	making sure setup.py works without py2app (unless you want to make
+	a Mac OS X app bundle, of course)
+
+2004-11-10 09:41  sumpfork
+
+	* Makefile, setup.py:
+
+	removing bogus semi-standalone
+	copying icon files to freeze
+
+2004-11-07 20:29  sumpfork
+
+	* PropWindow.py, TalkTableFile.py:
+
+	also read latin1 from dialog.tlk files
+	fix bug with inapprpriate 'latin-1' encode in PropWindow
+
+2004-11-07 19:29  sumpfork
+
+	* BinaryDataHandler.py, GFFFile.py, ScriptEditor.py:
+
+	forcing encoding/decoding from/to latin1: this fixes exceptions for french
+	modules, but still doesn't seem to display things correctly in wx controls
+	some more fixes for new resource manager import scheme
+
+2004-11-06 19:58  sumpfork
+
+	* ResourceManager.py, command.py, doxygen/Doxyfile:
+
+	putting some doc strings into resource manager
+	eliminating duplicate function
+	making doxygen always produce brief description
+
+2004-11-06 19:35  sumpfork
+
+	* Creature.py, Door.py, Item.py, MDLFile.py, MapWindow.py,
+	  ModelWindow.py, Module.py, Script.py, ScriptEditor.py,
+	  ToolPalette.py, Utils.py, check_versions.py, command.py,
+	  globals.py, setup.py, doxygen/Doxyfile:
+
+	fixing dual import of resource manager
+	making sure nobody makes their own resource manager anymore
+	better py2app setup file
+	exluding non-neveredit files from doxygen
+	some added docstrings
+
+2004-10-26 20:33  sumpfork
+
+	* Area.py, CExoLocString.py, Creature.py, Door.py, ERFFile.py,
+	  GLWindow.py, KeyFile.py, MDLFile.py, MapWindow.py,
+	  ModelWindow.py, Module.py, NeverData.py, NeverEditMainApp.py,
+	  Palette.py, Placeable.py, PropWindow.py, Script.py,
+	  ScriptEditor.py, SituatedObject.py, TileSetFile.py,
+	  ToolPalette.py, Utils.py, check_versions.py, globals.py,
+	  setup.py:
+
+	automatically load resource manager using prefs if it isn't present
+	py2app corrections and fixes for working bundle
+	some import line changes to get rid of circular include problems
+	put in a switch to select numarray vs. Numeric (now set to numarray)
+	add pref menu item back in
+	__getitem__ for modules
+
+2004-10-23 20:04  jazzdman
+
+	* NeverEditMainApp.py:
+
+
+
+	Updated to allow ScriptEditor to update Edit Menu when it is visible.
+
+2004-10-23 20:01  jazzdman
+
+	* ScriptEditor.py:
+
+
+
+	Updated ScriptEditor so that ScriptEditor-specific Edit menu items can be invoked
+	from within NeverEditMainApp.  Added setupEditMenu method and removeEditMenu method.
+
+2004-10-23 16:23  jazzdman
+
+	* ScriptEditor.py:
+
+
+
+	Added Cut/Copy/Paste/Delete functionality to Edit menu.  Appears to work
+	the same was as the popup menu functions.
+
+2004-10-19 20:37  jazzdman
+
+	* Preferences.py:
+
+
+
+	Need to pass the Main Frame of the neveredit to the Preferences dialog to get
+	it to show up.
+
+	Moved all the import statements to the head of the file.
+
+	Updated import statements so that DirBrowserButton would work.
+
+	Capitolized True and False in dialog() method, so Python wouldn't complain.
+
+2004-10-19 20:34  jazzdman
+
+	* NeverEditMainApp.py:
+
+
+
+	Updated OnPreferences method to pass self to dialog() method of Preferences
+	class to allow the Preferences dialog to show up.  Required for Mac and Linux.
+
+2004-10-17 14:09  jazzdman
+
+	* Preferences.py:
+
+
+	Updated constructor to remove leading / for each of the os.path.join statements.This was causing the prefPath to become /... (i.e. starting the path from the root dir).
+
+2004-10-06 09:34  sumpfork
+
+	* GLWindow.py, MapWindow.py, NeverEditMainApp.py, ScriptEditor.py,
+	  setup.py:
+
+	converting glcanvas using files to wxpython 2.5.x namespace useage
+	new py2app functionality for setup.py
+	don't fail if the command line arg reading throws exception
+	fixing faulty check in script editor
+
+2004-09-26 20:31  sumpfork
+
+	* ScriptEditor.py:
+
+	fixing finding of help in script editor bundle
+	fixing missing VERSION in about dialog
+
+2004-09-26 20:21  sumpfork
+
+	* NeverEditMainApp.py, Preferences.py, ScriptEditor.py, Utils.py,
+	  WxUtils.py, __init__.py, check_versions.py, makebundle.py:
+
+	moving pref methods to own module/class
+	using python loggers in some places
+	making makebundle do command line args
+	separating utils from wx utils
+
+2004-09-23 11:07  sumpfork
+
+	* ScriptEditor.py:
+
+	make editmenu an instance var
+
+2004-09-15 10:31  sumpfork
+
+	* Module.py, ScriptEditor.py:
+
+	fixes to script editor on linux/unicode
+
+2004-09-14 21:03  sumpfork
+
+	* ChangeLog, Makefile, NeverEditMainApp.py, ScriptEditor.py,
+	  WxUtils.py, makebundle.py:
+
+	making standalone script editor app
+	refactoring some code in main app
+	make bundle for both apps (not working yet for script editor)
+
+2004-09-14 18:03  sumpfork
+
+	* GLWindow.py, MapWindow.py, ModelWindow.py:
+
+	consolidating preprocessing handling into superclass
+	eliminating one more Refresh() call
+
+2004-09-13 18:01  sumpfork
+
+	* README.scripteditor:
+
+	instructions on how to run the script editor standalone
+	
+2004-09-13 17:55  sumpfork
+
+	* ScriptEditor.py:
+
+	remove unused import
+	
+2004-09-13 17:54  sumpfork
+
+	* Makefile, NeverEditMainApp.py, ScriptEditor.py, makebundle.py,
+	setup.py:
+
+	bumping version to 0.8b1
+	fixing raising of script editor frame
+	update making bundle to wxpython 2.5.2.8
+	remove all tabs of script editor when changing modules
+	
+2004-09-13 17:01  sumpfork
+
+	* COPYING:
+
+	new toolbar icons not under LGPL anymore
+	
+2004-09-13 17:00  sumpfork
+
+	* Module.py, NeverEditMainApp.py, PropWindow.py, Script.py,
+	ScriptEditor.py, ToolPalette.py:
+
+	fixing many small issues with script editor
+	adding new scripts now works
+	standalone mode for script editor
+	
+2004-09-09 17:07  sumpfork
+
+	* GLWindow.py, MapWindow.py, ModelWindow.py:
+
+	moving requestRedraw functionality up to GLWindow
+	adding map selection event that contains ObjectId, if it exists
+	
+2004-08-29 23:14  sumpfork
+
+	* neveredit.jpg, neveredit_logo.jpg, neveredit_logo_init.jpg,
+	paint_icon.png, paint_icon_sel.png, rotate_icon.png,
+	rotate_icon_sel.png, select_icon.png, select_icon_sel.png:
+
+	re-adding images as binary
+	
+2004-08-29 23:12  sumpfork
+
+	* GFFFile.py, GLWindow.py, Item.py, MapWindow.py, ToolPalette.py,
+	neveredit.jpg, neveredit_logo.jpg, neveredit_logo_init.jpg,
+	paint_icon.png, rotate_icon.png, select_icon.png:
+
+	fixes for map initialization, gff value setting
+	adding some missing methods to items
+	removing images files (will re-add as binary)
+	
+2004-08-29 22:01  sumpfork
+
+	* Area.py, ERFFile.py, GFFFile.py, MapWindow.py, NeverData.py,
+	NeverEditMainApp.py, PropWindow.py, ToolPalette.py:
+
+	fixing problem with struct retrieval in GFF files introduced a short while ago
+	exchanging sliders for spin controls
+	increasing size of main window
+	changing many drawScenes to requestRedraws
+	
+2004-08-14 21:39  sumpfork
+
+	* PropWindow.py:
+
+	moving prop window into into its own file/class
+	
+2004-08-14 21:34  sumpfork
+
+	* GFFFile.py, Module.py, NeverData.py, NeverEditMainApp.py,
+	ResourceManager.py:
+
+	moving propwindow code into its own file/class
+	fixing up prop access code a bit
+	
+2004-07-20 18:29  sumpfork
+
+	* Area.py, Creature.py, Door.py, GFFFile.py, Item.py, MapWindow.py,
+	NeverData.py, NeverEditMainApp.py, Placeable.py, SituatedObject.py,
+	ToolPalette.py:
+
+	item painting functionality implemented
+	
+2004-07-19 10:38  sumpfork
+
+	* Makefile, Module.py:
+
+	adding latin-1 coding to linux binary
+	re-enabling some module events introduced in SoU
+	
+2004-07-19 10:25  sumpfork
+
+	* GLWindow.py, Makefile:
+
+	slow down scroll wheel on linux
+	
+2004-07-19 10:09  sumpfork
+
+	* NeverEditMainApp.py:
+
+	encode unicode strings, don't decode them
+	
+2004-07-19 00:24  sumpfork
+
+	* COPYING, Creature.py, ERFFile.py, Item.py, MapWindow.py,
+	NeverData.py, NeverEditMainApp.py, SituatedObject.py,
+	ToolPalette.py, paint_icon.png, rotate_icon.png, select_icon.png:
+
+	adding icons and their license
+	some more fixes due to gff/resource manager refactoring
+	tool palette events are generated and propagated to map
+	rotation tool works
+	
+2004-07-18 23:07  sumpfork
+
+	* Palette.py, ToolPalette.py:
+
+	new blueprint palette classes and windows to display it and a toolbar
+	
+2004-07-18 22:59  sumpfork
+
+	* SituatedObject.py:
+
+	fixing up portrait code
+	
+2004-07-18 22:59  sumpfork
+
+	* Creature.py, Door.py, Item.py, Placeable.py:
+
+	fixing up blueprint code, adding item blueprints
+	
+2004-07-18 22:58  sumpfork
+
+	* GFFFile.py, Module.py, NeverData.py:
+
+	some cleanup for GFF structure access, moving some code to GFF from NeverData
+	more to be done
+	
+2004-07-18 22:57  sumpfork
+
+	* KeyFile.py:
+
+	updates for resource manager changes
+	
+2004-07-18 22:56  sumpfork
+
+	* ResourceManager.py:
+
+	some fixes after name changes
+	
+2004-07-18 22:45  sumpfork
+
+	* MapWindow.py:
+
+	draw highlight box after other text boxes
+	
+2004-07-18 22:44  sumpfork
+
+	* NeverEditMainApp.py, WxUtils.py:
+
+	move image conversion routine out into wx util module
+	
+2004-07-18 22:43  sumpfork
+
+	* Script.py:
+
+	adding some keywords after parsing nwscript.nss
+	
+2004-07-18 22:43  sumpfork
+
+	* setup.py:
+
+	correct download URL
+	
+2004-07-18 22:42  sumpfork
+
+	* ResourceManager.py, command.py:
+
+	moving everything in ResourceManager.py into ResourceManager class where it should be
+	fixing portrait lookup
+	some doc strings
+	
+2004-07-18 22:41  sumpfork
+
+	* ERFFile.py:
+
+	moving everything in ResourceManager.py into ResourceManager class where it should be
+	
+2004-07-12 12:53  sumpfork
+
+	* ChangeLog:
+
+	update changelog
+	
+2004-07-12 12:50  sumpfork
+
+	* MapWindow.py:
+
+	catch case where contents in tree wrong
+	
+2004-07-12 12:02  sumpfork
+
+	* Makefile, NeverEditMainApp.py, setup.py:
+
+	bump version to 0.7
+	
+2004-07-12 11:59  sumpfork
+
+	* Creature.py, Door.py, MapWindow.py, ModelWindow.py, Placeable.py,
+	ResourceManager.py:
+
+	correcting return of model copies when requested
+	change resource manager to allow returning copies
+	don't check cache when interpreting contents explicitely
+	sprinkle SetCurrents around GL windows to make sure gl calls go to right window
+	
+2004-07-12 00:30  sumpfork
+
+	* GLWindow.py:
+
+	fixing exception on 'L' format TGA files. Not sure this is the correct fix,
+	but it doesn't throw an exception.
+	
+2004-07-11 22:23  sumpfork
+
+	* COPYING, GLWindow.py, HelpViewer.py, NeverEditMainApp.py, README,
+	ScriptEditor.py, help_nwnlexicon.zip, makebundle.py:
+
+	adding nwn lexicon in a help viewer
+	script editor can look up things in nwn lexicon now
+	adding libjpeg to bundle to fix exceptions
+	
+2004-07-10 22:43  sumpfork
+
+	* NeverEditMainApp.py, makebundle.py:
+
+	trying to solve missing imaging module problem
+	trying to solve unicode bug
+	
+2004-07-10 19:28  sumpfork
+
+	* GFFFile.py:
+
+	fixing writing of gff structs with single entries
+	
+2004-07-10 15:29  sumpfork
+
+	* Makefile, ResourceManager.py, makebundle.py:
+
+	some cleanup, changing to epydoc for docs generation
+	
+2004-07-10 15:28  sumpfork
+
+	* command.py:
+
+	adding new 'extract' mode that extracts all resources from an ERF
+	file into the current dir
+	
+2004-07-10 15:28  sumpfork
+
+	* ERFFile.py:
+
+	fixing add resource function (was setting the resource id wrong)
+	adding 'extract all' method
+	
+2004-07-09 17:21  sumpfork
+
+	* ChangeLog, MapWindow.py:
+
+	update changelog
+	
+2004-07-09 17:19  sumpfork
+
+	* Makefile, NeverEditMainApp.py, setup.py:
+
+	bump version to 0.7b3
+	
+2004-07-09 16:28  sumpfork
+
+	* GLWindow.py, MapWindow.py, NeverEditMainApp.py:
+
+	fix new picking algorithm
+	fix highlighting
+	move object between tiles when dragged
+	
+2004-07-09 11:13  sumpfork
+
+	* NeverEditMainApp.py:
+
+	fix exceptions in row col sizer
+	take out some old code
+	
+2004-07-09 11:00  sumpfork
+
+	* NeverEditMainApp.py:
+
+	fix linux status progress bar placement
+	replace sizer and do new layout for prop lists
+	add lines between props
+	another attempt at automatic scollbars
+	
+2004-07-09 10:08  sumpfork
+
+	* GFFFile.py, GLWindow.py, MapWindow.py, ModelWindow.py,
+	NeverEditMainApp.py:
+
+	start switch to wx namespace
+	take warning out from gff file access
+	don't frustum cull in model window
+	fix mapwindow without object ids and empty thingMap
+	
+2004-07-07 16:50  sumpfork
+
+	* MapWindow.py:
+
+	add some initializers to textbox
+	
+2004-07-07 16:20  sumpfork
+
+	* MapWindow.py:
+
+	spelling mistake
+	
+2004-07-07 16:18  sumpfork
+
+	* MapWindow.py:
+
+	turn off text box using empty string/None
+	
+2004-07-07 16:13  sumpfork
+
+	* MapWindow.py:
+
+	support for any number of multiline text boxes placed next to game items
+	
+2004-07-06 17:57  sumpfork
+
+	* BIFFile.py, BinaryDataHandler.py, MDLFile.py, MapWindow.py:
+
+	various optimizations for file reading code
+	
+2004-07-06 17:07  sumpfork
+
+	* BinaryDataHandler.py, KeyFile.py:
+
+	adding formatted binary reading for file reading speedup
+	read full key file into buffer, then parse (twice as fast)
+	
+2004-07-06 16:38  sumpfork
+
+	* MapWindow.py:
+
+	taskbar icon doesn't really work
+	
+2004-07-06 16:06  sumpfork
+
+	* MapWindow.py:
+
+	add ability to set standalone map icon
+	
+2004-07-06 15:46  sumpfork
+
+	* MapWindow.py:
+
+	camera lookat, lookwith methods
+	selection by ray/boundingsphere intersection (not quite accurate yet)
+	
+2004-07-06 15:44  sumpfork
+
+	* GLWindow.py:
+
+	arrow drawing function
+	don't alway copy sequences into arrays
+	
+2004-07-05 13:07  sumpfork
+
+	* MapWindow.py:
+
+	ray shooting instead of GL selection for speed/flicker problems
+	not fully working sphere intersection
+	
+2004-07-05 13:06  sumpfork
+
+	* GLWindow.py:
+
+	push/pop instead of setting up camera again
+	
+2004-07-05 13:05  sumpfork
+
+	* README:
+
+	new Credits section
+	
+2004-07-01 10:07  sumpfork
+
+	* GLWindow.py:
+
+	more patches from Stefanie
+	
+2004-06-30 18:24  sumpfork
+
+	* MapWindow.py:
+
+	consolidating thing list so it doesn't need to be created all the time
+	fixing colour display of labels
+	fixing threading problems with setPlayer
+	fixing gl pick names of objects
+	
+2004-06-30 18:22  sumpfork
+
+	* GLWindow.py:
+
+	switching pgup/pgdn for linux
+	
+2004-06-28 12:41  sumpfork
+
+	* Creature.py, GLWindow.py, Item.py, MapWindow.py, NeverData.py,
+	NeverEditMainApp.py, SituatedObject.py:
+
+	new quadtree based exploitation of the frustum culling functionality to speed
+	up rendering when zoom in. Doesn't help much when zoomed out, but maybe that's tolerable?
+	
+2004-06-25 16:56  sumpfork
+
+	* Module.py:
+
+	optimizing area loading code
+	new convenience function to retrieve entry area
+	
+2004-06-25 11:55  sumpfork
+
+	* MapWindow.py:
+
+	fix to new external startup
+	
+2004-06-25 11:47  sumpfork
+
+	* MapWindow.py:
+
+	generalizing external startup method for use in other projects
+	
+2004-06-20 12:48  sumpfork
+
+	* Makefile:
+
+	put back in cvs date of 'now' for making tar.gz
+	
+2004-06-20 12:47  sumpfork
+
+	* ResourceManager.py:
+
+	adding bmp PIL plugin import
+	
+2004-06-20 12:45  sumpfork
+
+	* Script.py:
+
+	sending error to stderr
+	
+2004-06-11 18:15  sumpfork
+
+	* ChangeLog:
+
+	updating changelog
+	
+2004-06-11 17:59  sumpfork
+
+	* Creature.py, Door.py, GLWindow.py, MapWindow.py, ModelWindow.py,
+	NeverEditMainApp.py, Placeable.py:
+
+	fixing map caching
+	fixing bounding box computation when view inverse matrix already set
+	fixing lookups of ids when coming back to the same map
+	
+2004-06-11 17:58  sumpfork
+
+	* Placeable.py:
+
+	make item instances instead of items for inventory
+	
+2004-06-11 13:38  sumpfork
+
+	* Placeable.py:
+
+	fixing inventory lookup
+	
+2004-06-11 12:00  sumpfork
+
+	* GFFFile.py, GLWindow.py, Module.py, ResourceManager.py:
+
+	handle old style module lists better
+	make sure errors go to stderr
+	remember preprocessed graphics nodes more simply
+	
+2004-06-10 18:41  sumpfork
+
+	* ChangeLog:
+
+	update changelog
+	
+2004-06-10 18:40  sumpfork
+
+	* GLWindow.py, MDLFile.py, ModelWindow.py, NeverEditMainApp.py:
+
+	don't instantiate new model windows all the time - reuse existing
+	fix modelwindow preprocessing and clearing
+	draw bounding box if nothing else in the model is drawn
+	fix bounding box recalculation - only recalculate once per model read
+	
+2004-06-10 15:31  sumpfork
+
+	* ChangeLog:
+
+	update changelog
+	
+2004-06-10 15:31  sumpfork
+
+	* GLWindow.py:
+
+	enable and disable texture state again
+	don't draw things without textures (e.g. damage boxes)
+	
+2004-06-10 15:15  sumpfork
+
+	* GLWindow.py, MapWindow.py, ModelWindow.py, NeverEditMainApp.py,
+	ResourceManager.py:
+
+	bug report and fix from stefanie
+	reenable model viewer
+	load haks properly for module
+	model viewer now seems to crash for certain models
+	
+2004-06-08 09:39  sumpfork
+
+	* Makefile, NeverEditMainApp.py, setup.py:
+
+	bumping version to 0.7b2
+	
+2004-06-08 00:17  sumpfork
+
+	* makebundle.py:
+
+	adding PIL package
+	
+2004-06-07 16:11  sumpfork
+
+	* Makefile, ResourceManager.py:
+
+	adding artificial PIL imports to force inclusion in frozen dists
+	
+2004-05-20 19:43  sumpfork
+
+	* Makefile:
+
+	consolidating linux and mac beta/release uploads
+	
+2004-05-20 12:56  sumpfork
+
+	* ChangeLog (tags: neveredit-0-7b1):
+
+	updating changelog
+	
+2004-05-20 12:53  sumpfork
+
+	* README (tags: neveredit-0-7b1):
+
+	changing back to point to Numeric
+	
+2004-05-20 12:51  sumpfork
+
+	* ChangeLog:
+
+	updating changelog
+	
+2004-05-20 12:50  sumpfork
+
+	* makebundle.py:
+
+	adding stc module to dist for new script compiler
+	
+2004-05-20 12:04  sumpfork
+
+	* Makefile, NeverEditMainApp.py, setup.py:
+
+	bumping version to 0.7b1
+	
+2004-05-20 12:03  sumpfork
+
+	* ChangeLog, GLWindow.py, ScriptEditor.py:
+
+	updating changelog
+	removing one more printout
+	clarifying script editor button label
+	
+2004-05-20 11:57  sumpfork
+
+	* Creature.py, Item.py, NeverEditMainApp.py, SituatedObject.py:
+
+	hiding Instance props using special 'Hidden' prop display type
+	removing some more printouts
+	
+2004-05-20 11:45  sumpfork
+
+	* Area.py:
+
+	using new instance classes
+	
+2004-05-20 11:45  sumpfork
+
+	* NeverData.py:
+
+	removing some debug printouts
+	
+2004-05-20 11:43  sumpfork
+
+	* Item.py:
+
+	changing to new prop access scheme
+	adding ItemInstance class
+	
+2004-05-20 11:42  sumpfork
+
+	* NeverData.py:
+
+	making sure constructor only gets called once to allow for multiple inheritance
+	removing check that prop list doesn't already exist - it's a hash table, anyway
+	
+2004-05-20 11:41  sumpfork
+
+	* Creature.py, Door.py, SituatedObject.py:
+
+	making prop list var names unique so they don't override each other
+	fixing Fort display type string
+	
+2004-05-20 11:37  sumpfork
+
+	* Placeable.py:
+
+	adding self.model return that went missing
+	
+2004-05-19 23:32  wfolta
+
+	* NeverData.py:
+
+	Modified classes to add BP (blueprint) and Instance subclasses.
+	
+2004-05-19 23:23  wfolta
+
+	* Area.py, Creature.py, Door.py, NeverData.py, Placeable.py,
+	SituatedObject.py:
+
+	Modified classes to add BP (blueprint) and Instance subclasses.
+	
+2004-05-19 00:11  sumpfork
+
+	* Creature.py, Door.py, Placeable.py, TileSetFile.py:
+
+	adding modelName field used for caching preprocessing steps in map
+	
+2004-05-19 00:08  sumpfork
+
+	* MapWindow.py:
+
+	back to Numeric
+	use self.area == None as flag not to draw when Yielding in wx
+	enable culling of area tiles outside of the view frustum
+	
+2004-05-19 00:07  sumpfork
+
+	* MDLFile.py:
+
+	some reformatting, correcting bounding sphere code
+	nack to Numeric
+	
+2004-05-19 00:06  sumpfork
+
+	* check_versions.py:
+
+	back to Numeric instead of numarray for speed reasons
+	
+2004-05-19 00:06  sumpfork
+
+	* GLWindow.py, ModelWindow.py:
+
+	working frustum culling code
+	some new bounding box display functions
+	some caching optimizations for matrices
+	back to Numeric instead of numarray (it's faster)
+	
+2004-05-17 23:40  sumpfork
+
+	* README, check_versions.py:
+
+	changing Numeric to numarray
+	
+2004-05-17 23:39  sumpfork
+
+	* NeverEditMainApp.py:
+
+	changing Yield() to YieldIfNeeded
+	
+2004-05-17 16:22  wfolta
+
+	* SituatedObject.py:
+
+	Added SItuatedObjectBP and SituatedObjectInstance, and modified GFF Struct refs to use simpler, dictionary-style access syntax per NeverData.py mod. Again, because of CVS oddity.
+	
+2004-05-17 16:21  wfolta
+
+	* SituatedObject.py:
+
+	Added SItuatedObjectBP and SituatedObjectInstance, and modified GFF Struct refs to use simpler, dictionary-style access syntax per NeverData.py mod.
+	
+2004-05-17 16:07  wfolta
+
+	* Creature.py:
+
+	Added CreatureBP, CreatureInstance classes. Modified GFF Struct references to use dict syntax, per NeverData.py mods
+	
+2004-05-16 12:50  sumpfork
+
+	* MapWindow.py, NeverEditMainApp.py, Progressor.py:
+
+	attempt at progress/status display when loading map
+	
+2004-05-16 12:50  sumpfork
+
+	* MDLFile.py:
+
+	add total node count to model
+	
+2004-05-16 12:50  sumpfork
+
+	* README:
+
+	acknowledge torlack for mdl file docs and compiler
+	
+2004-05-15 18:06  sumpfork
+
+	* Module.py, NeverEditMainApp.py, ResourceManager.py:
+
+	now adding a module's resources and hak files to resource manager when loading module
+	
+2004-05-15 17:56  sumpfork
+
+	* command.py:
+
+	using newer resource manager convenience functions
+	
+2004-05-15 17:56  sumpfork
+
+	* TwoDAFile.py:
+
+	accounting for possible empty lines after row headers
+	
+2004-05-14 18:28  sumpfork
+
+	* README:
+
+	adding notes about nwntools requirement
+	
+2004-05-14 18:25  sumpfork
+
+	* GLWindow.py, MapWindow.py:
+
+	fixes for opengl crashes, flickering on linux
+	
+2004-05-14 16:59  sumpfork
+
+	* ModelWindow.py:
+
+	fixing exception when not computing whole model bounding box
+	getting rid of debugging drawing in model window
+	
+2004-05-14 16:56  sumpfork
+
+	* ScriptEditor.py:
+
+	fixing resizing problem on linux
+	
+2004-05-13 15:35  sumpfork
+
+	* __init__.py, setup.py:
+
+	include openglcontext in install
+	
+2004-05-13 11:48  sumpfork
+
+	* .cvsignore, openglcontext/.cvsignore:
+
+	adding many nwn extensions to be ignored (my dir's full of them)
+	
+2004-05-13 11:47  sumpfork
+
+	* TileSetFile.py:
+
+	removing printout
+	
+2004-05-13 11:45  sumpfork
+
+	* NeverData.py:
+
+	adding convenience method to directly access property value
+	adding portrait accessor
+	
+2004-05-13 11:44  sumpfork
+
+	* Area.py:
+
+	fixing check whether we have to reload contents
+	
+2004-05-13 11:43  sumpfork
+
+	* MDLFile.py:
+
+	removing faulty way of calculating model bounding box
+	
+2004-05-13 11:43  sumpfork
+
+	* GLWindow.py, MapWindow.py, ModelWindow.py:
+
+	correcting finding of model bounding box
+	new highlight for selected objects
+	lots of frustum culling code that doesn't work
+	
+2004-05-13 11:40  sumpfork
+
+	* NeverEditMainApp.py:
+
+	beginning of functionality to detach windows, disabled as not supported under Mac
+	new permanent and detached script editor
+	revamping the way notebook tabs are selected
+	
+2004-05-13 11:39  sumpfork
+
+	* SituatedObject.py:
+
+	adding portrait accessor
+	
+2004-05-13 11:37  sumpfork
+
+	* ResourceManager.py:
+
+	adding methods to find portraits
+	changing the way scripts are retrieved
+	
+2004-05-13 11:36  sumpfork
+
+	* Module.py:
+
+	adding new script functionality, including the ability to commit newly compiled scripts back to the module
+	
+2004-05-13 11:36  sumpfork
+
+	* ERFFile.py:
+
+	changing names from 'extension' to 'type' as appropriate
+	adding ability to add a new resource
+	
+2004-05-13 11:34  sumpfork
+
+	* Script.py, ScriptEditor.py:
+
+	new script editor, with integrated compiler
+	script class updated for new compiler integration
+	
+2004-05-09 13:17  sumpfork
+
+	* Script.py:
+
+	start of new compiler integration, not active yet
+	
+2004-04-30 14:15  sumpfork
+
+	* GLWindow.py, MDLFile.py, MapWindow.py, ModelWindow.py,
+	ResourceManager.py:
+
+	partial fix for mapviewer on linux - only use gl commands once windows is up, map and models now show ok but user interaction can be flakey
+	make resource manager throw exception if dir not found, so we can try another
+	
+2004-04-29 15:40  sumpfork
+
+	* MDLFile.py, ModelWindow.py:
+
+	recalculating bounding boxes for nodes and models
+	look at middle of bounding box for model viewer
+	
+2004-04-29 15:13  sumpfork
+
+	* GLWindow.py:
+
+	fixing placement of colour display list
+	taking out unecessary texture map call
+	25-30 fps on a small map!
+	
+2004-04-29 15:08  sumpfork
+
+	* GLWindow.py:
+
+	update and fixes to display lists
+	
+2004-04-20 15:16  sumpfork
+
+	* README:
+
+	adding hint for gentoo users, cleaning up indentation a bit
+	
+2004-04-19 23:44  sumpfork
+
+	* GLWindow.py, MDLFile.py:
+
+	display lists and static controllers get us to almost 5 fps
+	
+2004-04-19 23:17  sumpfork
+
+	* GLWindow.py, MDLFile.py, MapWindow.py:
+
+	profile drawing code on on spacebar
+	add frames per second display
+	quaternion pre-compute after profiling raises form 1 fps to 3 fps
+	
+2004-04-19 21:03  sumpfork
+
+	* Creature.py, GLWindow.py, MDLFile.py, MapWindow.py,
+	ModelWindow.py, ResourceManager.py:
+
+	some additional caching
+	
+2004-04-19 20:31  sumpfork
+
+	* GLWindow.py, KeyFile.py, MDLFile.py, ModelWindow.py,
+	Placeable.py, ResourceManager.py, TileSetFile.py:
+
+	centralizing resource caching mechanism into ResourceManager
+	only drawing tri meshes now
+	
+2004-04-19 15:21  sumpfork
+
+	* ERFFile.py, MapWindow.py:
+
+	fix for bug #937007: copy when saving file with /tmp and module dir on different filesystems
+	only access area if not None
+	
+2004-04-19 13:39  sumpfork
+
+	* Area.py, Creature.py, Door.py, GLWindow.py, MDLFile.py,
+	MapWindow.py, ModelWindow.py, NeverEditMainApp.py, Placeable.py,
+	ResourceManager.py, SituatedObject.py, TileSetFile.py, globals.py:
+
+	tile display in the map (still a bit visually buggy)
+	getModel() functions for most classes
+	change application to only read area contents and models when area expanded/selected
+	discard area contents/tiles when collapsed/switched
+	moving some code from ModelWindow to GLWindow as the Map now needs it
+	
+2004-04-19 09:16  sumpfork
+
+	* MDLFile.py:
+
+	basic ASCII model file reading
+	
+2004-04-18 14:53  sumpfork
+
+	* __init__.py:
+
+	proper __all__ var for module, docstring
+	
+2004-04-17 17:55  sumpfork
+
+	* Area.py, MDLFile.py:
+
+	removing tileset reading for now as ASCII model reading isn't done yet
+	fix for loop in ascii model reading stub
+	
+2004-04-17 17:52  sumpfork
+
+	* Area.py, BinaryDataHandler.py, ChangeLog, ERFFile.py, INSTALL,
+	MDLFile.py, Makefile, MapWindow.py, Module.py, NeverData.py,
+	NeverEditMainApp.py, README, ResourceManager.py, TileSetFile.py,
+	check_versions.py, makebundle.py, setup.py:
+
+	merging in changes from 0.6 prep branch, now closed as 0.6 is released
+	
+2004-04-15 14:27  sumpfork
+
+	* ChangeLog (tags: neveredit-0-6):
+
+	updating for 0.6
+	
+2004-04-15 14:11  sumpfork
+
+	* makebundle.py (tags: neveredit-0-6):
+
+	fixing makebundle manual includes once more
+	
+2004-04-15 14:09  sumpfork
+
+	* Makefile, NeverEditMainApp.py (utags: neveredit-0-6):
+
+	fix bug on linux when app dir not found
+	adjusting shared lib paths on linux
+	
+2004-04-15 11:02  sumpfork
+
+	* Makefile:
+
+	including COPYING in linux binary dist
+	
+2004-04-15 10:52  sumpfork
+
+	* Makefile, NeverEditMainApp.py, makebundle.py, setup.py (tags:
+	neveredit-0-6):
+
+	taking out some (hopefully) unneeded modules from bundle to make it smaller - more can be done, I'm sure
+	bumping version to 0.6
+	
+2004-04-14 20:33  sumpfork
+
+	* README (tags: neveredit-0-6):
+
+	clarify, add map instructions
+	
+2004-04-14 20:18  sumpfork
+
+	* Makefile (tags: neveredit-0-6b3):
+
+	target to upload linux beta
+	
+2004-04-14 20:12  sumpfork
+
+	* Makefile, README (tags: neveredit-0-6b3):
+
+	updating README for new linux binary dist
+	updating Makefile to include README in linux binary dist
+	
+2004-04-14 20:08  sumpfork
+
+	* Makefile:
+
+	using cx_Freeze to provide binary linux distribution
+	
+2004-04-14 20:07  sumpfork
+
+	* Makefile:
+
+	bumping to 0.6b3 and using this branch for targz (should not make it into head)
+	
+2004-04-14 13:55  sumpfork
+
+	* makebundle.py (tags: neveredit-0-6b3):
+
+	upgrade to wxPython 2.5.1.5 release
+	
+2004-04-14 13:54  sumpfork
+
+	* ERFFile.py (tags: neveredit-0-6), Module.py (tags:
+	neveredit-0-6), NeverEditMainApp.py (utags: neveredit-0-6b3):
+
+	making save as a real save as, not save a copy
+	
+2004-04-14 13:53  sumpfork
+
+	* README:
+
+	adding note about moving to wxPython 2.5
+	
+2004-04-14 13:46  sumpfork
+
+	* BinaryDataHandler.py (tags: neveredit-0-6, neveredit-0-6b3):
+
+	fix total size in writing CExoLocStrings - this fixes bug 917720 as well as the toolset complaining about neveredit modules, finally!
+	
+2004-04-12 10:07  sumpfork
+
+	* INSTALL:
+
+	this info is in README more up-to-date, and I don't think two files are good
+	
+2004-04-12 09:56  sumpfork
+
+	* MapWindow.py (tags: neveredit-0-6, neveredit-0-6b3),
+	NeverEditMainApp.py, check_versions.py (tags: neveredit-0-6,
+	neveredit-0-6b3):
+
+	not deleting map window on linux to avoid crashing bug in some installs
+	add abilitity to set map in MapWindow to None
+	must use Refresh in selectThingById to avoid crashing
+	
+2004-04-09 15:03  sumpfork
+
+	* check_versions.py:
+
+	adding code to print out all relevant version/path info
+	
+2004-04-09 15:01  sumpfork
+
+	* MapWindow.py, NeverEditMainApp.py:
+
+	adding version check printout to main app for easier bug reporting
+	replacing some Refresh with DrawGLScene against flickering on linux (thanks John Klar)
+	
+2004-04-09 14:35  sumpfork
+
+	* check_versions.py:
+
+	check and print all relevant package versions
+	
+2004-04-09 10:04  sumpfork
+
+	* GLWindow.py:
+
+	got a bug report that old gluPickMatrix version had an explicit 5th argument, so I'm changing my call to have the fifith explicit, too
+	
+2004-04-09 10:00  sumpfork
+
+	* ModelWindow.py, openglcontext/__init__.py,
+	openglcontext/quaternion.py, openglcontext/utilities.py,
+	openglcontext/vectorutilities.py:
+
+	files I forgot, partially from the openglcontext distribution
+	
+2004-04-08 23:14  sumpfork
+
+	* ChangeLog, NeverEditMainApp.py, Placeable.py, ResourceManager.py:
+
+	placeable model viewer integrated
+	improved tracking of notebook tabs
+	
+2004-04-08 19:54  sumpfork
+
+	* BinaryDataHandler.py, GLWindow.py, MDLFile.py, MapWindow.py:
+
+	working model viewer
+	
+2004-04-08 19:54  sumpfork
+
+	* KeyFile.py:
+
+	adding caching mechanism
+	
+2004-04-08 19:54  sumpfork
+
+	* KeyFile.py:
+
+	adding caching mechanism
+	
+2004-04-08 19:53  sumpfork
+
+	* ResourceManager.py:
+
+	caching mechanism added
+	convenience function to get resource by name
+	
+2004-04-07 16:49  sumpfork
+
+	* BinaryDataHandler.py:
+
+	adding first functions to read arrays of value of same type
+	
+2004-04-07 16:48  sumpfork
+
+	* MDLFile.py:
+
+	reading node controllers now
+	
+2004-04-07 12:17  sumpfork
+
+	* MDLFile.py:
+
+	parsing node tree correctly now
+	
+2004-04-07 11:20  sumpfork
+
+	* MDLFile.py:
+
+	classes encapsulating nwn model files
+	
+2004-04-07 11:20  sumpfork
+
+	* README:
+
+	upadating with extended instructions, requirements
+	
+2004-04-06 00:03  sumpfork
+
+	* command.py:
+
+	write 'get' command in binary mode
+	
+2004-04-05 15:37  sumpfork
+
+	* CExoLocString.py, MapWindow.py, NeverEditMainApp.py:
+
+	fix for CExoLocString - follow BW's algorithm for retrieving string, and don't save an embedded string unless needed (fix for bug #917720, hopefully)
+	take out some unused code from MapWindow and add linux key codes
+	cleaning out non-printable chars from choice strings to avoid crashing bug in wxPython 2.5.1.5 on linux
+	
+2004-04-01 14:01  sumpfork
+
+	* makebundle.py (tags: neveredit-0-6b2):
+
+	re-adding net dyld as it's needed
+	
+2004-04-01 12:53  sumpfork
+
+	* ChangeLog (tags: neveredit-0-6b2):
+
+	update for 0.6b2
+	
+2004-04-01 12:53  sumpfork
+
+	* Makefile (tags: neveredit-0-6b2), MapWindow.py (tags:
+	neveredit-0-6b2), NeverEditMainApp.py (tags: neveredit-0-6b2),
+	README (tags: neveredit-0-6b2), makebundle.py, setup.py (tags:
+	neveredit-0-6b2):
+
+	including the correct dyld files in mac app bundle for wxPython 2.5.1.4
+	fixing splash screen bug when NWN dir incorrect on startup
+	fixing area reloading bug where map jumped when selecting objects
+	bumping version to 0.6b2
+	
+2004-03-29 12:09  sumpfork
+
+	* Makefile:
+
+	fixing file copying to dmg
+	
+2004-03-29 11:50  sumpfork
+
+	* ChangeLog, Makefile, MapWindow.py, makebundle.py:
+
+	updating things for new bundle building, taking out 10.2 support
+	
+2004-03-25 21:57  sumpfork
+
+	* README:
+
+	updating dependencies for source release
+	
+2004-03-25 19:37  sumpfork
+
+	* ChangeLog, Makefile, NeverEditMainApp.py, setup.py:
+
+	bumping version to 0.6b1
+	
+2004-03-25 19:35  sumpfork
+
+	* MapWindow.py, NeverEditMainApp.py:
+
+	setting dirty flag for file when user moves object on map
+	adjusting some default view angles
+	
+2004-03-25 17:29  sumpfork
+
+	* MapWindow.py, NeverEditMainApp.py:
+
+	first version with map integration
+	selection works both ways map->tree and tree->map
+	adding creatures to map
+	fixing problem with clicking away the splash screens
+	
+2004-03-25 17:28  sumpfork
+
+	* Creature.py:
+
+	adding the accessors present in other NeverData subclasses
+	
+2004-03-25 17:27  sumpfork
+
+	* Area.py:
+
+	pre-constructing all objects and just returning them when asked (so they have the same
+	id across the app)
+	
+2004-03-25 17:26  sumpfork
+
+	* NeverData.py:
+
+	some line lengths cleanup
+	adding ids to distinguish instances
+	
+2004-03-25 17:25  sumpfork
+
+	* Script.py:
+
+	adding call to superclass constructor
+	
+2004-03-23 11:05  sumpfork
+
+	* MapWindow.py:
+
+	First check in of opengl map window
+	support area viewing, moving placeables and doors, camera controls like NWN
+	
+2004-03-19 12:20  sumpfork
+
+	* README:
+
+	updating and clarifying requirements in README
+	
+2004-03-19 12:11  sumpfork
+
+	* BIFFile.py, Makefile, Module.py, Placeable.py,
+	ResourceManager.py, SituatedObject.py:
+
+	set accessors for locations of situated objects
+	fix to bif file resource ID decoding (unused in code anyway, I think)
+	dmg making now copies Info.plist file correctly
+	lots of script settings added to module.ifo
+	beginnings of portrait/TGA file access and decoding
+	
+2004-03-10 09:31  sumpfork
+
+	* ChangeLog, ERFFile.py, GFFFile.py, KeyFile.py, NeverData.py,
+	NeverEditMainApp.py, ResourceManager.py:
+
+	some updates after running pychecker
+	fix for bug #911305
+	
+2004-03-06 13:34  sumpfork
+
+	* setup.py:
+
+	fixing trove categorization
+	
+2004-03-06 13:29  sumpfork
+
+	* Item.py, SituatedObject.py, setup.py:
+
+	updating setup with more meta-data (about to register with pypi, http://www.python.org/pypi)
+	adding accessors for object ids for Item and SituatedObject
+	
+2004-03-02 16:22  sumpfork
+
+	* NeverEditMainApp.py, makebundle.py, neveredit_logo.jpg,
+	neveredit_logo_init.jpg:
+
+	adding splash screens to show during first resource manager init (thanks to sylvan_elf for the design)
+	
+2004-03-02 14:42  sumpfork
+
+	* NeverEditMainApp.py:
+
+	improving var names in prefs dialog code
+	exchanging positions of OK and Cancel button and moving them to the right
+	
+2004-03-01 15:43  sumpfork
+
+	* ChangeLog (tags: neveredit-0-5):
+
+	updating changelog for 0.5
+	
+2004-03-01 15:43  sumpfork
+
+	* Makefile, NeverEditMainApp.py (utags: neveredit-0-5):
+
+	updating makefile with how I produce releases now
+	bumping version number to 0.5 (in spe)
+	
+2004-03-01 11:30  sumpfork
+
+	* KeyFile.py:
+
+	fixing resource ID masking error - this should fix the faulty resource lookups that have been bugging neveredit for a while
+	
+2004-02-29 19:20  sumpfork
+
+	* ChangeLog, Makefile, NeverEditMainApp.py (utags:
+	neveredit-0-5b2):
+
+	updating changelog, bumping version to 0.5b2
+	
+2004-02-28 23:29  sumpfork
+
+	* ERFFile.py (tags: neveredit-0-5b2):
+
+	fixing file merging, was not setting erf entry ids correctly
+	
+2004-02-28 23:29  sumpfork
+
+	* GFFFile.py (tags: neveredit-0-5b2):
+
+	adding hasEntry() method to GFF structs
+	
+2004-02-28 23:29  sumpfork
+
+	* GFFFile.py:
+
+	adding hasEntry() method to GFF structs
+	
+2004-02-28 23:28  sumpfork
+
+	* NeverData.py:
+
+	fixing property list iterating
+	
+2004-02-28 23:28  sumpfork
+
+	* Module.py:
+
+	removing extraneous printouts
+	
+2004-02-28 23:27  sumpfork
+
+	* NeverEditMainApp.py:
+
+	various code formatting fixes
+	better warning for ERF merging
+	another fix to Mod_Hak updating (wasn't setting file dirty flag)
+	
+2004-02-28 21:53  phantomnj
+
+	* Script.py:
+
+	removing the call to Torlack's compiler
+	
+2004-02-28 21:08  phantomnj
+
+	* NeverEditMainApp.py, Script.py:
+
+	fixed text in "Choose an ERF" - originally read "Choose a an ERF"
+	
+	added ability to set module files location
+	
+	added ability to set erf files location
+	
+	added *.erf to file type for Open and Add an ERF menu
+	
+	set *.erf as default for Add an ERF
+	
+2004-02-28 15:11  sumpfork
+
+	* AUTHORS, Area.py, Makefile, NeverEditMainApp.py, command.py
+	(utags: neveredit-0-5b):
+
+	some fixups for new map, but code still disabled
+	doc addition to commandline help
+	re-adding two Area methods
+	
+2004-02-25 19:47  sumpfork
+
+	* ChangeLog (tags: neveredit-0-5b):
+
+	updating changelog
+	
+2004-02-25 19:26  sumpfork
+
+	* Makefile, NeverEditMainApp.py, makebundle.py (tags:
+	neveredit-0-5b):
+
+	bump version to 0.5b
+	makebundle addition for wxPython 0.5 (this is in flux)
+	
+2004-02-23 16:54  sumpfork
+
+	* BinaryDataHandler.py, ERFFile.py, KeyFile.py,
+	NeverEditMainApp.py:
+
+	adding functionality to merge in another ERF file to the ERF file class and to the GUI
+	
+2004-02-23 00:38  sumpfork
+
+	* ERFFile.py:
+
+	adding extra 0 padding between key and resource list to exactly match the toolset's output (and hopefully stop it from complaining)
+	beginning of an ERF merging function
+	read and write back out ERF on command line
+	
+2004-02-22 23:43  sumpfork
+
+	* Module.py, NeverData.py, Placeable.py:
+
+	fixing mistakes in new NeverData hierarchy
+	
+2004-02-21 17:16  sumpfork
+
+	* NeverData.py, NeverEditMainApp.py:
+
+	only make subtree parents appear if there actually are items under them
+	
+2004-02-21 17:08  sumpfork
+
+	* Area.py, Creature.py, Item.py, NeverData.py, NeverEditMainApp.py,
+	Placeable.py, SituatedObject.py, TwoDAFile.py:
+
+	overhaul of the NeverData class tree - much duplicated functionality removed and moved to superclass
+	can get inventory of placeables
+	some prop additions and fixes to Creatures
+	
+2004-02-20 18:13  wfolta
+
+	* Area.py, Creature.py, NeverEditMainApp.py:
+
+	Added Creature
+	
+2004-02-19 17:41  wfolta
+
+	* Creature.py:
+
+	Class to handle Creatures in an Area.
+	
+2004-02-18 11:55  sumpfork
+
+	* NeverEditMainApp.py:
+
+	removing unecessary imports
+	
+2004-02-18 11:43  sumpfork
+
+	* NeverEditMainApp.py, setup.py:
+
+	fixing error printing on missing wxPython install
+	
+2004-02-18 11:18  sumpfork
+
+	* ResourceManager.py:
+
+	fixing warning printout
+	
+2004-02-18 11:17  sumpfork
+
+	* Door.py, Placeable.py, ResourceManager.py:
+
+	adding some 2da props to doors and placeables
+	return on non-existent app dir in resource manager
+	
+2004-02-17 11:52  sumpfork
+
+	* Area.py, GFFFile.py, NeverEditMainApp.py, TwoDAFile.py:
+
+	adding controls for props referencing 2da files
+	adding some of the props that reference 2da files in areas
+	some minor cleanups
+	
+2004-02-16 23:52  sumpfork
+
+	* command.py:
+
+	adding ability to look up multiple strrefs in dialog.tlk at once
+	
+2004-02-16 23:50  sumpfork
+
+	* README.commandline, command.py:
+
+	adding dialog.tlk string extraction to command.py and a README.commandline to explain the command line tool
+	
+2004-02-16 14:26  wfolta
+
+	* Area.py, ERFFile.py:
+
+	Small tweaks to use get/comprehension per Cookbook
+	
+2004-02-10 09:06  sumpfork
+
+	* NeverEditMainApp.py, TalkTableFile.py:
+
+	Hopefully really fixing Mod_Hak conversion this time
+	TalkTable main() changed to look up specified string (by strref)
+	
+2004-02-09 16:24  sumpfork
+
+	* NeverEditMainApp.py, ResourceManager.py:
+
+	fix for reported exception when upgrading from a non-empty old style Mod_Hak to the new style hak list
+	implemented control for CExoString
+	
+2004-02-08 18:56  sumpfork
+
+	* Area.py, Door.py, Item.py, Module.py, NeverEditMainApp.py,
+	Placeable.py:
+
+	adding ability to get area by name from module
+	adding Door and Placeable subclasses with specific added props
+	new Item class
+	Items now display in the GUI
+	
+2004-02-08 11:10  sumpfork
+
+	* NeverEditMainApp.py, setup.py:
+
+	correcting version check
+	
+2004-02-08 10:44  sumpfork
+
+	* NeverEditMainApp.py, ResourceManager.py:
+
+	adding a version check for python 2.3 and a check for wxPython
+	remembering mod file names/paths in resource manager
+	
+2004-02-08 10:30  sumpfork
+
+	* README:
+
+	adding run instructions to README, as well
+	
+2004-02-06 20:40  phantomnj
+
+	* NeverEditMainApp.py:
+
+	Reformatted presentation of information in Help-About
+	
+2004-02-06 10:24  sumpfork
+
+	* ChangeLog, Makefile:
+
+	version to 0.4
+	
+2004-02-06 10:20  sumpfork
+
+	* NeverEditMainApp.py:
+
+	path for gettext
+	version number in About... box
+	
+2004-02-04 11:40  sumpfork
+
+	* NeverEditMainApp.py:
+
+	some reformatting to reduce line lengths
+	marking localizable strings as such in gettext manner
+	
+2004-01-29 15:46  sumpfork
+
+	* KeyFile.py, ResourceManager.py, TwoDAFile.py:
+
+	adding 2da file parsing
+	removing debug printout in KeyFile.py
+	
+2004-01-29 11:45  sumpfork
+
+	* Area.py, NeverEditMainApp.py:
+
+	adding placeable property editing
+	
+2004-01-28 16:00  sumpfork
+
+	* FileStructureTree.cc, FileStructureTree.h, FileViewer.cc,
+	FileViewer.h, ITPResource.cc, ITPResource.h, Info.plist.in,
+	MODFile.cc, MODFile.h, Makefile.am, NWNDataType.h, autogen.sh,
+	configure.in:
+
+	removing long dead ghosts coming back to haunt me
+	
+2004-01-28 15:58  sumpfork
+
+	* CExoLocString.py, Module.py, NeverEditMainApp.py, NeverFile.py,
+	ResourceManager.py, TalkTableFile.py, globals.py:
+
+	now reading strings from dialog.tlk
+	new globals module to make resource manager more accessible
+	fixes and new functionality for CExoLocString in light of accessible dialog.tlk strings
+	
+2004-01-27 17:13  sumpfork
+
+	* Area.py, GFFFile.py, KeyFile.py, Module.py, NeverData.py,
+	NeverEditMainApp.py, SituatedObject.py, command.py:
+
+	adding situated objects properties
+	adding doors to gui
+	
+2004-01-27 17:04  sumpfork
+
+	* NeverFile.py:
+
+	opening file as binary (thanks malakh!)
+	
+2004-01-27 17:03  sumpfork
+
+	* ERFFile.py:
+
+	now storing names in full and making names full when accessing refs
+	opening all files as binary (thanks malakh!)
+	
+2004-01-27 14:04  sumpfork
+
+	* ERFFile.py, GFFFile.py, KeyFile.py, ResourceManager.py,
+	Script.py, TileSetFile.py, command.py:
+
+	adding class to parse tile set files
+	fixing some resource lookup stuff and adding method to get raw byte contents
+	adding command line interface to lookup resources by extension and get their contents
+	improving some printing methods
+	resrefs in ERFs are now stored as 16 bytes long again with padding nulls if necessary
+	
+2004-01-24 12:13  sumpfork
+
+	* ChangeLog (tags: neveredit-0-3-1):
+
+	update for 0.3.1
+	
+2004-01-24 12:08  sumpfork
+
+	* Makefile, NeverEditMainApp.py, ResourceManager.py (utags:
+	neveredit-0-3-1):
+
+	fixing reported bug where you could get exceptions when changing properties
+	after selecting a tree item that doesn't actually have properties. I'm now
+	both checking that the current item has properties before attempting to set
+	any and clearing the property page when the user switches to such an item.
+	
+	dmg targets are not dependent on bundle anymore so they can be built separately
+	
+	name fix in resource manager
+	
+2004-01-21 23:12  sumpfork
+
+	* BIFFile.py, KeyFile.py, Progressor.py, ResourceManager.py:
+
+	adding methods to retrieve resources from KEY/BIF files
+	some extra utility methods and new lookup tables for resource manager
+	fixing Progressor to set the progress display on __init__()
+	
+2004-01-21 14:16  sumpfork
+
+	* Makefile, NeverEditMainApp.py, doxygen/Doxyfile:
+
+	changes to make doxygen html look correct again
+	takin out 'run' target as it was platform specific
+	
+2004-01-21 13:38  sumpfork
+
+	* Makefile, makebundle.py:
+
+	adding version string to bundle's Info.plist (requires modified bundlebuilder)
+	
+2004-01-20 16:33  sumpfork
+
+	* NeverEditMainApp.py:
+
+	fixing bug reported where linux interface stays disabled (needed to kick idle timer)
+	
+2004-01-20 15:59  sumpfork
+
+	* NeverEditMainApp.py:
+
+	increasing size of dir control in prefs
+	
+2004-01-20 15:45  sumpfork
+
+	* NeverEditMainApp.py:
+
+	reorganizing code a bit
+	adding doxygen comments
+	fixing bug 880072: hak list stays visible on linux, and bad dialogs when checking whether to save/load
+	fixing double scrollbars in script editors
+	
+2004-01-20 11:47  sumpfork
+
+	* NeverEditMainApp.py:
+
+	really fixing path setting problem this time
+	
+2004-01-18 00:48  sumpfork
+
+	* ERFFile.py:
+
+	taking out commented out code
+	
+2004-01-18 00:03  sumpfork
+
+	* NeverEditMainApp.py:
+
+	added python run line and note at top
+	making changing dir to app name's dirname conditional on having an app name
+	
+2004-01-17 15:36  sumpfork
+
+	* ERFFile.py:
+
+	better print method
+	
+2004-01-17 15:30  sumpfork
+
+	* ERFFile.py:
+
+	now just prints by default, no more saving and reloading
+	
+2004-01-17 15:26  sumpfork
+
+	* ERFFile.py:
+
+	fixing ERF file printing after move to NeverFile.py
+	
+2004-01-17 13:09  sumpfork
+
+	* Makefile:
+
+	changing source image to be sparse and to have the same volname as the target
+	
+2004-01-17 00:25  sumpfork
+
+	* NeverEditMainApp.py:
+
+	trying to fix bug by malakh - app may stay disabled if no NWN dir found
+	
+2004-01-16 14:57  sumpfork
+
+	* ChangeLog:
+
+	updating changelog
+	
+2004-01-16 14:54  sumpfork
+
+	* NeverEditMainApp.py, makebundle.py, neveredit.jpg:
+
+	adding Damon Law's picture file
+	
+2004-01-16 14:30  sumpfork
+
+	* Makefile:
+
+	new rules to make fancy dmg from existing one (I'm not distributing the large
+	source image. use the _simple rule to avoid needing it, or make your own
+	called 'neveredit_build.dmg')
+	
+2004-01-15 23:32  sumpfork
+
+	* ERFFile.py, GFFFile.py, Makefile, Module.py, NeverEditMainApp.py:
+
+	fixing the conversion from Mod_Hak to Mod_HakList
+	removing some printouts
+	preserving resource forks in app bundles using 'ditto'
+	
+2004-01-09 09:29  sumpfork
+
+	* neveredit.icns:
+
+	upating with original from Damon Law without NWN eye
+	
+2004-01-08 11:50  sumpfork
+
+	* makebundle.py, neveredit.icns:
+
+	adding icons file and using it to build app
+	
+2004-01-07 21:41  sumpfork
+
+	* NeverEditMainApp.py:
+
+	showing properties of the module itself (module.ifo) now
+	add first list display type: list of checkboxes
+	special handling for hak file list
+	multiline text properties can be requested
+	working around crashing bug on destroying checkbox list
+	trying to convert obsolete Mod_Hak to Mod_HakList (might still fail)
+	updated copyright year
+	consolidated saving code into 'maybe save' method and use it on loading a file (not finished yet)
+	consolidate and fix menu enabling/dirty flag setting code
+	gracefully handle unhandled control type
+	
+2004-01-07 21:36  sumpfork
+
+	* ResourceManager.py:
+
+	added list of hak file names and method to retrieve it
+	
+2004-01-07 21:35  sumpfork
+
+	* NeverData.py:
+
+	add method to find target structure in a hierarchy given a string spec
+	
+2004-01-07 21:35  sumpfork
+
+	* Makefile:
+
+	bump version to 0.3
+	
+2004-01-07 21:34  sumpfork
+
+	* README:
+
+	adding details on install and bug reporting
+	
+2004-01-07 21:33  sumpfork
+
+	* Module.py:
+
+	now a subclass of NeverData, allows iterating through properties in module.ifo
+	special handling of required hak list
+	
+2004-01-07 21:32  sumpfork
+
+	* GFFFile.py:
+
+	Properly catch entry not found case and fail softly
+	
+2004-01-07 21:31  sumpfork
+
+	* ERFFile.py:
+
+	sort entries by id on writing as NWN seems to fail if they're not
+	
+2004-01-07 21:29  sumpfork
+
+	* BinaryDataHandler.py:
+
+	convert all resrefs to lower case on reading
+	
+2004-01-07 21:28  sumpfork
+
+	* Area.py:
+
+	consolidated finding the target structure from a specification into a method
+	
+2004-01-06 13:43  sumpfork
+
+	* ChangeLog:
+
+	entry for bugfix
+	
+2004-01-06 13:43  sumpfork
+
+	* ChangeLog, NeverEditMainApp.py:
+
+	fixing exception when the setting of a resref is not contained in the available keys
+	
+2003-12-20 00:01  sumpfork
+
+	* ChangeLog, ERFFile.py, INSTALL, Makefile, Module.py,
+	NeverEditMainApp.py:
+
+	adding new Module.py in preparation for showing and setting module level properties
+	transferring the relevant methods from ERFFile to Module class
+	Main app now uses module exclusively, not ERFFile directly anymore
+	also fix to the INSTALL instructions
+	
+2003-12-16 16:55  sumpfork
+
+	* Makefile, makebundle.py:
+
+	stripping bundle to make it smaller now
+	totally automatic build and upload of both dmg and tar.gz
+	
+2003-12-16 16:32  sumpfork
+
+	* ERFFile.py, NeverEditMainApp.py, plistlib.py:
+
+	adding pref file writing for linux and other platforms
+	handling case where we're looking for a non-existent entry in an ERF without exception
+	
+2003-12-16 15:57  sumpfork
+
+	* NeverEditMainApp.py:
+
+	fixing threadings bugs for X11 (part of bug 860847)
+	
+2003-12-15 15:38  sumpfork
+
+	* README, setup.py:
+
+	correcting email address
+	
+2003-12-15 14:18  sumpfork
+
+	* NeverEditMainApp.py, README:
+
+	adding requirements to README
+	trying to fix exception not finding 'HOME' env var under windows
+	
+2003-12-15 09:44  sumpfork
+
+	* Makefile:
+
+	adding simple run/install rules to Makefile
+	
+2003-12-15 09:41  sumpfork
+
+	* NeverEditMainApp.py, makebundle.py:
+
+	fixing command line and included libs for bundle
+	
+2003-12-14 23:42  sumpfork
+
+	* __init__.py, setup.py:
+
+	adding simple setup.py and package indicator __init__.py
+	
+2003-12-14 23:24  sumpfork
+
+	* ChangeLog:
+
+	[no log message]
+	
+2003-12-14 23:23  sumpfork
+
+	* NeverEditMainApp.py:
+
+	adding ability to specify NWN app dir on command line
+	
+2003-12-14 22:47  sumpfork
+
+	* ChangeLog:
+
+	[no log message]
+	
+2003-12-14 22:46  sumpfork
+
+	* Area.py, ERFFile.py, GFFFile.py, Makefile, NeverEditMainApp.py,
+	NeverFile.py:
+
+	some documentation strings for ERFFile.py,NeverFile.py
+	git file props now handled in Area.py
+	enabled properties in nested structures
+	added make rule for documentation
+	
+2003-12-14 21:41  sumpfork
+
+	* ChangeLog:
+
+	[no log message]
+	
+2003-12-14 21:40  sumpfork
+
+	* ChangeLog, NeverEditMainApp.py:
+
+	adding pref file saving and loading (so far mac only)
+	error dialog if NWN App Dir invalid
+	
+2003-12-14 18:55  sumpfork
+
+	* CExoLocString.py, ERFFile.py, NeverEditMainApp.py:
+
+	handing back error strings when CExoLogString points to dialog.tk (to be implemented)
+	fixed ERF file area list deletion
+	main app now keeps a file history menu
+	main app now only commits changes when necessary
+	main app now enables/disables save/saveas menu item properly
+	main app now asks on quit if there are unsaved changes
+	
+2003-12-14 17:35  sumpfork
+
+	* ChangeLog, NeverEditMainApp.py, ResourceManager.py, Script.py:
+
+	added preliminary calls to compile scripts by calling nwnnsscomp
+	this needs to be worked out better, turned off for now
+	also updating ChangeLog using cvs2cl
+	
+2003-12-14 15:23  sumpfork
+
+	* NeverEditMainApp.py, doxygen/Doxyfile, doxygen/pythfilter.py:
+
+	adding doxygen files
+	
+2003-12-14 14:32  sumpfork
+
+	* Area.py, BinaryDataHandler.py, CExoLocString.py, ERFFile.py,
+	NeverData.py, NeverEditMainApp.py, ResourceManager.py, Script.py:
+
+	bug fixes
+	now am properly getting,displaying,setting res refs
+	new script tree
+	scripts can be edited and save in ERFs
+	took out some debug output
+	
+2003-12-14 00:48  sumpfork
+
+	* Area.py, BIFFile.py, ERFFile.py, GFFFile.py, KeyFile.py,
+	NeverEditMainApp.py, NeverFile.py, Progressor.py,
+	ResourceManager.py:
+
+	adding classes to read BIF and KEY files
+	resource manager scans NWN dir and prioritizes resources found
+	introducing some class hierarchies for the various file formats
+	GUI scrollbars now work
+	new controls for integers, colours
+	threaded GUI for loading files/scanning dirs with progress bar
+	
+2003-12-08 10:45  sumpfork
+
+	* .cvsignore:
+
+	updating for python version
+	
+2003-12-07 21:40  sumpfork
+
+	* NeverEditMainApp.py, README:
+
+	updating README
+	adding .sav as read filetype
+	
+2003-12-07 21:05  sumpfork
+
+	* ERFFile.py, Makefile, NeverEditMainApp.py, makebundle.py:
+
+	automatic bundle/dmg making on Mac OS
+	fixes to the filepaths in ERFFile
+	
+2003-12-07 19:20  sumpfork
+
+	* AUTHORS, ChangeLog, INSTALL:
+
+	updating text files
+	
+2003-12-07 19:16  sumpfork
+
+	* Area.py, BinaryDataHandler.py, CExoLocString.py, ERFFile.py,
+	FileStructureTree.cc, FileStructureTree.h, FileViewer.cc,
+	FileViewer.h, GFFFile.py, ITPResource.cc, ITPResource.h,
+	Info.plist.in, MODFile.cc, MODFile.h, Makefile.am, NWNDataType.h,
+	NeverData.py, NeverEditMainApp.py, SituatedObject.py, autogen.sh,
+	configure.in:
+
+	first wxPython version
+	
+2003-09-03 00:05  sumpfork
+
+	* README:
+
+	took out known issues, they are mostly resolved
+	
+2003-09-03 00:04  sumpfork
+
+	* Makefile.am:
+
+	added automatic dmg making for mac os
+	added release target for mac os
+	
+2003-09-02 21:50  sumpfork
+
+	* configure.in:
+
+	bump to 0.0.4
+	
+2003-09-02 21:21  sumpfork
+
+	* ChangeLog, FileStructureTree.cc, FileViewer.cc, ITPResource.cc,
+	ITPResource.h, NWNDataType.h:
+
+	now displaying lists within lists
+	better readable names for items
+	last changes over to 'neveredit' name (window title)
+	
+2003-07-10 17:17  sumpfork
+
+	* FileViewer.cc, ITPResource.cc, MODFile.cc:
+
+	fixed to compile with recent version of libnw
+	added more file type selections to file dialog
+	
+2003-04-27 11:59  sumpfork
+
+	* configure.in:
+
+	bump version to 0.0.3
+	
+2003-04-27 11:54  sumpfork
+
+	* ChangeLog, FileStructureTree.cc, FileViewer.cc, ITPResource.cc,
+	Makefile.am, NWNDataType.h:
+
+	fixing natural language names for items
+	lists are now maps
+	no more gic resource reading
+	beginnings of automatic dmg building
+	
+2003-04-23 17:45  sumpfork
+
+	* Makefile.am, configure.in:
+
+	fixed version number being put into bundle
+	fixed indenting of configure script
+	
+2003-04-23 16:58  sumpfork
+
+	* README:
+
+	More info in README
+	
+2003-04-23 16:29  sumpfork
+
+	* autogen.sh:
+
+	I think this needs to call autoheader, now
+	
+2003-04-23 16:28  sumpfork
+
+	* ChangeLog, FileStructureTree.cc, FileStructureTree.h,
+	FileViewer.cc, FileViewer.h, ITPResource.cc, ITPResource.h,
+	MODFile.cc, MODFile.h, NWNDataType.h, configure.in:
+
+	added list view to show details of selected item
+	changes to the OO structure of the code, easier to use, more intuitive
+	fixed handling of lists in ITP files
+	using config.h
+	
+2003-04-17 12:14  sumpfork
+
+	* ChangeLog:
+
+	adding name change entry
+	
+2003-04-17 12:12  sumpfork
+
+	* Makefile.am, NWNModFileViewer.icns, NWNModFileViewer.rsrc,
+	neveredit.r:
+
+	changing name to neveredit
+	
+2003-04-17 12:06  sumpfork
+
+	* COPYING:
+
+	Changed to openknights license
+	
+2003-04-10 11:00  mjshannon3
+
+	* .cvsignore, ChangeLog, ITPResource.cc, MODFile.cc:
+
+	added .cvsignore; malloc/free -> new/delete
+	
+2003-04-10 00:17  mjshannon3
+
+	* FileStructureTree.cc, FileStructureTree.h, FileViewer.cc,
+	FileViewer.h, Info.plist.in, ITPResource.cc, ITPResource.h,
+	AUTHORS, COPYING, ChangeLog, INSTALL, MODFile.cc, MODFile.h,
+	Makefile.am, NEWS, NWNDataType.h, NWNModFileViewer.icns,
+	NWNModFileViewer.rsrc, README, autogen.sh, configure.in:
+
+	Initial import.
+	
+2003-04-10 00:17  mjshannon3
+
+	* FileStructureTree.cc, FileStructureTree.h, FileViewer.cc,
+	FileViewer.h, Info.plist.in, ITPResource.cc, ITPResource.h,
+	AUTHORS, COPYING, ChangeLog, INSTALL, MODFile.cc, MODFile.h,
+	Makefile.am, NEWS, NWNDataType.h, NWNModFileViewer.icns,
+	NWNModFileViewer.rsrc, README, autogen.sh, configure.in:
+
+	Initial revision
+	
