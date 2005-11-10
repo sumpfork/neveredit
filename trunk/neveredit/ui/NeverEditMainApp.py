@@ -703,6 +703,7 @@ class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
                                                 waypoint.getName())
                 self.tree.SetPyData(waypointItem,waypoint)
                 self.idToTreeItemMap[waypoint.getNevereditId()] = waypointItem
+
     def isAreaItem(self,item):
         data = self.tree.GetPyData(item)
         return data and data.__class__ == Area.Area
@@ -1150,7 +1151,6 @@ loaded and save any changes you have made so far. Proceed?'''),
         self.tree.SelectItem(lastSelected,True)
 
     def propertyChanged(self,control,prop):
-        print('NeverEditMainApp.propertyChanged reached')
         if control.__class__ == wx.Button and control.GetName() == "Faction_addButton":
             # add a faction
             factionItem = self.tree.AppendItem(self.factionRoot,\
@@ -1172,8 +1172,8 @@ loaded and save any changes you have made so far. Proceed?'''),
             self.simulateTreeSelChange()
             self.setFileChanged(True)
         elif control.__class__ == FactionGrid:
-            self.simulateTreeSelChange()
-
+            self.applyPropControlValues()
+            self.setFileChanged(True)
 
 
 def run(args=None):
