@@ -63,11 +63,10 @@ class FactionGrid(Grid):
 
     def __init__(self,parent,data):
         Grid.__init__(self,parent,-1)
+        self.parent = parent
         self.FactionObject = data
         self.factionNumber = len(self.FactionObject.factionList)
         self.hasChanged = False
-        # register as listener to some notifier
-        
         self.CreateGrid()
 
     def cellChanged(self,event):
@@ -75,20 +74,16 @@ class FactionGrid(Grid):
 
     def cellSelected(self,event):
         if self.hasChanged:
-            self.parent.propertyChanged(self,data)
+            self.parent.propertyChanged(self,self.FactionObject)
+        event.Skip()
 
     def CreateGrid(self):
         Grid.CreateGrid(self,self.factionNumber,self.factionNumber)
         self.SetDefaultEditor(wx.grid.GridCellNumberEditor(0,100))
         self.SetDefaultRenderer(wx.grid.GridCellNumberRenderer())
-        self.SetDefaultColSize(80)
         self.SetDefaultColSize(50)
-        self.EnableGridLines()
         self.setLabels()
         self.setDataCells()
-        self.AutoSize()
-        self.ForceRefresh()
-        self.Fit()
         wx.grid.EVT_GRID_CELL_CHANGE(self,self.cellChanged)
         wx.grid.EVT_GRID_SELECT_CELL(self,self.cellSelected)
 
