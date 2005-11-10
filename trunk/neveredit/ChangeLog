@@ -1,3 +1,77 @@
+2005-11-09 19:40  sumpfork
+
+	* __init__.py:
+
+	bump version to 0.8.2b1
+
+2005-11-09 18:20  ledmicka
+
+	* game/Module.py:
+
+	use the basename of the resource included for ResRef instead of the full pathname
+	use addResource instead of addRawResourceByName
+	fix bug # 1352336
+
+2005-11-09 18:18  ledmicka
+
+	* file/ERFFile.py:
+
+	getEntriesWithExtension did not return a list if only one element was found
+
+2005-11-08 16:20  ledmicka
+
+	* ui/PropWindow.py:
+
+	use GetValue instead of GetStringSelection for ComboBox. This is a bug since control type change, and the user changes in this control weren't saved.
+
+2005-11-08 16:18  ledmicka
+
+	* ui/PropWindow.py:
+
+	use good eventtype : having to hit enter after each edition is counter-intuitive
+
+2005-11-08 16:16  ledmicka
+
+	* ui/PropWindow.py:
+
+	tab vs space fix
+
+2005-11-08 14:22  ledmicka
+
+	* ui/NeverEditMainApp.py:
+
+	temporary fix for bug # 1291111 : not calling selectTreeItemById prevents triggering it - at the cost of autoselection of the object added
+
+2005-11-08 14:17  ledmicka
+
+	* ui/MapWindow.py:
+
+	correction on a previous patch commited too hastily on MoveEvent.Clone method
+
+2005-11-07 09:24  ledmicka
+
+	* ui/MapWindow.py:
+
+	replace the events Clone methods with ones that really create different objects, with distinct C++ part, so that segfault doesn't occur anymore when destroying both the original and the clone.
+
+2005-10-30 17:13  ledmicka
+
+	* ui/NeverEditMainApp.py:
+
+	fix : the sound thread was not called at the good place, it only happened when one closed neveredit (not even when loading another module)
+
+2005-10-26 23:00  sumpfork
+
+	* ChangeLog:
+
+	update changelog
+
+2005-10-26 23:00  sumpfork
+
+	* ui/SoundControl.py:
+
+	initialize variable in error condition
+
 2005-10-26 19:12  ledmicka
 
 	* game/NeverData.py:
