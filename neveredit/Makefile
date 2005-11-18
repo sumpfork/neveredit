@@ -16,11 +16,11 @@ change: ${FILES:%.py}
 	cvs2cl -S --no-wrap --accum --tags --prune --ignore Changelog
 
 upload:
-	-curl -T neveredit-$(VERSION).tar.gz ftp://upload.sf.net/incoming/
-	-curl -T neveredit-$(VERSION).dmg ftp://upload.sf.net/incoming/
-	-curl -T neveredit-$(VERSION).linux_i386.tar.gz ftp://upload.sf.net/incoming/
-	-curl -T neverscript-$(VERSION).dmg ftp://upload.sf.net/incoming/
-	-curl -T neverscript-$(VERSION).linux_i386.tar.gz ftp://upload.sf.net/incoming/
+	-curl -# -T neveredit-$(VERSION).tar.gz ftp://upload.sf.net/incoming/
+	-curl -# -T neveredit-$(VERSION).dmg ftp://upload.sf.net/incoming/
+	-curl -# -T neveredit-$(VERSION).linux_i386.tar.gz ftp://upload.sf.net/incoming/
+	-curl -# -T neverscript-$(VERSION).dmg ftp://upload.sf.net/incoming/
+	-curl -# -T neverscript-$(VERSION).linux_i386.tar.gz ftp://upload.sf.net/incoming/
 
 upload-beta:
 	-scp {neveredit-${VERSION}.dmg,neveredit-${VERSION}.tar.gz} sumpfork@shell.sf.net:/home/groups/o/op/openknights/htdocs/neveredit/
@@ -30,7 +30,7 @@ upload-beta:
 
 targz:
 	rm -fr neveredit
-	cvs -d :ext:sumpfork@cvs.sourceforge.net:/cvsroot/openknights export -D now neveredit
+	cvs -d :ext:sumpfork@cvs.sourceforge.net:/cvsroot/neveredit export -r now neveredit
 	rm -f neveredit-$(VERSION).tar.gz
 	tar czvf neveredit-$(VERSION).tar.gz neveredit
 	rm -fr neveredit
