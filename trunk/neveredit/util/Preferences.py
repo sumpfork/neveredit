@@ -38,11 +38,18 @@ class Preferences:
         else:
             self.prefPath = os.path.join(self.prefPath,'neveredit.prefs')
 
+	# Updated to include preferences for control of the model
+	# window.
         self.values = {'NWNAppDir':None,
                        'ScriptAntiAlias':False,
                        'ScriptAutoCompile':True,
 		       "DefaultLocStringLang":0,	# english=0
-                       'FileHistory':[]}
+                       'FileHistory':[],
+                       'GLW_UP':'w'.encode(sys.stdin.encoding),
+                       'GLW_DOWN': 's'.encode(sys.stdin.encoding),
+                       'GLW_RIGHT': 'e'.encode(sys.stdin.encoding),
+                       'GLW_LEFT': 'q'.encode(sys.stdin.encoding)}
+
 
     def __getitem__(self,key):
         return self.values[key]

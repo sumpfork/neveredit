@@ -7,15 +7,18 @@ from neveredit.resources.xrc import PreferencesDialog_xrc
 
 import neveredit.util.Preferences
 import neveredit.file.Language
+import sys
 
 class PreferencesDialog(wx.Dialog):
     __doc__ = globals()['__doc__']
     def __init__(self,parent,prefs=None,tablist=None):
+
+                
         if not prefs:
             prefs = neveredit.util.Preferences.getPreferences()
         self.preferences = prefs
         if not tablist:
-            tablist = ["GeneralPanel","ScriptEditorPanel","TextPanel"]
+            tablist = ["GeneralPanel","ScriptEditorPanel","TextPanel", "UserControlsPanel"]
 	    # tablist list all tabs that will be activated, the other ones do
 	    # not show
         self.tablist = tablist
@@ -60,6 +63,29 @@ class PreferencesDialog(wx.Dialog):
 					 wx.xrc.XRCCTRL(dialog, "TextPanel"))
 		notebook.DeletePage(index)
 
+        # Set up the User Controls Panel
+        # Create Controls
+        # Fix length 
+        # Set value
+        if "UserControlsPanel" in self.tablist :
+		self.mwUpKey = wx.xrc.XRCCTRL(dialog,"mwUpKey")
+                self.mwUpKey.SetMaxLength(1)
+                self.mwUpKey.SetValue(prefs['GLW_UP'].encode(sys.stdin.encoding))
+                self.mwDownKey = wx.xrc.XRCCTRL(dialog,"mwDownKey")
+                self.mwDownKey.SetMaxLength(1)
+                self.mwDownKey.SetValue(prefs['GLW_DOWN'].encode(sys.stdin.encoding))
+                self.mwLeftKey = wx.xrc.XRCCTRL(dialog,"mwLeftKey")
+                self.mwLeftKey.SetMaxLength(1)
+                self.mwLeftKey.SetValue(prefs['GLW_LEFT'].encode(sys.stdin.encoding))
+                self.mwRightKey = wx.xrc.XRCCTRL(dialog,"mwRightKey")
+                self.mwRightKey.SetMaxLength(1)
+                self.mwRightKey.SetValue(prefs['GLW_RIGHT'].encode(sys.stdin.encoding))
+		
+	else:
+		index = self.__getPanelIndex(notebook,
+					 wx.xrc.XRCCTRL(dialog, "UserControlsPanel"))
+		notebook.DeletePage(index)
+
 	dialog.Bind(wx.EVT_BUTTON, self.OnOk, id=wx.xrc.XRCID("ID_OK"))
         dialog.Bind(wx.EVT_BUTTON, self.OnCancel, id=wx.xrc.XRCID("ID_CANCEL"))
         self.PostCreate(dialog)
@@ -82,6 +108,13 @@ class PreferencesDialog(wx.Dialog):
 	if "TextPanel" in self.tablist:
 	    values.update({"DefaultLocStringLang":neveredit.file.Language.\
 		convertToBIOCode(self.DefaultLocStringLang.GetSelection())})
+            
+        # Update value of direction keys for Model/GLWindow
+        if "UserControlsPanel" in self.tablist:
+            values.update({'GLW_UP': self.mwUpKey.GetValue().encode(sys.stdin.encoding),
+                           'GLW_DOWN': self.mwDownKey.GetValue().encode(sys.stdin.encoding), 
+                           'GLW_LEFT': self.mwLeftKey.GetValue().encode(sys.stdin.encoding),
+                           'GLW_RIGHT': self.mwRightKey.GetValue().encode(sys.stdin.encoding)})
         return values
 
     def ShowAndInterpret(self):
@@ -99,6 +132,8 @@ class PreferencesDialog(wx.Dialog):
 
     def OnOk(self, event):
         self.EndModal(wx.ID_OK)
+
+    
 
 if __name__ == '__main__':
     import gettext,sys

@@ -59,6 +59,9 @@ class GLWindow(glcanvas.GLCanvas):
         wx.EVT_MOUSEWHEEL(self, self.OnMouseWheel)
         wx.EVT_KEY_DOWN(self, self.OnKeyDown)
 
+	# Read in the values for up, down, left and right
+	self.UpdateKeys()
+
     def OnEraseBackground(self, event):
         pass
 
@@ -85,19 +88,22 @@ class GLWindow(glcanvas.GLCanvas):
         pass #self.ReleaseMouse()
 
     def OnKeyDown(self,evt):
+
+	#Updated to use Unicode keys for Non-US keyboards
+
         if self.preprocessing:
             return
         if evt.GetKeyCode() == wx.WXK_UP:
             self.adjustZoom(2.0)
         if evt.GetKeyCode() == wx.WXK_DOWN:
             self.adjustZoom(-2.0)
-        if evt.GetKeyCode() == 87: #'w'
+        if unichr(evt.GetUnicodeKey()) == self.USRPRF_UP: #'w'
             self.adjustPos(1,0)
-        if evt.GetKeyCode() == 83: #'s'
+        if unichr(evt.GetUnicodeKey()) == self.USRPRF_DOWN: #'s'
             self.adjustPos(-1,0)
-        if evt.GetKeyCode() == 69: #'e'
+        if unichr(evt.GetUnicodeKey()) == self.USRPRF_RIGHT: #'e'
             self.adjustPos(0,-1)
-        if evt.GetKeyCode() == 81: #'q'
+        if unichr(evt.GetUnicodeKey()) == self.USRPRF_LEFT: #'q'
             self.adjustPos(0,1)
         if evt.GetKeyCode() == wx.WXK_LEFT:
             self.adjustViewAngle(self.angleSpeed,0.0)
@@ -1005,3 +1011,19 @@ class GLWindow(glcanvas.GLCanvas):
                 self.recomputeCamera()
             self.preprocessing = False
                 
+    # Purpose : Allows the user to define which keys correspond
+    #           to up, down, left and right actions.
+    # Method  : Load the preferences plist and assigne the appropriate
+    #           values
+    # Returns : Nothing
+    def UpdateKeys(self):
+
+        #Get ahold of the values
+        prefs = neveredit.util.Preferences.getPreferences()
+        prefs.load()
+
+        #Make the assignments
+        self.USRPRF_UP = prefs.values['GLW_UP']
+        self.USRPRF_DOWN = prefs.values['GLW_DOWN']
+        self.USRPRF_LEFT = prefs.values['GLW_LEFT']
+        self.USRPRF_RIGHT = prefs.values['GLW_RIGHT']

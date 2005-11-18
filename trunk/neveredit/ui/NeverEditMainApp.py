@@ -988,6 +988,9 @@ Copyright 2003-2004'''),
         d = PreferencesDialog.PreferencesDialog(self)
         if d.ShowAndInterpret():
             self.scriptEditor.prefsChanged()
+	    # Update the keys that correspond to the up, down, left and right.
+	    if self.model :
+		self.model.UpdateKeys();
             if oldAppDir != self.prefs['NWNAppDir']:
                 self.initResourceManager()
         
