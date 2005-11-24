@@ -410,6 +410,15 @@ class PropWindow(scrolled.ScrolledPanel, ResourceListChangeListener):
             if p:
                 control = wx.BitmapButton(parent,-1,WxUtils.bitmapFromImage(p))
                 wx.EVT_BUTTON(self,control.GetId(),self.handlePortraitButton)
+            else:
+                logger.error('unknown portrait index:'+str(prop.getValue()))
+                import Image,ImageDraw,ImageFont
+                image = Image.new("1",(32,64))
+                font = ImageFont.load_default()
+                draw = ImageDraw.Draw(image)
+                draw.text((3,3),"portrait not found",font=font)
+                control = wx.BitmapButton(parent,-1,WxUtils.bitmapFromImage(image))
+                wx.EVT_BUTTON(self,control.GetId(),self.handlePortraitButton)
         if control:
             label = wx.StaticText(self,-1,prop.getName().split('.')[-1])
         else:
@@ -500,6 +509,7 @@ class PropWindow(scrolled.ScrolledPanel, ResourceListChangeListener):
     def handlePortraitButton(self,event):
         '''Callback for the portrait selection button'''
         portraits = neverglobals.getResourceManager().getPortraitNameList()
+        # not finished!
 
     def cleanPropPage(self):
         '''Clean up the prop page, removing all labels and controls.'''
