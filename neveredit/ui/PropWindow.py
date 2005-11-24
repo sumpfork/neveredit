@@ -77,7 +77,7 @@ class CExoLocStringControl(wx.BoxSizer):
 
         self.langIDChoice = wx.Choice(propWindow,-1,choices=langChoices)
         self.langIDChoice.SetSelection(
-			neveredit.file.Language.convertFromBIOCode(self.langID))
+            neveredit.file.Language.convertFromBIOCode(self.langID))
         wx.EVT_CHOICE(propWindow,self.langIDChoice.GetId(),self.langSelection)
 
         self.genderChoice = wx.Choice(propWindow,-1,choices=genderChoices)
