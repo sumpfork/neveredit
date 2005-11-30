@@ -84,7 +84,6 @@ BUG : I experience some segfaults with mp3 playing...
         return self.sound_list.GetId()
 
     def playButtonHit(self, event):
-        print('playButtonHit entered with hasChanged = ',self.hasChanged)
         if self.hasChanged or self.firstTime:
             self.hasChanged = False
             self.firstTime = False
