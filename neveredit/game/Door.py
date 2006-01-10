@@ -63,7 +63,8 @@ class DoorInstance(Door,SituatedObjectInstance):
     
     def __init__ (self, gffEntry):
         if gffEntry.getType() != DoorInstance.GFF_STRUCT_ID:
-            logger.warning("created with gff struct type " + `gffEntry.getType()`
-                           + " should be " + DoorInstance.GFF_STRUCT_ID)        
+            logger.warning("created with gff struct type "
+                           + `gffEntry.getType()`
+                           + " should be " + `DoorInstance.GFF_STRUCT_ID`)     
         SituatedObjectInstance.__init__ (self, gffEntry)
         Door.__init__ (self, gffEntry)

@@ -80,8 +80,9 @@ class ItemInstance(Item, NeverInstance):
     
     def __init__(self,gffEntry):
         if gffEntry.getType() != ItemInstance.GFF_STRUCT_ID:
-            logger.warning("created with gff struct type " + `gffEntry.getType()`
-                           + " should be " + ItemInstance.GFF_STRUCT_ID)        
+            logger.warning("created with gff struct type " 
+                           + `gffEntry.getType()`
+                           + " should be " + `ItemInstance.GFF_STRUCT_ID`)
         Item.__init__(self,gffEntry)
         self.addPropList('instance',self.itemInstProplist,gffEntry)
         

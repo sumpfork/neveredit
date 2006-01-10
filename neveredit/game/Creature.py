@@ -139,8 +139,9 @@ class CreatureInstance (Creature, NeverInstance):
             
     def __init__(self,gffEntry):
         if gffEntry.getType() != CreatureInstance.GFF_STRUCT_ID:
-            logger.warning("created with gff struct type " + `gffEntry.getType()`
-                           + " should be " + CreatureInstance.GFF_STRUCT_ID)
+            logger.warning("created with gff struct type " 
+                           + `gffEntry.getType()`
+                           + " should be " + `CreatureInstance.GFF_STRUCT_ID`)
         Creature.__init__(self, gffEntry)
         self.addPropList('instance',self.creatureInstPropList,gffEntry)
 
