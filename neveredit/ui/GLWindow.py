@@ -12,6 +12,8 @@ glutInit(sys.argv)      # must be initialized once and only once
 from sets import Set
 
 from neveredit.util import Utils
+from neveredit.util import Preferences
+
 Numeric = Utils.getNumPy()
 LinearAlgebra = Utils.getLinAlg()
 import time
@@ -1019,7 +1021,7 @@ class GLWindow(glcanvas.GLCanvas):
     def UpdateKeys(self):
 
         #Get ahold of the values
-        prefs = neveredit.util.Preferences.getPreferences()
+        prefs = Preferences.getPreferences()
         prefs.load()
 
         #Make the assignments
