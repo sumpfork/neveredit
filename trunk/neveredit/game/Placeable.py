@@ -60,8 +60,9 @@ class PlaceableInstance(Placeable,SituatedObjectInstance):
     
     def __init__ (self, gffEntry):
         if gffEntry.getType() != PlaceableInstance.GFF_STRUCT_ID:
-            logger.warning("created with gff struct type " + `gffEntry.getType()`
-                           + " should be " + PlaceableInstance.GFF_STRUCT_ID)
+            logger.warning("created with gff struct type "
+                           + `gffEntry.getType()`
+                           + " should be " + `PlaceableInstance.GFF_STRUCT_ID`)
         SituatedObjectInstance.__init__ (self, gffEntry)
         Placeable.__init__ (self, gffEntry)
 

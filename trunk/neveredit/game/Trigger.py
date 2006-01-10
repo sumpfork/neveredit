@@ -106,8 +106,9 @@ class TriggerInstance(Trigger,NeverInstance):
 
     def __init__(self,gffEntry):
         if gffEntry.getType() != TriggerInstance.GFF_STRUCT_ID:
-            logger.warning("created with gff struct type " + `gffEntry.getType()`
-                           + " should be " + TriggerInstance.GFF_STRUCT_ID)        
+            logger.warning("created with gff struct type "
+                           + `gffEntry.getType()`
+                           + " should be " + `TriggerInstance.GFF_STRUCT_ID`)
         Trigger.__init__(self,gffEntry)
         self.addPropList('instance',self.triggerInstancePropList,gffEntry)
 

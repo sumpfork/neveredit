@@ -94,8 +94,9 @@ class WayPointInstance(WayPoint, NeverInstance):
 
     def __init__(self,gffEntry):
         if gffEntry.getType() != WayPointInstance.GFF_STRUCT_ID:
-            logger.warning("created with gff struct type " + `gffEntry.getType()`
-                           + " should be " + WayPointInstance.GFF_STRUCT_ID)        
+            logger.warning("created with gff struct type "
+                           + `gffEntry.getType()`
+                           + " should be " + `WayPointInstance.GFF_STRUCT_ID`)
         WayPoint.__init__(self,gffEntry)
         self.addPropList('instance',self.waypointInstProplist,gffEntry)
 
