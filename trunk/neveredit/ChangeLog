@@ -1,6 +1,94 @@
-2005-11-09 19:40  sumpfork
+2006-01-18 11:30  sumpfork
 
 	* __init__.py:
+
+	bump version to 0.8.2b2
+
+2006-01-10 11:00  sumpfork
+
+	* ui/GLWindow.py (tags: v0_8_2_b2):
+
+	fix missing import
+
+2006-01-10 10:59  sumpfork
+
+	* game/: Creature.py, Door.py, Item.py, Placeable.py, Trigger.py,
+	  WayPoint.py (utags: v0_8_2_b2):
+
+	fix missing quote for ints in warnings
+
+2005-11-30 08:41  ledmicka
+
+	* ui/SoundControl.py (tags: v0_8_2_b2):
+
+	remove debug printing
+
+2005-11-24 07:32  ledmicka
+
+	* ui/PropWindow.py (tags: v0_8_2_b2):
+
+	fix for tab/space problem
+
+2005-11-24 07:30  ledmicka
+
+	* ui/PropWindow.py:
+
+	don't ignore the case of inexistant portrait - provide a default one
+
+2005-11-21 06:06  ledmicka
+
+	* ui/NeverEditMainApp.py (tags: v0_8_2_b2):
+
+	fix some indentation errors (tabs v.s 4 spaces)
+
+2005-11-18 18:21  sumpfork
+
+	* Makefile (tags: v0_8_2_b2):
+
+	fix cvsroot;show progress during upload
+
+2005-11-17 20:24  jazzdman
+
+	* resources/xrc/: PreferencesDialog.xrc, PreferencesDialog_xrc.py
+	  (utags: v0_8_2_b2):
+
+	Updated to allow user-defined nav keys for ModelWindow
+
+2005-11-17 20:20  jazzdman
+
+	* ui/NeverEditMainApp.py, ui/PreferencesDialog.py (tags:
+	  v0_8_2_b2), ui/GLWindow.py, util/Preferences.py (tags:
+	  v0_8_2_b2):
+
+	Updated to allow user-defined nav keys for ModelWindow
+
+2005-11-10 13:11  ledmicka
+
+	* game/Module.py (tags: v0_8_2_b2, v0_8_2_b1):
+
+	update the module area list after the addition of an ERF file
+
+2005-11-10 06:11  ledmicka
+
+	* ui/NeverEditMainApp.py (tags: v0_8_2_b1):
+
+	fix a crash when re-selecting a tree item after an edition in the faction grid - we really have a problem with those tree selection events...
+
+2005-11-10 06:09  ledmicka
+
+	* ui/FactionGridWindow.py (tags: v0_8_2_b2, v0_8_2_b1):
+
+	fix : the grid cells could not be edited
+
+2005-11-09 19:41  sumpfork
+
+	* ChangeLog (tags: v0_8_2_b2, v0_8_2_b1):
+
+	update changelog
+
+2005-11-09 19:40  sumpfork
+
+	* __init__.py (tags: v0_8_2_b2, v0_8_2_b1):
 
 	bump version to 0.8.2b1
 
