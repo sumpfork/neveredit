@@ -1,0 +1,17 @@
+*.git
+*.nss
+*.ncs
+*.tga
+*.set
+*.mod
+*.mdl
+*.gz
+*.2da
+*.prof
+*.pyc
+*.dmg
+*.image
+build
+*.cached
+dist
+.sconsign
