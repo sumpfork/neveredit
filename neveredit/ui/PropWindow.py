@@ -59,7 +59,7 @@ class CExoLocStringControl(wx.BoxSizer):
         self.gender = 0
         self.prop = prop
 
-        insideHorizSizer = wx.BoxSizer(wx.HORIZONTAL)
+        insideHorizSizer = wx.BoxSizer(wx.VERTICAL)
         choiceSizer = wx.BoxSizer(wx.VERTICAL)
 
         if len(typeSpec) > 1 and int(typeSpec[1]) > 1:
@@ -90,7 +90,7 @@ class CExoLocStringControl(wx.BoxSizer):
         self.fetchText()
 
         insideHorizSizer.Add(self.textCtrl, 0, wx.EXPAND | wx.ALL, 0)
-        insideHorizSizer.Add(choiceSizer, 0, wx.ALL, 0)
+        insideHorizSizer.Add(choiceSizer)
         self.Add(self.label, 0, wx.ALL, 5)
         self.Add(insideHorizSizer, 0, wx.EXPAND | wx.ALL, 0)
 
@@ -98,10 +98,10 @@ class CExoLocStringControl(wx.BoxSizer):
         (text,index) = self.prop.getValue().getStringAndIndex(self.langID,self.gender)
         exp_index = self.langID * 2 + self.gender
         if exp_index != index:
-            s = string.join(["Displaying text at index", `index`, "Editing will create a copy."])
+            s = string.join(["This is a stock NWN application string."])
             self.label.SetLabel(s)
         else:
-            self.label.SetLabel("Editing current copy.")
+            self.label.SetLabel("This is a string from the current module.")
         self.textCtrl.SetValue(text)
   
     def langSelection(self,event):

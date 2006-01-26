@@ -34,18 +34,18 @@ class HAKListControl(wx.BoxSizer) :
         self.used_haks = wx.ListBox(propWindow, -1, size=(-1,100),\
                 choices = self.getUsedHAKs(),
                 style = wx.LB_SINGLE|wx.LB_NEEDED_SB)
-        self.to_used = wx.Button(propWindow, -1, "->", style=wx.BU_EXACTFIT)
-        self.to_nonused = wx.Button(propWindow, -1, "<-", style=wx.BU_EXACTFIT)
-        self.up_button = wx.Button(propWindow, -1, _("  up  "), style=wx.BU_EXACTFIT)
-        self.down_button = wx.Button(propWindow, -1, _("down"), style=wx.BU_EXACTFIT)
+        self.to_used = wx.Button(propWindow, -1, "->")
+        self.to_nonused = wx.Button(propWindow, -1, "<-")
+        self.up_button = wx.Button(propWindow, -1, _("move up"))
+        self.down_button = wx.Button(propWindow, -1, _("move down"))
 
         self.unused_label = wx.StaticText(propWindow,-1,_('Avaible HAKs'))
         self.used_label = wx.StaticText(propWindow,-1,_('Selected HAKs'))
-        arrows_sizer.Add(self.to_used)
-        arrows_sizer.Add(self.to_nonused)
 
-        updown_sizer.Add(self.up_button)
-        updown_sizer.Add(self.down_button)
+        arrows_sizer.Add(self.to_used, 0, wx.EXPAND)
+        arrows_sizer.Add(self.to_nonused, 0, wx.EXPAND)
+        arrows_sizer.Add(self.up_button, 0, wx.EXPAND)
+        arrows_sizer.Add(self.down_button, 0, wx.EXPAND)
 
         usedhaks_sizer.Add(self.used_label,flag=wx.TOP)
         usedhaks_sizer.Add(self.used_haks)

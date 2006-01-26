@@ -116,7 +116,7 @@ PAINT_TOOL = wx.NewId()
 class ToolFrame(wx.MiniFrame):
     def __init__(self):
         import Image,WxUtils
-        wx.MiniFrame.__init__(self,None,-1,"Tools",(800,50),(300,600))
+        wx.MiniFrame.__init__(self,None,-1,"Tools",(830,30),(300,600))
         self.SetBackgroundColour('WHITE')
         self.CreateStatusBar()
         self.toolbar = self.CreateToolBar(wx.TB_FLAT | wx.NO_BORDER | wx.TB_HORIZONTAL)
