@@ -116,8 +116,8 @@ class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
         self.splash.Show(True)
 
         wx.Frame.__init__(self,parent,-1,title,size=(820,600),\
-                          style=wx.DEFAULT_FRAME_STYLE\
-                          |wx.NO_FULL_REPAINT_ON_RESIZE)
+                          style=wx.DEFAULT_FRAME_STYLE)#\
+                          #|wx.NO_FULL_REPAINT_ON_RESIZE)
 
         self.doInit = False
         self.fname = None
@@ -795,6 +795,7 @@ class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
     def treeSelChanged(self,event):
         '''Callback to handle the user changing the selection
         in the main tree.'''
+        logger.info("treeSelChanged " + `event`)
         self.maybeApplyPropControlValues()
         lastItem = self.selectedTreeItem
         self.selectedTreeItem = event.GetItem()

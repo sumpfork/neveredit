@@ -61,8 +61,8 @@ class GLWindow(glcanvas.GLCanvas):
         wx.EVT_MOUSEWHEEL(self, self.OnMouseWheel)
         wx.EVT_KEY_DOWN(self, self.OnKeyDown)
 
-	# Read in the values for up, down, left and right
-	self.UpdateKeys()
+        # Read in the values for up, down, left and right
+        self.UpdateKeys()
 
     def OnEraseBackground(self, event):
         pass
@@ -91,7 +91,7 @@ class GLWindow(glcanvas.GLCanvas):
 
     def OnKeyDown(self,evt):
 
-	#Updated to use Unicode keys for Non-US keyboards
+        #Updated to use Unicode keys for Non-US keyboards
 
         if self.preprocessing:
             return

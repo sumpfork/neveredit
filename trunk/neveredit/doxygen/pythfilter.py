@@ -395,7 +395,7 @@ def tok_eater(type, tok, spos, epos, line):
                     s = 'static '
                     if params[0] == 'cls':
                         param = string.join(params[1:], ",")
-		s = s+name+"("+param+");\n"
+                s = s+name+"("+param+");\n"
                 if len(name) > 1 \
                    and name[0:2] == '__' \
                    and name[len(name)-2:len(name)] != '__' \
@@ -403,7 +403,7 @@ def tok_eater(type, tok, spos, epos, line):
                        private_member = True
                        output("  private:\n",(def_spos[0]+2,def_spos[1]))
             else:
-	        s = name+"("+param+");\n"
+                s = name+"("+param+");\n"
             if (doc_string!=""): comment_block.append(doc_string)
             print_comment(def_spos)
             output(s,def_spos)

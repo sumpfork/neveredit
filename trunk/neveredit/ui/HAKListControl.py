@@ -125,7 +125,7 @@ class HAKListControl(wx.BoxSizer) :
 
     def HAKMoveUp(self, event) :
         n_haks = self.used_haks.GetSelections()
-        if len(n_haks)==1 :		# for multiple choices, that can make strange behavior!
+        if len(n_haks)==1 :             # for multiple choices, that can make strange behavior!
 
             event.SetId(self.GetId())
             self.propWindow.controlUsed(event)
@@ -143,7 +143,7 @@ class HAKListControl(wx.BoxSizer) :
 
     def HAKMoveDown(self, event) :
         n_haks = self.used_haks.GetSelections()
-        if len(n_haks)==1 :		    # for multiple choices, that can make strange behavior!
+        if len(n_haks)==1 :                 # for multiple choices, that can make strange behavior!
 
             event.SetId(self.GetId())
             self.propWindow.controlUsed(event)
