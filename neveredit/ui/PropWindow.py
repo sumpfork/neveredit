@@ -445,7 +445,7 @@ class PropWindow(scrolled.ScrolledPanel, ResourceListChangeListener):
             module = neverglobals.getResourceManager().module
             if module:
                 for ctags in [d['creatures'] for d in module.getTags()['areas'].values()]:
-	            tags.extend(ctags)
+                    tags.extend(ctags)
         selection = prop.getValue()
         try:
             index = tags.index(selection)

@@ -19,8 +19,8 @@ class PreferencesDialog(wx.Dialog):
         self.preferences = prefs
         if not tablist:
             tablist = ["GeneralPanel","ScriptEditorPanel","TextPanel", "UserControlsPanel"]
-	    # tablist list all tabs that will be activated, the other ones do
-	    # not show
+            # tablist list all tabs that will be activated, the other ones do
+            # not show
         self.tablist = tablist
         resourceText = PreferencesDialog_xrc.data
         resource = wx.xrc.EmptyXmlResource()
@@ -53,22 +53,22 @@ class PreferencesDialog(wx.Dialog):
                                          wx.xrc.XRCCTRL(dialog,
                                                         "ScriptEditorPanel"))
             notebook.DeletePage(index)
-	if "TextPanel" in self.tablist :
-		self.DefaultLocStringLang = wx.xrc.XRCCTRL(
-					dialog,"DefaultLocStringLang")
-		self.DefaultLocStringLang.SetSelection(neveredit.file.Language.\
-			convertFromBIOCode(prefs["DefaultLocStringLang"]))
-	else:
-		index = self.__getPanelIndex(notebook,
-					 wx.xrc.XRCCTRL(dialog, "TextPanel"))
-		notebook.DeletePage(index)
+        if "TextPanel" in self.tablist :
+                self.DefaultLocStringLang = wx.xrc.XRCCTRL(
+                                        dialog,"DefaultLocStringLang")
+                self.DefaultLocStringLang.SetSelection(neveredit.file.Language.\
+                        convertFromBIOCode(prefs["DefaultLocStringLang"]))
+        else:
+                index = self.__getPanelIndex(notebook,
+                                         wx.xrc.XRCCTRL(dialog, "TextPanel"))
+                notebook.DeletePage(index)
 
         # Set up the User Controls Panel
         # Create Controls
         # Fix length 
         # Set value
         if "UserControlsPanel" in self.tablist :
-		self.mwUpKey = wx.xrc.XRCCTRL(dialog,"mwUpKey")
+                self.mwUpKey = wx.xrc.XRCCTRL(dialog,"mwUpKey")
                 self.mwUpKey.SetMaxLength(1)
                 self.mwUpKey.SetValue(prefs['GLW_UP'].encode(sys.stdin.encoding))
                 self.mwDownKey = wx.xrc.XRCCTRL(dialog,"mwDownKey")
@@ -80,13 +80,13 @@ class PreferencesDialog(wx.Dialog):
                 self.mwRightKey = wx.xrc.XRCCTRL(dialog,"mwRightKey")
                 self.mwRightKey.SetMaxLength(1)
                 self.mwRightKey.SetValue(prefs['GLW_RIGHT'].encode(sys.stdin.encoding))
-		
-	else:
-		index = self.__getPanelIndex(notebook,
-					 wx.xrc.XRCCTRL(dialog, "UserControlsPanel"))
-		notebook.DeletePage(index)
+                
+        else:
+                index = self.__getPanelIndex(notebook,
+                                         wx.xrc.XRCCTRL(dialog, "UserControlsPanel"))
+                notebook.DeletePage(index)
 
-	dialog.Bind(wx.EVT_BUTTON, self.OnOk, id=wx.xrc.XRCID("ID_OK"))
+        dialog.Bind(wx.EVT_BUTTON, self.OnOk, id=wx.xrc.XRCID("ID_OK"))
         dialog.Bind(wx.EVT_BUTTON, self.OnCancel, id=wx.xrc.XRCID("ID_CANCEL"))
         self.PostCreate(dialog)
 
@@ -105,9 +105,9 @@ class PreferencesDialog(wx.Dialog):
                            self.scriptAntiAlias.GetValue(),
                            'ScriptAutoCompile':
                            self.scriptAutoCompile.GetValue()})
-	if "TextPanel" in self.tablist:
-	    values.update({"DefaultLocStringLang":neveredit.file.Language.\
-		convertToBIOCode(self.DefaultLocStringLang.GetSelection())})
+            if "TextPanel" in self.tablist:
+                values.update({"DefaultLocStringLang":neveredit.file.Language.\
+                convertToBIOCode(self.DefaultLocStringLang.GetSelection())})
             
         # Update value of direction keys for Model/GLWindow
         if "UserControlsPanel" in self.tablist:
