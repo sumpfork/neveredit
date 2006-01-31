@@ -120,11 +120,22 @@ class QuadTreeNode:
         self.contents.append(o)
 
     def __str__(self):
-        return '{' + `self.boundingSphere` + ' - ' + `self.children` + '}'
+        return '{xmin:' + `self.xmin` + ' xmax:' + `self.xmax`\
+             + ' ymin:' + `self.ymin` + ' ymax:' + `self.ymax`\
+             + `self.boundingSphere` + '}' # + ' - ' + `self.children` + '}'
 
     def __repr__(self):
         return self.__str__()
 
+    def printNode(self):
+        self.printHelper(self, '')
+    
+    def printHelper(self, node, indent):
+        print indent,`node`
+        for row in node.children:
+            for n in row:
+                self.printHelper(n, indent + '  ')
+                
 class TextBox:
     def __init__(self):
         self.text = []
@@ -603,8 +614,8 @@ class MapWindow(GLWindow,Progressor,VisualChangeListener):
             for j in range(self.area.getWidth()):
                 self.thingMap[i][j] = {'tiles':[],'things':[]}
         for i,thing in enumerate(self.fullThingList):
-            x = int(thing.getX() / 10)
-            y = int(thing.getY() / 10)
+            x = int(math.floor(thing.getX() / 10.0))
+            y = int(math.floor(thing.getY() / 10.0))
             if x == self.area.getWidth(): # doors can be at the edges
                 x -= 1
             if y == self.area.getHeight():
@@ -618,6 +629,7 @@ class MapWindow(GLWindow,Progressor,VisualChangeListener):
         self.makeQuadTreeHelper(self.quadTreeRoot,0,0,
                                 self.area.getWidth(),
                                 self.area.getHeight())
+        #self.quadTreeRoot.printNode()
         
     def makeQuadTreeHelper(self,node,xmin,ymin,xmax,ymax):
         w = xmax - xmin
@@ -734,10 +746,10 @@ class MapWindow(GLWindow,Progressor,VisualChangeListener):
                 self.makeQuadTreeHelper(node.children[0][0],xmin,ymin,xmax,hsplit)
                 r = math.sqrt(25.0 + (5.0*float(c2h)) ** 2)
                 node.children[1][0].boundingSphere[1] = r
-                node.children[0][0].xmin = xmin*10
-                node.children[0][0].xmax = xmax*10
-                node.children[0][0].ymin = hsplit*10
-                node.children[0][0].ymax = ymax*10                
+                node.children[1][0].xmin = xmin*10
+                node.children[1][0].xmax = xmax*10
+                node.children[1][0].ymin = hsplit*10
+                node.children[1][0].ymax = ymax*10                
                 self.makeQuadTreeHelper(node.children[1][0],xmin,hsplit,xmax,ymax)
             else:
                 pass
@@ -770,7 +782,7 @@ class MapWindow(GLWindow,Progressor,VisualChangeListener):
             self.setStatus('Reading area tiles...')
             area.readTiles()
             self.lookingAtX = area.getWidth()*5.0
-            self.lookingAtY = area.getWidth()*5.0        
+            self.lookingAtY = area.getHeight()*5.0        
             self.placeables = area.getPlaceables()
             self.doors = area.getDoors()
             self.creatures = area.getCreatures()
