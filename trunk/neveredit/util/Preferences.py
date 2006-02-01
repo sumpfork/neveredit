@@ -45,10 +45,10 @@ class Preferences:
                        'ScriptAutoCompile':True,
                        "DefaultLocStringLang":0,        # english=0
                        'FileHistory':[],
-                       'GLW_UP':'w'.encode(sys.stdin.encoding),
-                       'GLW_DOWN': 's'.encode(sys.stdin.encoding),
-                       'GLW_RIGHT': 'e'.encode(sys.stdin.encoding),
-                       'GLW_LEFT': 'q'.encode(sys.stdin.encoding)}
+                       'GLW_UP':'w',
+                       'GLW_DOWN': 's',
+                       'GLW_RIGHT': 'e',
+                       'GLW_LEFT': 'q'}
 
 
     def __getitem__(self,key):

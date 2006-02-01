@@ -70,16 +70,16 @@ class PreferencesDialog(wx.Dialog):
         if "UserControlsPanel" in self.tablist :
                 self.mwUpKey = wx.xrc.XRCCTRL(dialog,"mwUpKey")
                 self.mwUpKey.SetMaxLength(1)
-                self.mwUpKey.SetValue(prefs['GLW_UP'].encode(sys.stdin.encoding))
+                self.mwUpKey.SetValue(prefs['GLW_UP'])
                 self.mwDownKey = wx.xrc.XRCCTRL(dialog,"mwDownKey")
                 self.mwDownKey.SetMaxLength(1)
-                self.mwDownKey.SetValue(prefs['GLW_DOWN'].encode(sys.stdin.encoding))
+                self.mwDownKey.SetValue(prefs['GLW_DOWN'])
                 self.mwLeftKey = wx.xrc.XRCCTRL(dialog,"mwLeftKey")
                 self.mwLeftKey.SetMaxLength(1)
-                self.mwLeftKey.SetValue(prefs['GLW_LEFT'].encode(sys.stdin.encoding))
+                self.mwLeftKey.SetValue(prefs['GLW_LEFT'])
                 self.mwRightKey = wx.xrc.XRCCTRL(dialog,"mwRightKey")
                 self.mwRightKey.SetMaxLength(1)
-                self.mwRightKey.SetValue(prefs['GLW_RIGHT'].encode(sys.stdin.encoding))
+                self.mwRightKey.SetValue(prefs['GLW_RIGHT'])
                 
         else:
                 index = self.__getPanelIndex(notebook,
@@ -105,16 +105,16 @@ class PreferencesDialog(wx.Dialog):
                            self.scriptAntiAlias.GetValue(),
                            'ScriptAutoCompile':
                            self.scriptAutoCompile.GetValue()})
-            if "TextPanel" in self.tablist:
-                values.update({"DefaultLocStringLang":neveredit.file.Language.\
-                convertToBIOCode(self.DefaultLocStringLang.GetSelection())})
+        if "TextPanel" in self.tablist:
+            values.update({"DefaultLocStringLang":neveredit.file.Language.\
+                           convertToBIOCode(self.DefaultLocStringLang.GetSelection())})
             
         # Update value of direction keys for Model/GLWindow
         if "UserControlsPanel" in self.tablist:
-            values.update({'GLW_UP': self.mwUpKey.GetValue().encode(sys.stdin.encoding),
-                           'GLW_DOWN': self.mwDownKey.GetValue().encode(sys.stdin.encoding), 
-                           'GLW_LEFT': self.mwLeftKey.GetValue().encode(sys.stdin.encoding),
-                           'GLW_RIGHT': self.mwRightKey.GetValue().encode(sys.stdin.encoding)})
+            values.update({'GLW_UP': self.mwUpKey.GetValue(),
+                           'GLW_DOWN': self.mwDownKey.GetValue(),
+                           'GLW_LEFT': self.mwLeftKey.GetValue(),
+                           'GLW_RIGHT': self.mwRightKey.GetValue()})
         return values
 
     def ShowAndInterpret(self):
