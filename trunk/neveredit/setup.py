@@ -45,7 +45,8 @@ def main():
           author="Sumpfork",
           author_email="sumpfork@users.sourceforge.net",
           url="http://neveredit.sourceforge.net",
-          download_url="http://prdownloads.sourceforge.net/neveredit/" + name + "-" +\
+          download_url="http://prdownloads.sourceforge.net/neveredit/" +\
+          name + "-" +\
           version + ".tar.gz?download",
           license="BSD-like, but subject to Bioware's NWN License Agreement",
           platforms=['any'],
@@ -64,12 +65,14 @@ def main():
                     'neveredit.resources',
                     'neveredit.resources.images',
                     'neveredit.resources.xrc'],
-          scripts=['run/neveredit','run/neverscript','run/nevercommand','run/nevererf'],
+          scripts=['run/neveredit','run/neverscript','run/nevercommand',
+                   'run/nevererf'],
           
           options=dict(py2app=dict(
                 argv_emulation=True,
                 compressed=True,
                 strip=True,
+                semi_standalone=False,
                 #next line needs to be changed if Numeric enabled in Utils.py
                 excludes=['Numeric','LinearAlgebra'],
                 includes=['numarray.libnumarray','numarray._ufuncBool',
@@ -84,7 +87,8 @@ def main():
                 plist={'CFBundleIconFile':name+'.icns',
                        'CFBundleName':name,
                        'CFBundleVersion':version,
-                       'NSHumanReadableCopyright':'Copyright 2005, Peter Gorniak'}
+                       'NSHumanReadableCopyright':
+                       'Copyright 2005, Peter Gorniak'}
                 )),
     )
 
