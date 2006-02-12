@@ -92,7 +92,10 @@ class Module(Progressor,NeverData):
         self.conversations = None
         self.areas = {}
 
-        self.facObject = neveredit.game.Factions.Factions(self.erfFile)
+        try:
+            self.facObject = neveredit.game.Factions.Factions(self.erfFile)
+        except RuntimeError:
+            self.facObject = None
         self.factions= {}
     
     def getFileName(self):
@@ -197,7 +200,7 @@ class Module(Progressor,NeverData):
 
     def getFactions(self):
         """Get the factions in the module"""
-        if not self.factions:
+        if self.facObject and not self.factions:            
             self.facObject.readContents()
             for f in self.facObject.factionList:
                 self.factions[f.getName()] = f
