@@ -33,11 +33,11 @@ class WayPoint(LocatedNeverData):
         twoda = neverglobals.getResourceManager()\
                 .getResourceByName('waypoint.2da')
         index = self['Appearance']
-        print(index)
+        #print(index)
         if not index:
             index = 1   # only influes on apearence in the toolset, not in game
         self.modelName = twoda.getEntry(index,'RESREF').lower() + '.mdl'
-        print('MODELNAME : '+self.modelName)
+        #print('MODELNAME : '+self.modelName)
         model = neverglobals.getResourceManager()\
                 .getResourceByName(self.modelName,copy)
         if not copy:
