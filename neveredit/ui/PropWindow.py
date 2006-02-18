@@ -131,7 +131,7 @@ class PropWindow(scrolled.ScrolledPanel, ResourceListChangeListener):
 
     def __init__(self,parent):
         scrolled.ScrolledPanel.__init__(self,parent,-1)
-        self.propGrid = rcs.RowColSizer()
+        self.propGrid = wx.GridBagSizer()
         self.SetSizer(self.propGrid)
         self.SetAutoLayout(True)
         self.SetupScrolling(scroll_x=False)        
@@ -141,7 +141,8 @@ class PropWindow(scrolled.ScrolledPanel, ResourceListChangeListener):
         self.visualChanged = False
         
         self.propLabels = []
-        self.propControls = {}
+        self.lines = []
+        self.propControls = {}        
         # get default language preference for CEXOLocStrings
         p = neveredit.util.Preferences.getPreferences()
         self.defaultlang = p['DefaultLocStringLang']
@@ -161,7 +162,6 @@ class PropWindow(scrolled.ScrolledPanel, ResourceListChangeListener):
             if typeSpec[0] == "ResRef":
                 self.updateResRefControl(propControl.control,typeSpec,prop)
             elif typeSpec[0] == "CExoString" and len(typeSpec) > 1:
-                print "updating"
                 self.updateCustomChoiceControl(propControl.control,typeSpec,prop)
     
     def makePropsForItem(self,item,observer=None):
@@ -194,26 +194,21 @@ class PropWindow(scrolled.ScrolledPanel, ResourceListChangeListener):
                     self.propControls[control.GetId()] = (propControl,p)
                     if first:
                         line = wx.StaticLine(self,-1,
-                                             style=wx.LI_HORIZONTAL,
-                                             size=((label.GetSize()[0]
-                                                    + control.GetSize()[0]
-                                                    + 40,2)))
-                        self.propGrid.Add(line,row=0,col=1,colspan=2,
-                                          flag=wx.EXPAND)
+                                             style=wx.LI_HORIZONTAL)
+                        self.propGrid.Add(line,pos=(0,0),
+                                          span=(1,3),flag=wx.EXPAND)
+                        self.lines.append(line)
                         first = False
-
+                        
                     r = 2*len(self.propControls)
-                    self.propGrid.Add(label,row=r,col=1,
-                                      flag=wx.ALIGN_CENTRE_VERTICAL)
+                    self.propGrid.Add(label, pos=(r,0),
+                                      flag=wx.ALIGN_LEFT|wx.LEFT, border=10)                    
                     self.propLabels.append(label)
-                    self.propGrid.Add(control,row=r,col=2,border=15,
-                                      flag=wx.ALIGN_RIGHT)
-                    self.propGrid.AddSpacer(5,5,pos=(r,3))
-                    line = wx.StaticLine(self,-1,style=wx.LI_HORIZONTAL,
-                                         size=(label.GetSize()[0]
-                                               + control.GetSize()[0] + 40,2))
-                    self.propGrid.Add(line,row=r+1,col=1,colspan=2,
-                                      flag=wx.EXPAND)
+                    self.propGrid.Add(control, pos=(r,2),
+                                      flag=wx.ALIGN_RIGHT|wx.RIGHT, border=10)
+                    line = wx.StaticLine(self,-1,style=wx.LI_HORIZONTAL)
+                    self.propGrid.Add(line,pos=(r+1,0),span=(1,3),flag=wx.EXPAND)
+                    self.lines.append(line)
                 elif not p.getSpec()[0] == 'Hidden':
                     print 'Error: unhandled prop type',p.getSpec()
                     if label:
@@ -222,11 +217,11 @@ class PropWindow(scrolled.ScrolledPanel, ResourceListChangeListener):
                 width = control.GetSize()[0] + label.GetSize()[0] + 10
                 if width > minWidth:
                     minWidth = width
-        self.propGrid.Layout()
-        self.SetupScrolling()
-        self.SetSizeHints(minW = minWidth, minH=-1)
-        self.propGrid.FitInside(self)
         self.propsChanged = False
+        self.propGrid.AddGrowableCol(0)
+        self.propGrid.Layout()
+        #self.propGrid.SetVirtualSizeHints(self)
+        self.FitInside()
         logger.debug("done making props")
         
     def applyPropControlValues(self,item):
@@ -516,12 +511,16 @@ class PropWindow(scrolled.ScrolledPanel, ResourceListChangeListener):
         for l in self.propLabels:
             self.propGrid.Detach(l)
             l.Destroy()
+        for l in self.lines:
+            self.propGrid.Detach(l)
+            l.Destroy()
         for c,p in self.propControls.values():
             self.propGrid.Detach(c.control)
             c.control.Destroy()
         self.propControls = {}
         self.propLabels = []
-        self.propGrid.AddGrowableCol(1)
+        self.lines = []
+        #self.propGrid.AddGrowableCol(1)
         neverglobals.getResourceManager().removeResourceListChangeListener(self)
 
     def controlUsed(self,event):
