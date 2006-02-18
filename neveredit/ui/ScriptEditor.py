@@ -123,29 +123,23 @@ class ScriptEditor(wx.SplitterWindow):
         self.module = None
 
         splitter = self
-        box = wx.BoxSizer(wx.VERTICAL)
-        win = wx.Panel(splitter,-1)
-        self.notebook = wx.Notebook(win,-1)
-        buttonPanel = wx.Panel(win,-1,size=(-1,60))
-        box.Add(buttonPanel,0,wx.ALIGN_TOP)
-        box.Add(self.notebook,1,wx.EXPAND)
+        self.notebook = wx.Notebook(splitter,-1)
+        buttonPanel = self.getFrame().CreateToolBar()
         self.notebook.Bind(wx.EVT_NOTEBOOK_PAGE_CHANGED,self.OnPageChanged)
-        box2 = wx.BoxSizer(wx.HORIZONTAL)
         self.newButton = wx.Button(buttonPanel,-1,"New Script")
-        box2.Add(self.newButton,0,wx.EXPAND)
+        buttonPanel.AddControl(self.newButton)
         self.newButton.Bind(wx.EVT_BUTTON,self.OnNew)
         self.newButton.Enable(False)
         self.compileButton = wx.Button(buttonPanel,-1,"Compile")
-        box2.Add(self.compileButton,0,wx.EXPAND)
+        buttonPanel.AddControl(self.compileButton)
         self.closeButton = wx.Button(buttonPanel,-1,"Close Script Tab")
-        box2.Add(self.closeButton,0,wx.EXPAND)
+        buttonPanel.AddControl(self.closeButton)
         self.helpButton = wx.Button(buttonPanel,-1,"Help on Selection")
-        box2.Add(self.helpButton,0,wx.EXPAND)
+        buttonPanel.AddControl(self.helpButton)
         self.scriptChoice = wx.Choice(buttonPanel,-1)
-        box2.Add(self.scriptChoice,0,wx.EXPAND)
+        buttonPanel.AddControl(self.scriptChoice)
         self.updateScriptChoice()
         self.scriptChoice.Bind(wx.EVT_CHOICE,self.OnScriptChoice)
-        buttonPanel.SetSizerAndFit(box2)
         
         self.compileButton.Bind(wx.EVT_BUTTON,self.OnCompile)
         self.compileButton.Enable(False)
@@ -155,12 +149,11 @@ class ScriptEditor(wx.SplitterWindow):
         self.helpButton.Enable(False)
         self.output = wx.ListCtrl(splitter,-1,style=wx.LC_REPORT|wx.LC_NO_HEADER)
         self.output.Bind(wx.EVT_LIST_ITEM_SELECTED,self.OnOutSelected)
-        win.SetSizerAndFit(box)
 
-        splitter.SplitHorizontally(win,self.output,-100)
+        splitter.SplitHorizontally(self.notebook,self.output,-100)
         splitter.SetMinimumPaneSize(70)
                 
-        self.lastHeight = self.GetSize().height
+        splitter.SetSashGravity(1.0)
 
         self.Bind(wx.EVT_SIZE,self.OnSize)
         parent.Bind(wx.EVT_CLOSE,self.OnClose)
@@ -177,6 +170,12 @@ class ScriptEditor(wx.SplitterWindow):
 
         self.prefs = Preferences.getPreferences()
 
+    def getFrame(self):
+        w = self.GetParent()
+        while w and not w.IsTopLevel():
+            w = w.GetParent()
+        return w
+    
     def setupMenus(self):
 
         frame = self.GetParent()
@@ -465,15 +464,9 @@ Copyright 2003-2004'''),
                 pass
     
     def OnSize(self,event):
-        pos = self.GetSashPosition()
-        if pos < 0:
-            self.lastHeight = self.GetSize().height
-            event.Skip()
-            return        
-        self.SetSashPosition(-(self.lastHeight-pos) )
-        self.lastHeight = self.GetSize().height
         if self.output.GetColumnCount() > 0:
             self.output.SetColumnWidth(0,self.GetSize().width)
+        event.Skip()
 
     def OnOutSelected(self,event):        
         line = event.GetIndex()
@@ -524,11 +517,19 @@ Copyright 2003-2004'''),
             return None
 
     def commit(self):
+        '''
+        Takes the current content of the script shown in the GUI and copies it back
+        to the module. This only sets the uncompiled version of the script.
+        '''
         script = self.getCurrentScript()
         if script:
             script.setUnixData(self.editors[self.notebook.GetSelection()].GetText())
         
     def compile(self):
+        '''
+        Try to compile the currently selected script.
+        @return: the compiled script binary data, or None if compile unsuccessful
+        '''
         script = self.getCurrentScript()
         self.commit()
         try:
@@ -593,6 +594,10 @@ Copyright 2003-2004'''),
         return False
 
     def addChangeListener(self,callback):
+        '''
+        Add a listener that will get called on any changes to the file.
+        @param callback: the function to be called (will be called without args)
+        '''
         self.fileChangeCallback = callback
 
     def addScript(self,s):
