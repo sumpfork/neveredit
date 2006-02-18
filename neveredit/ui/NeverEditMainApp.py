@@ -99,6 +99,7 @@ class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
     <ul>
     <li>Thanks to Torlack for his script compiler and file format documentation.</li>
     <li>Thanks to Damon Law (damonDesign.com) for the neveredit image.</li>
+    <li>Thanks to Mickael Leduque for a number of significant feature implementations (factions, sounds...)</li>
     <li>Thanks to Alan Schmitt for the beginnings of a conversation editor.</li>
     <li>Thanks to Sylvan_Elf for the neveredit splash screen.</li>
     <li>Thanks to the NWN Lexicon folks for letting me include the lexicon.</li>
@@ -115,9 +116,7 @@ class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
         
         self.splash.Show(True)
 
-        wx.Frame.__init__(self,parent,-1,title,size=(820,600),\
-                          style=wx.DEFAULT_FRAME_STYLE)#\
-                          #|wx.NO_FULL_REPAINT_ON_RESIZE)
+        wx.Frame.__init__(self,parent,-1,title,size=(820,600))
 
         self.doInit = False
         self.fname = None
@@ -178,7 +177,7 @@ class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
         
         self.setupMenus()
         
-        self.scriptEditorFrame = wx.Frame(None,-1,"Script Editor",(100,100))
+        self.scriptEditorFrame = wx.Frame(self,-1,"Script Editor",(100,100))
         self.scriptEditor = ScriptEditor.ScriptEditor(self.scriptEditorFrame,-1)
         self.scriptEditorFrame.SetSize((700,500))
         self.scriptEditor.setHelpViewer(self.helpviewer)
@@ -206,6 +205,8 @@ class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
         if tmp:
             tmp.Show(False)
             tmp.Destroy()
+
+        self.showScriptEditorFix = False
 
     def initResourceManager(self):
         '''Initialize the resource manager object from the app dir path.
@@ -601,7 +602,9 @@ class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
             self.statusProgress.SetValue(int(self.progress))
         else:
             self.statusProgress.Show(False)
-
+        if self.showScriptEditorFix:
+            self.showScriptEditor();
+            self.showScriptEditorFix = False
     def selectTreeItemById(self,oid):
         '''try to find an item in the current module by object id and
         select the corresponding tree item'''
@@ -833,9 +836,10 @@ class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
         if data:
             if data.__class__ == Script:
                 self.scriptEditor.addScript(data)
-                self.showScriptEditor()
                 self.scriptEditor.addChangeListener(self.setFileChanged)
                 self.selectedTreeItem = lastItem #we didn't actually change the main display
+                self.showScriptEditor()
+                self.showScriptEditorFix = True
                 return
             if data.__class__ == Conversation:
                 self.notebook.deletePageByTag('factions')
