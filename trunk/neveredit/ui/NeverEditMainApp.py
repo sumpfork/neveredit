@@ -116,7 +116,7 @@ class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
         
         self.splash.Show(True)
 
-        wx.Frame.__init__(self,parent,-1,title,size=(820,600))
+        wx.Frame.__init__(self,parent,-1,title,size=(800,600))
 
         self.doInit = False
         self.fname = None
@@ -156,7 +156,7 @@ class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
         self.Bind(wx.EVT_NOTEBOOK_PAGE_CHANGED,self.OnNotebookPageChanged,
                   self.notebook)
         
-        self.SetSizeHints(minW=765,minH=200)
+        self.SetSizeHints(minW=600,minH=200)
         
         splitter.SplitVertically(self.tree,self.notebook,180)
         splitter.SetMinimumPaneSize(100)
@@ -640,7 +640,7 @@ class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
         self.unselectTreeItem()
         self.tree.DeleteChildren(self.lastAreaItem)
         self.subtreeFromArea(self.lastAreaItem,self.map.getArea())
-        # self.selectTreeItemById(event.getSelectedId())
+        self.selectTreeItemById(event.getSelectedId())
         # removing this line prevents a crash - good as a *temporary*
         # fix, but the crash should be investigated
         # this also cause functionality loss (auto-selection of the thing added
@@ -826,6 +826,9 @@ class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
         elif not area and self.notebook.getPageByTag('map'):
             self.map.setArea(None)
             self.notebook.deletePageByTag('map')
+        if area and self.toolPalette:
+            self.toolPalette.toggleToolOn(ToolPalette.SELECTION_TOOL)
+        
         if self.notebook.getPageByTag('model') and not hasattr(data,'getModel'):
             self.notebook.deletePageByTag('model')
         if hasattr(data,'getModel'):
