@@ -183,6 +183,8 @@ class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
         self.scriptEditor.setHelpViewer(self.helpviewer)
         ScriptEditor.EVT_SCRIPTADD(self.scriptEditor,self.OnScriptAdded)
 
+        self.showScriptEditorFix = False
+
         wx.EVT_CLOSE(self.scriptEditorFrame,self.OnCloseWindow)
 
         self.readingERF = False
@@ -205,8 +207,6 @@ class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
         if tmp:
             tmp.Show(False)
             tmp.Destroy()
-
-        self.showScriptEditorFix = False
 
     def initResourceManager(self):
         '''Initialize the resource manager object from the app dir path.
