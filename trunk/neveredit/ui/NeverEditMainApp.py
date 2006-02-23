@@ -770,13 +770,11 @@ class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
                 self.toolPalette.GetToolBar().Enable(False)
             return
         self.SetEvtHandlerEnabled(False)
-        if tag == 'props':
-            self.notebook.selectPageByTag('welcome') # blank out to hide creation of controls
+        self.notebook.SetEvtHandlerEnabled(False)
         if self.toolPalette:
             self.toolPalette.GetToolBar().Enable(False)
         if tag == 'props':
             self.props.makePropsForItem(data,self)
-            self.notebook.selectPageByTag(tag)
         elif tag == 'map':
             self.map.setArea(area)
             MapWindow.EVT_MAPSINGLESELECTION(self.map,
@@ -791,9 +789,9 @@ class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
                     self.map.selectThingById(data.getNevereditId())
         elif tag == 'model':
             self.model.setModel(data.getModel(True))
-            print 'setting model'
         self.notebook.setCurrentPageSync(False)
         self.SetEvtHandlerEnabled(True)
+        self.notebook.SetEvtHandlerEnabled(True)
 
     def treeSelChanged(self,event):
         '''Callback to handle the user changing the selection
