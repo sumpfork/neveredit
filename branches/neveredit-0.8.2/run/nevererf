@@ -1,0 +1,132 @@
+#!/usr/bin/env python
+'''
+a tar like command line util for erf files
+Currently, -c is still unimplemented.
+'''
+
+import sys
+import os,os.path
+from optparse import OptionParser
+
+def getNeverDir(path):
+    while os.path.basename(path) != 'neveredit' and\
+          os.path.basename(path) != 'bin' and\
+          os.path.dirname(path) != path:
+        path = os.path.dirname(path)
+    if os.path.basename(path) == 'bin':
+        path = os.path.join(os.path.dirname(path),'lib/python')
+    elif os.path.basename(path) == 'neveredit':
+        path = os.path.dirname(path)
+    return path
+
+def packArgs(erf,args):
+    for a in args:
+        if not os.path.exists(a):
+            print >>sys.stderr,'no such file or directory',a
+            sys.exit(1)
+        if os.path.isdir(a) and options.recurse:
+            packArgs(erf,[os.path.join(a,fname) for fname in os.listdir(a)])
+        if os.path.isfile(a):
+            try:
+                erf.addRawResourceByName(os.path.basename(a),file(a).read())
+                if options.verbose:
+                    print a
+            except:
+                print >>sys.stderr,"error trying to add " + a + ": " + str(sys.exc_info()[1])
+                
+if __name__ == "__main__":
+    try:
+        parser = OptionParser()
+        parser.add_option('-d','--nwndir',type="string",dest="appDir",
+                          help="NWN Application Dir",
+                          default="/Applications/Neverwinter Nights/")
+        parser.add_option('-f','--file',type='string',dest='file',
+                          help='erf file name')
+        parser.add_option('-t','--list',action='store_true',dest='list',
+                          help='list the contents of the erf file')
+        parser.add_option('-c','--create',action='store_true',dest='create',
+                          help='create an erf file (currently unimplemented)')
+        parser.add_option('-x','--extract',action='store_true',dest='extract',
+                          help='extract files from the erf file')
+        parser.add_option('-v','--verbose',action='store_true',dest='verbose',
+                          help='verbose output')
+        parser.add_option('-r','--recurse',action='store_true',dest='recurse',
+                          help='recurse into dirs while packing')
+        parser.add_option('-i','--info',action='store_true',dest='info',
+                          help='print info about this erf file')        
+        parser.add_option('--devel',action='store_true',dest='devel',
+                          help='run in development mode (does not use installed version)')
+        (options,args) = parser.parse_args()
+        if options.devel:
+            sys.path.insert(0,getNeverDir(os.getcwd()))
+        try:
+            from neveredit.file.ERFFile import ERFFile
+            from neveredit.util import neverglobals
+            from neveredit.game import ResourceManager
+            from neveredit.util import Loggers
+        except ImportError:            
+            path = os.path.abspath(os.path.dirname(__file__))
+            sys.path.append(getNeverDir(path))
+            try:
+                from neveredit.file.ERFFile import ERFFile
+                from neveredit.util import neverglobals
+                from neveredit.game import ResourceManager
+            except ImportError:
+                print sys.exc_info()[1]
+                print sys.path
+                print >>sys.stderr,'Faulty neveredit installation: could not import classes'
+                sys.exit(1)
+
+        option_count = sum([o != None for o in [options.list,options.extract,options.create,options.info]])
+        
+        if option_count > 1:
+            print >>sys.stderr,'can only specify one of create (-c), extract (-x), list (-t) or info (-i)'
+            sys.exit(1)
+        if not option_count:
+            print >>sys.stderr,'must specify one of create (-c), extract (-x) or list (-t)'
+            sys.exit(1)
+        if not options.file:
+            print >>sys.stderr,'must specify erf file argument (-f/--file)'
+            sys.exit(1)
+            
+        if options.info:
+            if not os.path.exists(options.file):
+                print >>sys.stderr,"can't find erf file: " + options.file
+                sys.exit(1)
+            f = ERFFile()
+            f.fromFile(options.file)
+            print f.infoStr()
+        elif options.extract:
+            if not os.path.exists(options.file):
+                print >>sys.stderr,"can't find erf file: " + options.file
+                sys.exit(1)
+            f = ERFFile()
+            f.fromFile(options.file)
+            if len(args) == 0:
+                f.extractAllEntries(verbose=True)
+            else:
+                for resource in args:
+                    if options.verbose:
+                        print resource
+                    try:
+                        f.extractEntry(resource)
+                    except:
+                        print >>sys.stderr,'error extracting "' + resource + '" from erf file.'
+        elif options.create:
+            ext = os.path.splitext(options.file)[1][1:].upper()
+            if ext not in ["ERF","MOD","SAV","HAK"]:
+                print >>sys.stderr,"Cannot determine erf type from extension, will use 'ERF'"
+                ext = "ERF"
+            erf = ERFFile(ext)
+            packArgs(erf,args)
+            erf.toFile(options.file)
+        elif options.list:
+            if not os.path.exists(options.file):
+                print >>sys.stderr,"can't find erf file: " + options.file
+                sys.exit(1)
+            f = ERFFile()
+            f.fromFile(options.file)
+            for key in f.getKeyList():
+                print ResourceManager.ResourceManager.nameFromKey(key).lower()
+    except KeyboardInterrupt:
+        print >>sys.stderr,'\naborting...'

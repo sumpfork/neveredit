@@ -1,0 +1,219 @@
+<?xml version="1.0" ?>
+<resource>
+  <object class="wxDialog" name="PrefDialog">
+    <title>Preferences</title>
+    <size>550,200</size>
+    <object class="wxGridBagSizer">
+      <object class="sizeritem">
+        <object class="wxNotebook" name="PrefNotebook">
+          <object class="notebookpage">
+            <label>General</label>
+            <object class="wxPanel" name="GeneralPanel">
+              <object class="wxBoxSizer">
+                <orient>wxVERTICAL</orient>
+                <object class="sizeritem">
+                  <object class="unknown" name="AppDir">
+                    
+                    <size>500,30</size>
+                  </object>
+                  
+                  <flag>wxLEFT|wxRIGHT|wxGROW</flag>
+                  
+                  <border>5</border>
+                </object>
+              </object>
+              <tooltip>General Neveredit Preferences</tooltip>
+            </object>
+          </object>
+          <object class="notebookpage">
+            <label>Key Mappings</label>
+            <object class="wxPanel" name="UserControlsPanel">
+              <object class="wxGridSizer">
+                <rows>2</rows>
+                <cols>4</cols>
+                <object class="sizeritem">
+                  <object class="wxStaticText" name="upText">
+                    
+                    <label>Up Key</label>  
+                  </object>
+                  
+                  <flag>wxALIGN_CENTRE</flag>
+                  
+                </object>
+                <object class="sizeritem">
+                  <object class="wxTextCtrl" name="mwUpKey">
+                  </object>
+                  
+                  <flag>wxLEFT|wxRIGHT|wxALIGN_CENTRE</flag>
+                  
+                </object>
+                <object class="sizeritem">
+                  <object class="wxStaticText" name="downText">
+                    
+                    <label>Down Key</label>  
+                  </object>
+                  
+                  <flag>wxALIGN_CENTRE</flag>
+                  
+                </object>
+                <object class="sizeritem">
+                  <object class="wxTextCtrl" name="mwDownKey">
+                  </object>
+                  
+                  <flag>wxLEFT|wxRIGHT|wxALIGN_CENTRE</flag>
+                  
+                </object>
+                <object class="sizeritem">
+                  <object class="wxStaticText" name="leftText">
+                    
+                    <label>Left Key</label>
+                  </object>
+                  
+                  <flag>wxALIGN_CENTRE</flag>
+                  
+                </object>
+                <object class="sizeritem">
+                  <object class="wxTextCtrl" name="mwLeftKey">
+                  </object>
+                  
+                  <flag>wxLEFT|wxRIGHT|wxALIGN_CENTRE</flag>
+                  
+                </object>
+                <object class="sizeritem">
+                  <object class="wxStaticText" name="rightText">
+                    
+                    <label>Right Key</label>
+                  </object>
+                  
+                  <flag>wxALIGN_CENTRE</flag>
+                  
+                </object>
+                <object class="sizeritem">
+                  <object class="wxTextCtrl" name="mwRightKey">
+                  </object>
+                  
+                  <flag>wxLEFT|wxRIGHT|wxALIGN_CENTRE</flag>
+                  
+                </object>
+              </object>
+              <tooltip>Define Keys to Control App Navigation</tooltip>
+            </object>
+          </object>
+          <object class="notebookpage">
+            <label>Script Editor</label>
+            <object class="wxPanel" name="ScriptEditorPanel">
+              <object class="wxBoxSizer">
+                <orient>wxVERTICAL</orient>
+                <object class="sizeritem">
+                  <object class="wxCheckBox" name="ScriptAntiAlias">
+                    
+                    <label>Use Font Antialiasing</label>
+                  </object>
+                  
+                  <flag>wxALL|wxGROW</flag>
+                  
+                  <border>10</border>
+                </object>
+                <object class="sizeritem">
+                  <object class="wxCheckBox" name="ScriptAutoCompile">
+                    
+                    <label>Automatically Compile Script when Editor Closed</label>
+                  </object>
+                  
+                  <flag>wxALL|wxGROW</flag>
+                  
+                  <border>10</border>
+                </object>
+              </object>
+              <tooltip>Script Editor Specific Preferences</tooltip>
+            </object>
+          </object>
+          <object class="notebookpage">
+            <label>Language</label>
+            <object class="wxPanel" name="TextPanel">
+              <object class="wxBoxSizer">
+                <orient>wxVERTICAL</orient>
+                <object class="sizeritem">
+                  <object class="wxBoxSizer">
+                    <orient>wxHORIZONTAL</orient>
+                    <object class="sizeritem">
+                      <object class="wxChoice" name="DefaultLocStringLang">
+                        
+                        <content>
+                          <item>english</item>
+                          <item>french</item>
+                          <item>german</item>
+                          <item>italian</item>
+                          <item>spanish</item>
+                          <item>polish</item>
+                          <item>korean</item>
+                          <item>chinese traditional</item>
+                          <item>chinese simplified</item>
+                          <item>japanese</item>
+                        </content>
+                        
+                        <selection>0</selection>
+                      </object>
+                      
+                      <flag>wxALL|wxGROW</flag>
+                      
+                      <border>10</border>
+                    </object>
+                    <object class="sizeritem">
+                      <object class="wxStaticText" name="defaultLangLabel">
+                        
+                        <label>Default language for translatable strings</label>
+                      </object>
+                      
+                      <flag>wxALL|wxGROW</flag>
+                      
+                      <border>10</border>
+                    </object>
+                  </object>
+                </object>
+              </object>
+              <tooltip>Game language preferences</tooltip>
+            </object>
+          </object>
+        </object>
+        
+        <flag>wxBOTTOM|wxALL|wxEXPAND|wxGROW</flag>
+        
+        <border>5</border>
+        
+        <cellpos>1,1</cellpos>
+      </object>
+      <object class="sizeritem">
+        <object class="wxBoxSizer">
+          <orient>wxHORIZONTAL</orient>
+          <object class="sizeritem">
+            <object class="wxButton" name="ID_CANCEL">
+              
+              <label>Cancel</label>
+            </object>
+            
+            <flag>wxALIGN_CENTRE_VERTICAL|wxALIGN_CENTRE_HORIZONTAL</flag>
+          </object>
+          <object class="sizeritem">
+            <object class="wxButton" name="ID_OK">
+              
+              <label>Ok</label>
+              
+              <default>1</default>
+            </object>
+            
+            <flag>wxALIGN_CENTRE_VERTICAL|wxALIGN_CENTRE_HORIZONTAL</flag>
+          </object>
+        </object>
+        
+        <flag>wxALL|wxALIGN_RIGHT|wxALIGN_BOTTOM</flag>
+        
+        <border>5</border>
+        
+        <cellpos>2,1</cellpos>
+      </object>
+      <growablecols>1</growablecols>
+      <growablerows>1</growablerows>
+    </object>
+  </object>
+</resource>
