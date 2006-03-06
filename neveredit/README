@@ -1,4 +1,7 @@
 Credits:
+    Mickael Leduque has lately contributed many features, such as
+    faction editing, waypoint display and others.
+
     Alan Schmitt has been contributing a good chunk of code, especially
     the beginnings of a conversation editor.
 
@@ -36,7 +39,8 @@ Installation:
 Instructions:
     So far, just a short note: I'm trying to emulate the camera controls
     in NWN in the map display, so try using up/down/left/right arrows
-    as well as q,w,e,s.
+    as well as q,w,e,s. Thanks for jazzdman, these keys are now
+    configurable in the prefrences.
 
 Bugs and Comments:
     Please see http://neveredit.sf.net under 'For Users'.
