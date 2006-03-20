@@ -544,9 +544,10 @@ class MDLFile(NeverFile):
         elif classification == 0x08:
             self.model.classification = "Door"
         else:
-            print "unknown model classification:",classification
+            #print "unknown model classification:",classification
             self.model.classification = "None"
-            # this seems to include waypoint models
+            # this seems to include waypoint models 
+            # - probably whenever no model displayed in-game
         self.model.fogged = dataHandler.readUByteFile(f)
         f.seek(4,1)
         self.animationHeaderPointers = self.arrayFromFile(f)
