@@ -131,6 +131,8 @@ class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
         self.detachedMap = {}
 
         self.threadAlive = False
+    
+        self.selectThisItem = None
         
         #status bar
         self.CreateStatusBar(2)
@@ -605,6 +607,10 @@ class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
         if self.showScriptEditorFix:
             self.showScriptEditor();
             self.showScriptEditorFix = False
+        if self.selectThisItem != None:
+            self.selectTreeItemById(self.selectThisItem)
+            self.selectThisItem = None
+
     def selectTreeItemById(self,oid):
         '''try to find an item in the current module by object id and
         select the corresponding tree item'''
@@ -640,7 +646,7 @@ class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
         self.unselectTreeItem()
         self.tree.DeleteChildren(self.lastAreaItem)
         self.subtreeFromArea(self.lastAreaItem,self.map.getArea())
-        self.selectTreeItemById(event.getSelectedId())
+        self.selectThisItem = event.getSelectedId()
         # removing this line prevents a crash - good as a *temporary*
         # fix, but the crash should be investigated
         # this also cause functionality loss (auto-selection of the thing added
@@ -756,6 +762,14 @@ class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
         self.syncDisplayedPage()
         
     def syncDisplayedPage(self):
+        '''
+        The main application notebook does a lazy update: only when
+        the user actually switches to a page does the page content get
+        created. This leads to longer switching times, but shorter
+        time to select a new item in the module tree. This method
+        is called when the notebook page changes and ensures that
+        the content is loaded if it has not been loaded before.
+        '''
         if not self.selectedTreeItem:
             return        
         data = self.tree.GetPyData(self.selectedTreeItem)
@@ -876,6 +890,11 @@ class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
         self.syncDisplayedPage()
 
     def maybeApplyPropControlValues(self):
+        '''
+        Check if the selected item in the main module tree has
+        data associated with it, and, if so, apply its control
+        values by calling applyPropControlValues().
+        '''
         # kill any thread playing BMU sound
         SoundControl.Event_Die.set()
         if self.selectedTreeItem:
@@ -907,8 +926,7 @@ class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
         '''About menu item callback.'''
         dlg = wx.MessageDialog(self,_('neveredit v') + neveredit.__version__ +
                               _(''' by Sumpfork
-The OpenKnights Consortium
-Copyright 2003-2004'''),
+Copyright 2003-2006'''),
                                _('About neveredit'),
                                wx.OK | wx.ICON_INFORMATION)
         dlg.ShowModal()

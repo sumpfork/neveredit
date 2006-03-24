@@ -1,4 +1,4 @@
-neveredit now includes a command line tool for nwn resource listing and extraction.
+neveredit includes a command line tool for nwn resource listing and extraction.
 
 Assuming the file is executable (otherwise make it so), run it as
 ./nevercommand lookup <extension1> [<extension2> <extension3}...]

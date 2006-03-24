@@ -41,8 +41,7 @@ class SingleSelectionEvent(wx.PyCommandEvent):
         return self.objectID
     
     def Clone(self):
-        evt = self.__class__(0,self.objectID)
-        evt.SetId(self.GetId())
+        evt = self.__class__(self.GetId(),self.objectID)
         return evt
         
 
@@ -56,10 +55,7 @@ class ObjectSelectionEvent(SingleSelectionEvent):
     eventType = OBJECTSELECTIONEVENT
 
 THINGADDEDEVENT = wx.NewEventType()
-
-def EVT_MAPTHINGADDED(window,function):
-    '''notifies about the selection of a single object in the map'''
-    window.Connect(-1,-1,THINGADDEDEVENT,function)
+EVT_MAPTHINGADDED = wx.PyEventBinder(THINGADDEDEVENT, 0)
 
 class ThingAddedEvent(wx.PyCommandEvent):
     eventType = THINGADDEDEVENT
@@ -71,8 +67,7 @@ class ThingAddedEvent(wx.PyCommandEvent):
         return self.oid
     
     def Clone(self):
-        evt = ThingAddedEvent(0,self.oid)
-        evt.SetId(self.GetId())
+        evt = ThingAddedEvent(self.GetId(),self.oid)
         return evt
 
 MOVEEVENT = wx.NewEventType()
@@ -102,8 +97,7 @@ class MoveEvent(wx.PyCommandEvent):
         return self.bearing
     
     def Clone(self):
-        evt = self.__class__(0,self.objectID,self.x,self.y,self.bearing)
-        evt.SetId(self.GetId())
+        evt = self.__class__(self.GetId(),self.objectID,self.x,self.y,self.bearing)
         return evt
 
 class QuadTreeNode:
@@ -306,8 +300,7 @@ class MapWindow(GLWindow,Progressor,VisualChangeListener):
             self.preprocessNodes(self.beingPainted.getModel(),
                                  'beingPainted',
                                  bbox=True)
-            # .Clone() : to remove if AddPendingEvent clones the event
-            self.GetEventHandler().AddPendingEvent(event.Clone())
+            self.GetEventHandler().AddPendingEvent(event)
 
     def OnMouseUp(self, evt):
         self.beingDragged = None
