@@ -5,9 +5,8 @@ def run(command):
     print command
     return os.popen(command).read()
 
-sys.path.insert(0,'..')
-import neveredit
-version = neveredit.__version__
+version = os.popen('python print_version.py').read().strip()
+print version
 
 Ditto = Action('ditto --rsrc -V $SOURCE.abspath $TARGET.abspath')
 
@@ -53,6 +52,7 @@ def build_dmg(target,source,env):
 dmg_builder = Builder(action = [Delete('$TARGET'),
                                 build_dmg],
                       source_factory = SCons.Node.FS.default_fs.Entry)
+                      #source_scanner = DirScanner) #doesn't work, because bundle contains cycle
 
 
 sources = glob.glob('*/*.py') + glob.glob('*.png') + ['README','COPYING']
@@ -87,10 +87,15 @@ docs = env.Command('html/index.html',sources,
 
 change = env.Command('ChangeLog',
                      sources,
-                     'cvs2cl -S --no-wrap --accum --tags --prune --ignore Changelog')
+                     'svn2cl --group-by-day')
 
+#neveredit_src_bundle = env.Command('neveredit-' + version + '.tar.gz',
+#                                   sources,
+                                   
 env.Alias('docs',[docs])
-ud = Alias('upload-docs','html/index.html','rsync -avPz --delete html/ sumpfork@shell.sf.net:/home/groups/n/ne/neveredit/htdocs/apidocs/')
+ud = Alias('upload-docs',
+           'html/index.html',
+           'rsync -avPz --delete html/ sumpfork@shell.sf.net:/home/groups/n/ne/neveredit/htdocs/apidocs/')
 env.AlwaysBuild(ud)
 
 env.Alias('change',[change])
