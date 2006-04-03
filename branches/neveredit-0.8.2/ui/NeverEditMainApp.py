@@ -338,10 +338,11 @@ class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
         wx.EVT_MENU(self,self.ID_PASTE,self.OnPaste)
         self.editmenu.Bind(wx.EVT_MENU_OPEN, self.OnEditMenu)
 
-        self.windowmenu = wx.Menu()
-        self.windowmenu.Append(self.ID_MAIN_WINDOW_MITEM, _('Main Window'))
-        self.windowmenu.Append(self.ID_PALETTE_WINDOW_MITEM, _('Palette Window'))
-        self.windowmenu.Append(self.ID_SCRIPT_WINDOW_MITEM, _('Script Editor'))
+        if not Utils.iAmOnMac(): # mac bundle now seems to produce own window menu
+            self.windowmenu = wx.Menu()
+            self.windowmenu.Append(self.ID_MAIN_WINDOW_MITEM, _('Main Window'))
+            self.windowmenu.Append(self.ID_PALETTE_WINDOW_MITEM, _('Palette Window'))
+            self.windowmenu.Append(self.ID_SCRIPT_WINDOW_MITEM, _('Script Editor'))
         
         helpmenu = wx.Menu()
         helpmenu.Append(self.ID_ABOUT, '&' + _('About...'), _("About neveredit"))
@@ -350,7 +351,8 @@ class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
         menuBar = wx.MenuBar()
         menuBar.Append(self.filemenu,"&" + _("File"))
         menuBar.Append(self.editmenu, "&" + _("Edit"))
-        menuBar.Append(self.windowmenu, "&" + _("Window"))
+        if not Utils.iAmOnMac():
+            menuBar.Append(self.windowmenu, "&" + _("Window"))
         menuBar.Append(helpmenu, "&" + _("Help"))
         self.SetMenuBar(menuBar)
 
@@ -363,9 +365,10 @@ class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
         wx.EVT_MENU(self,self.ID_PREFS,self.OnPreferences)
         wx.EVT_MENU(self,self.ID_EXIT,self.exit)
         wx.EVT_MENU(self,self.ID_HELP,self.help)
-        wx.EVT_MENU(self,self.ID_MAIN_WINDOW_MITEM, self.windowMenu)
-        wx.EVT_MENU(self,self.ID_SCRIPT_WINDOW_MITEM, self.windowMenu)
-        wx.EVT_MENU(self,self.ID_PALETTE_WINDOW_MITEM, self.windowMenu)
+        if not Util.iAmOnMac():
+            wx.EVT_MENU(self,self.ID_MAIN_WINDOW_MITEM, self.windowMenu)
+            wx.EVT_MENU(self,self.ID_SCRIPT_WINDOW_MITEM, self.windowMenu)
+            wx.EVT_MENU(self,self.ID_PALETTE_WINDOW_MITEM, self.windowMenu)
         
         #wx.EVT_MENU(self,self.ID_DETACH,self.OnDetach)
 
