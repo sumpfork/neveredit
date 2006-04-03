@@ -5,8 +5,17 @@ role-playing game. Includes wxPython-independent classes for reading and
 writing NWN files.
 """
 
-from distutils.core import setup
+import ez_setup
+ez_setup.use_setuptools()
+
+#from distutils.core import setup
+from setuptools import setup,find_packages
 import sys,os,shutil
+
+build_dependencies = []
+if 'py2app' in sys.argv:
+    build_dependencies.append('py2app>=0.3-dev_r551')
+extra_dependencies = {'compiler' : ['nwntools>=2.3']}
 
 try:
     import py2app
@@ -58,15 +67,16 @@ def main():
            'Programming Language :: Python',
            'Topic :: Games/Entertainment :: Role-Playing'
            ],
+
+          setup_requires = build_dependencies,
+          extras_require = extra_dependencies,
           package_dir = {'neveredit':'.'},
-          packages=['neveredit','neveredit.openglcontext',
-                    'neveredit.util','neveredit.file',
-                    'neveredit.game','neveredit.ui',
-                    'neveredit.resources',
-                    'neveredit.resources.images',
-                    'neveredit.resources.xrc'],
-          scripts=['run/neveredit','run/neverscript','run/nevercommand',
+          packages = ['neveredit'] + ['neveredit.' + p for p in find_packages(exclude=['ez_setup'])],
+          scripts = ['run/neveredit','run/neverscript','run/nevercommand',
                    'run/nevererf'],
+          entry_points = {
+              'gui_scripts' : ['neveredit = neveredit.ui.NevereditMainApp:main']
+          },
           
           options=dict(py2app=dict(
                 argv_emulation=True,
@@ -88,7 +98,7 @@ def main():
                        'CFBundleName':name,
                        'CFBundleVersion':version,
                        'NSHumanReadableCopyright':
-                       'Copyright 2005, Peter Gorniak'}
+                       'Copyright 2004-2006, Peter Gorniak'}
                 )),
     )
 
