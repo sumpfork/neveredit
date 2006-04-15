@@ -49,6 +49,11 @@ from neveredit.util import neverglobals
 #images
 from neveredit.resources.images import neveredit_logo_jpg
 from neveredit.resources.images import neveredit_logo_init_jpg
+import neveredit.resources
+
+from pkg_resources import resource_filename,resource_listdir
+logo_fname = resource_filename('neveredit.resources',
+                               'neveredit.jpg')
 
 import os
 import threading
@@ -57,26 +62,14 @@ import gettext
 
 gettext.install('neveredit','translations')
 
-class MySplashScreen(wx.SplashScreen):
-    def __init__(self,pic):
-        wx.SplashScreen.__init__(self, pic,
-                                 wx.SPLASH_CENTRE_ON_SCREEN|
-                                 wx.SPLASH_NO_TIMEOUT,
-                                 4000, None, -1,
-                                 style = wx.SIMPLE_BORDER
-                                 |wx.FRAME_NO_TASKBAR
-                                 |wx.STAY_ON_TOP)
+description =     '''<html><body>
 
-##\mainpage
-class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
-    '''<html><body>
-
-    <table width="100%" border=0>
+    <table width="100%%" border=0>
     <tr>
     <td valign="top">
     <h2>neveredit</h2>
     </td><td align="right" valign="top">
-    <img src="neveredit.jpg"></td></tr></table>
+    <img src="%s"></td></tr></table>
 
     <p>Welcome to neveredit. Neveredit strives to be an editor for files
     from the Bioware game Neverwinter Nights. One day it may have all of
@@ -106,8 +99,21 @@ class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
     </ul>
     <p>Have fun,<br><i>sumpfork</i></p>
 
-    </body></html>'''
-    
+    </body></html>''' % logo_fname
+
+class MySplashScreen(wx.SplashScreen):
+    def __init__(self,pic):
+        wx.SplashScreen.__init__(self, pic,
+                                 wx.SPLASH_CENTRE_ON_SCREEN|
+                                 wx.SPLASH_NO_TIMEOUT,
+                                 4000, None, -1,
+                                 style = wx.SIMPLE_BORDER
+                                 |wx.FRAME_NO_TASKBAR
+                                 |wx.STAY_ON_TOP)
+
+##\mainpage
+class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
+    __doc__ = description
     def __init__(self,parent,id,title):
         '''Constructor. Sets up static controls and menus.'''
         wx.InitAllImageHandlers()
@@ -170,8 +176,10 @@ class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
         except:
             pass #html window likes to throw exceptions
 
-        helps = [file for file in os.listdir(os.getcwd())
-                 if (file[:5] == 'help_' and file[-4:] == '.zip')]
+        helps = [resource_filename('neveredit.resources',file)
+                 for file in resource_listdir('neveredit','resources')
+                 if (file[-4:] == '.zip')]
+        print resource_listdir('neveredit','resources')
         self.helpviewer = HelpViewer.makeHelpViewer(helps,tempfile.gettempdir())
 
         self.toolPalette = None
@@ -365,7 +373,7 @@ class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
         wx.EVT_MENU(self,self.ID_PREFS,self.OnPreferences)
         wx.EVT_MENU(self,self.ID_EXIT,self.exit)
         wx.EVT_MENU(self,self.ID_HELP,self.help)
-        if not Util.iAmOnMac():
+        if not Utils.iAmOnMac():
             wx.EVT_MENU(self,self.ID_MAIN_WINDOW_MITEM, self.windowMenu)
             wx.EVT_MENU(self,self.ID_SCRIPT_WINDOW_MITEM, self.windowMenu)
             wx.EVT_MENU(self,self.ID_PALETTE_WINDOW_MITEM, self.windowMenu)
@@ -928,7 +936,7 @@ class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
     def about(self,event):
         '''About menu item callback.'''
         dlg = wx.MessageDialog(self,_('neveredit v') + neveredit.__version__ +
-                              _(''' by Sumpfork
+                              _(''' by Peter Gorniak and others
 Copyright 2003-2006'''),
                                _('About neveredit'),
                                wx.OK | wx.ICON_INFORMATION)
