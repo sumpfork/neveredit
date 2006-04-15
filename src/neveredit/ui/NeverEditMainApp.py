@@ -176,10 +176,9 @@ class NeverEditMainWindow(wx.Frame,PropertyChangeListener):
         except:
             pass #html window likes to throw exceptions
 
-        helps = [resource_filename('neveredit.resources',file)
-                 for file in resource_listdir('neveredit','resources')
+        helps = [resource_filename('neveredit.resources.help',file)
+                 for file in resource_listdir('neveredit.resources','help')
                  if (file[-4:] == '.zip')]
-        print resource_listdir('neveredit','resources')
         self.helpviewer = HelpViewer.makeHelpViewer(helps,tempfile.gettempdir())
 
         self.toolPalette = None
