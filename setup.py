@@ -12,7 +12,13 @@ ez_setup.use_setuptools()
 from setuptools import setup,find_packages
 import sys,os,shutil
 
-build_dependencies = []
+dependency_links = [
+    'http://svn.red-bean.com/bob/py2app/trunk/',
+    'http://sourceforge.net/project/showfiles.php?group_id=1369',
+    'http://www.pythonware.com/products/pil/'
+]
+
+build_dependencies = ['numarray>=1.5','PIL>=1.1.5','pygame>=1.7']
 if 'py2app' in sys.argv:
     build_dependencies.append('py2app>=0.3-dev_r551')
 extra_dependencies = {'compiler' : ['nwntools>=2.3']}
@@ -23,9 +29,10 @@ except:
     print 'py2app not present'
     pass #of course, this will now fail when 'py2app' is given as an arg
 
-import __init__
-version = __init__.__version__
-
+sys.path.insert(0,'src')
+import neveredit
+version = neveredit.__version__
+print 'neveredit version',version
     
 def main():
     name = 'neveredit'
@@ -40,10 +47,10 @@ def main():
                  "help_nwnlexicon.zip"]
     
     if name == 'neveredit':
-        mainclass = 'ui/NeverEditMainApp.py'
+        mainclass = 'src/neveredit/ui/NeverEditMainApp.py'
         resources.append('neveredit.icns')
     elif name == 'neverscript':
-        mainclass = 'ui/ScriptEditor.py'
+        mainclass = 'src/neveredit/ui/ScriptEditor.py'
         resources.append('neverscript.icns')
         
     setup(app = [mainclass],
@@ -69,15 +76,16 @@ def main():
            ],
 
           setup_requires = build_dependencies,
+          dependency_links = dependency_links,
           extras_require = extra_dependencies,
-          package_dir = {'neveredit':'.'},
-          packages = ['neveredit'] + ['neveredit.' + p for p in find_packages(exclude=['ez_setup'])],
+          package_dir = {'':'src'},
+          packages = find_packages('src',exclude=['ez_setup']),
           scripts = ['run/neveredit','run/neverscript','run/nevercommand',
                    'run/nevererf'],
           entry_points = {
               'gui_scripts' : ['neveredit = neveredit.ui.NevereditMainApp:main']
           },
-          
+          include_package_data = True,
           options=dict(py2app=dict(
                 argv_emulation=True,
                 compressed=True,
