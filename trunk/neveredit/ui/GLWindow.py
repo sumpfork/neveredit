@@ -342,12 +342,17 @@ class GLWindow(glcanvas.GLCanvas):
         glPopMatrix()
         self.SetupProjection()
         return boundingBox
-    
+
+    def fixMatrixToNumPy(self,matrix):
+	    numpymatrix = Numeric.array(matrix)
+	    return numpymatrix
+
     def processControllers(self,node):
         if node.position != None:
             p = node.position
             glTranslate(p[0],p[1],p[2])
         if node.orientation != None:
+	    node.orientation = self.fixMatrixToNumPy(node.orientation)
             glMultMatrixf(node.orientation)
         if node.scale:
             s = node.scale
@@ -405,10 +410,14 @@ class GLWindow(glcanvas.GLCanvas):
         glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA)
         glShadeModel(GL_SMOOTH)
         
+    def glColorf(self,colour):
+	    #FIXME: glColorf is not defined, changing to glColor3f
+	    glColor3f(colour[0],colour[1],colour[2])
+
     def renderHighlightBoxOutline(self,box,colour=(0.1,1.0,0.1,0.5),
                                   thickness=3.0):
         self.solidColourOn()
-        glColorf(colour)
+        self.glColorf(colour)
         glLineWidth(thickness)
         self.renderBox(box)
         glLineWidth(1.0)
@@ -416,7 +425,7 @@ class GLWindow(glcanvas.GLCanvas):
 
     def renderArrowOutline(self,size,colour=(0.1,1.0,0.1,1.0)):
         self.solidColourOn()
-        glColorf(colour)
+        self.glColorf(colour)
         glLineWidth(3.0)
         self.renderArrow(size)
         glLineWidth(1.0)
@@ -426,7 +435,7 @@ class GLWindow(glcanvas.GLCanvas):
         glDisable(GL_LIGHTING)
         glDisable(GL_TEXTURE_2D)
         glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA)
-        glColorf(colour)
+        self.glColorf(colour)
         glShadeModel(GL_FLAT)
         glEnable(GL_POLYGON_OFFSET_LINE)
         glPolygonOffset(1.0, 1.0)
@@ -441,7 +450,7 @@ class GLWindow(glcanvas.GLCanvas):
         glDisable(GL_LIGHTING)
         glDisable(GL_TEXTURE_2D)
         glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA)
-        glColorf(colour)
+        self.glColorf(colour)
         glShadeModel(GL_FLAT)
         glEnable(GL_POLYGON_OFFSET_LINE)
         glPolygonOffset(1.0, 1.0)
@@ -460,7 +469,7 @@ class GLWindow(glcanvas.GLCanvas):
     def renderArrow(self,size,fill=False):
         type = GL_LINE_STRIP
         if fill:
-            type = GL_QUADS
+            type = GL_TRIANGLE_STRIP
         glBegin(type)
         glVertex3f(-size,-size,0)
         glVertex3f(size,-size,0)
@@ -624,7 +633,7 @@ class GLWindow(glcanvas.GLCanvas):
             drewSomething = self.processNode(node,boxOnly)
             if selected:
                 glPushMatrix()
-                glScale(1.2,1.2,1.2)
+                glScalef(1.2,1.2,1.2)
                 #glBlendFunc(GL_ONE,GL_ONE)
                 glColor4f(0.1,0.9,0.1,0.6)
                 glDisable(GL_LIGHTING)
@@ -794,7 +803,7 @@ class GLWindow(glcanvas.GLCanvas):
         self.frustum.append(clip[:,3]-clip[:,1]) # top
         #self.frustum.append(clip[:,3]-clip[:,2]) # back
         #self.frustum.append(clip[:,3]+clip[:,2]) # front
-
+        self.frustum = self.fixMatrixToNumPy(self.frustum)
         #print 'frustum',self.frustum        
 
         for plane in self.frustum:
@@ -870,6 +879,7 @@ class GLWindow(glcanvas.GLCanvas):
         glInitNames()
 
         self.SetupProjection()
+	##self.wireOn()
 #        self.recomputeCamera()
 
     # The function called when our window is resized

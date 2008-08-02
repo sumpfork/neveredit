@@ -331,20 +331,20 @@ class Node:
         if self.vertexDataRawPointer != 0xFFFFFFFFL:
             f.seek(mdlFile.rawDataOffset + self.vertexDataRawPointer + 0xC)
             b = f.read(self.vertexCount*12)
-            self.vertices = [dataHandler.readFloatsBuf(b[i*12:(i+1)*12],3)
-                             for i in xrange(self.vertexCount)]
+            self.vertices = Numeric.array([dataHandler.readFloatsBuf(b[i*12:(i+1)*12],3)
+                             for i in xrange(self.vertexCount)])
         else:
             self.vertices = []
         if self.vertexNormalDataPointer != 0xFFFFFFFFL:
             f.seek(mdlFile.rawDataOffset + self.vertexNormalDataPointer + 0xC)
-            self.normals = [dataHandler.readFloatsFile(f,3)
-                            for i in xrange(self.vertexCount)]
+            self.normals = Numeric.array([dataHandler.readFloatsFile(f,3)
+                            for i in xrange(self.vertexCount)],'b')
         else:
             self.normals = []
         if self.texture0VertexDataPointer != 0xFFFFFFFFL:
             f.seek(mdlFile.rawDataOffset + self.texture0VertexDataPointer + 0xC)
-            self.texture0Vertices = [dataHandler.readFloatsFile(f,2)
-                                     for i in xrange(self.vertexCount)]
+            self.texture0Vertices = Numeric.array([dataHandler.readFloatsFile(f,2)
+                                     for i in xrange(self.vertexCount)])
         else:
             self.texture0Vertices = []
         self.vertexIndexLists = []
@@ -358,6 +358,7 @@ class Node:
             offset = mdlFile.rawDataOffset + p + 0xC
             f.seek(offset)
             self.vertexIndexLists.append(dataHandler.readUWordsFile(f,l))
+	self.vertexIndexLists = Numeric.array(self.vertexIndexLists)
         #print 'vertexIndexList for node',self.name,self.vertexIndexLists
 
     def maxBoundingBox(self,nodelist):
@@ -690,6 +691,7 @@ class MDLFile(NeverFile):
                     n.vertices.append(Numeric.array([float(val)
                                                      for val
                                                      in f.readline().split()]))
+		n.vertices = Numeric.array(n.vertices)
             elif parts[0] == 'faces':
                 num = int(parts[1])
                 n.faces = []
@@ -697,6 +699,7 @@ class MDLFile(NeverFile):
                     face = [int(val)
                          for val in f.readline().split()]
                     n.faces.append([face[:3],face[3],face[4:7],face[7]])
+		n.faces = Numeric.array(n.faces,'b')
             elif parts[0] == 'tverts':
                 num = int(parts[1])
                 n.texture0Vertices = []
@@ -704,6 +707,7 @@ class MDLFile(NeverFile):
                     n.texture0Vertices.append([float(val)
                                                for val
                                                in f.readline().split()][:2])
+		n.texture0Vertices = Numeric.array(n.texture0Vertices)
             parts = f.readline().split()
         if n.faces:
             n.vertexIndexLists = [[]]

@@ -3,7 +3,7 @@ import sys
 
 import Image,ImageEnhance
 
-use_numeric = False
+use_numeric = True
 
 def iAmOnMac():
     return sys.platform == 'darwin'
