@@ -1,3 +1,5 @@
+# -*- coding: latin-1 -*-
+
 import logging
 logger = logging.getLogger("neveredit.file")
 

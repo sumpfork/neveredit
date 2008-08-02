@@ -849,7 +849,7 @@ class MapWindow(GLWindow,Progressor,VisualChangeListener):
         if not b.maxLine:
             return
         glPushMatrix()
-        glColorf(b.bgcolour)
+        self.glColorf(b.bgcolour)
         glTranslatef(b.x+5,b.y+5,0)
         w = sum([glutBitmapWidth(GLUT_BITMAP_TIMES_ROMAN_10,ord(c)) for c in b.maxLine])
         # w = glutBitmapLength(GLUT_BITMAP_TIMES_ROMAN_10,b.maxLine)             
@@ -861,7 +861,7 @@ class MapWindow(GLWindow,Progressor,VisualChangeListener):
             height = b.y + (rectHeight - i*12) - 7
             glColor4f(0,0,0,1)
             self.output_text(b.x+15,height,line)
-            glColorf(b.fgcolour)
+            self.glColorf(b.fgcolour)
             self.output_text(b.x+14,height+1,line)
         glEnable(GL_BLEND)
         glPopMatrix()
