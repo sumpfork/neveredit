@@ -690,7 +690,7 @@ class MDLFile(NeverFile):
                     n.vertices.append(Numeric.array([float(val)
                                                      for val
                                                      in f.readline().split()]))
-		n.vertices = Numeric.array(n.vertices,'f')
+		n.vertices = Numeric.array(n.vertices,'d')
             elif parts[0] == 'faces':
                 num = int(parts[1])
                 n.faces = []
@@ -698,7 +698,6 @@ class MDLFile(NeverFile):
                     face = [int(val)
                          for val in f.readline().split()]
                     n.faces.append([face[:3],face[3],face[4:7],face[7]])
-		n.faces = Numeric.array(n.faces)
             elif parts[0] == 'tverts':
                 num = int(parts[1])
                 n.texture0Vertices = []
