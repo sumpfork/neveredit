@@ -332,13 +332,13 @@ class Node:
             f.seek(mdlFile.rawDataOffset + self.vertexDataRawPointer + 0xC)
             b = f.read(self.vertexCount*12)
             self.vertices = Numeric.array([dataHandler.readFloatsBuf(b[i*12:(i+1)*12],3)
-                             for i in xrange(self.vertexCount)])
+                             for i in xrange(self.vertexCount)],'f')
         else:
             self.vertices = []
         if self.vertexNormalDataPointer != 0xFFFFFFFFL:
             f.seek(mdlFile.rawDataOffset + self.vertexNormalDataPointer + 0xC)
             self.normals = Numeric.array([dataHandler.readFloatsFile(f,3)
-                            for i in xrange(self.vertexCount)],'b')
+                            for i in xrange(self.vertexCount)],'f')
         else:
             self.normals = []
         if self.texture0VertexDataPointer != 0xFFFFFFFFL:
@@ -358,7 +358,6 @@ class Node:
             offset = mdlFile.rawDataOffset + p + 0xC
             f.seek(offset)
             self.vertexIndexLists.append(dataHandler.readUWordsFile(f,l))
-	self.vertexIndexLists = Numeric.array(self.vertexIndexLists)
         #print 'vertexIndexList for node',self.name,self.vertexIndexLists
 
     def maxBoundingBox(self,nodelist):
