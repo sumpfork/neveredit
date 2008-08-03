@@ -344,7 +344,7 @@ class Node:
         if self.texture0VertexDataPointer != 0xFFFFFFFFL:
             f.seek(mdlFile.rawDataOffset + self.texture0VertexDataPointer + 0xC)
             self.texture0Vertices = Numeric.array([dataHandler.readFloatsFile(f,2)
-                                     for i in xrange(self.vertexCount)])
+                                     for i in xrange(self.vertexCount)],'f')
         else:
             self.texture0Vertices = []
         self.vertexIndexLists = []
@@ -690,7 +690,7 @@ class MDLFile(NeverFile):
                     n.vertices.append(Numeric.array([float(val)
                                                      for val
                                                      in f.readline().split()]))
-		n.vertices = Numeric.array(n.vertices)
+		n.vertices = Numeric.array(n.vertices,'f')
             elif parts[0] == 'faces':
                 num = int(parts[1])
                 n.faces = []
@@ -698,7 +698,7 @@ class MDLFile(NeverFile):
                     face = [int(val)
                          for val in f.readline().split()]
                     n.faces.append([face[:3],face[3],face[4:7],face[7]])
-		n.faces = Numeric.array(n.faces,'b')
+		n.faces = Numeric.array(n.faces)
             elif parts[0] == 'tverts':
                 num = int(parts[1])
                 n.texture0Vertices = []
@@ -706,7 +706,7 @@ class MDLFile(NeverFile):
                     n.texture0Vertices.append([float(val)
                                                for val
                                                in f.readline().split()][:2])
-		n.texture0Vertices = Numeric.array(n.texture0Vertices)
+		n.texture0Vertices = Numeric.array(n.texture0Vertices,'f')
             parts = f.readline().split()
         if n.faces:
             n.vertexIndexLists = [[]]

@@ -344,7 +344,7 @@ class GLWindow(glcanvas.GLCanvas):
         return boundingBox
 
     def fixMatrixToNumPy(self,matrix):
-	    numpymatrix = Numeric.array(matrix)
+	    numpymatrix = Numeric.array(matrix,'d')
 	    return numpymatrix
 
     def processControllers(self,node):
