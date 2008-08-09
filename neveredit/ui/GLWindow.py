@@ -60,6 +60,7 @@ class GLWindow(glcanvas.GLCanvas):
         wx.EVT_MOTION(self, self.OnMouseMotion)
         wx.EVT_MOUSEWHEEL(self, self.OnMouseWheel)
         wx.EVT_KEY_DOWN(self, self.OnKeyDown)
+	wx.EVT_KEY_UP(self,self.OnKeyUp)
 
     def OnEraseBackground(self, event):
         pass
@@ -85,6 +86,9 @@ class GLWindow(glcanvas.GLCanvas):
     
     def OnMouseUp(self, evt):
         pass #self.ReleaseMouse()
+
+    def OnKeyUp(self,evt):
+	pass
 
     def OnKeyDown(self,evt):
         if self.preprocessing:

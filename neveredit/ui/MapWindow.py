@@ -186,7 +186,7 @@ class MapWindow(GLWindow,Progressor,VisualChangeListener):
         self.fps = 0.0
         self.showFPS = False
         self.quadTreeRoot = None
-
+        self.holdZ = 0
         self.lastX = 0
         self.lastY = 0
 
@@ -343,11 +343,34 @@ class MapWindow(GLWindow,Progressor,VisualChangeListener):
                     self.requestRedraw()
         if self.mode == ToolPalette.SELECTION_TOOL and\
            self.beingDragged:
-            dragX = float(evt.GetX() - self.dragOffset[0])
-            dragY = float(self.height-evt.GetY() - self.dragOffset[1])
-            x,y = self.mouseToPointOnBasePlane(dragX,dragY)
-            oldX = self.beingDragged.getX()
-            oldY = self.beingDragged.getY()
+	    if self.holdZ == 1:
+		    dragX = float(evt.GetX() - self.dragOffset[0])
+		    dragY = float(self.height-evt.GetY() - self.dragOffset[1])
+                    oldX = self.beingDragged.getX()
+		    x = oldX
+		    oldY = self.beingDragged.getY()
+		    y = oldY
+	            oldZ = self.beingDragged.getZ()
+		    lastY = self.lastY - self.dragOffset[1]
+		    
+		    if dragY > lastY:
+                       z = oldZ + 0.1
+		    elif  dragY < lastY:
+		       z = oldZ - 0.1
+		    else:
+		       z = oldZ
+		
+		    if z <= 0.0: #prevents the model from going below the map
+		       z = 0.0
+	    else:
+		    dragX = float(evt.GetX() - self.dragOffset[0])
+		    dragY = float(self.height-evt.GetY() - self.dragOffset[1])
+		    x,y = self.mouseToPointOnBasePlane(dragX,dragY)
+		    oldX = self.beingDragged.getX()
+		    oldY = self.beingDragged.getY()
+	            oldZ = self.beingDragged.getZ()
+		    z = oldZ
+
             if (int(oldX)/10 != int(x)/10) or (int(oldY)/10 != int(y)/10):
                 oldContents = self.getContentsForPoint(oldX,oldY)
                 newContents = self.getContentsForPoint(x,y)
@@ -362,6 +385,7 @@ class MapWindow(GLWindow,Progressor,VisualChangeListener):
                                                   .index(self.beingDragged)))
             self.beingDragged.setX(x)
             self.beingDragged.setY(y)
+	    self.beingDragged.setZ(z)
             event = MoveEvent(self.GetId(),
                               self.beingDragged.getNevereditId(),
                               x,y,
@@ -396,9 +420,14 @@ class MapWindow(GLWindow,Progressor,VisualChangeListener):
         self.lastX = evt.GetX()
         self.lastY = self.height - evt.GetY()
 
+    def OnKeyUp(self,evt):
+	self.holdZ = 0
+
     def OnKeyDown(self,evt):
         global Numeric
         GLWindow.OnKeyDown(self,evt)        
+	if evt.GetKeyCode() == 308: #ctrl
+		self.holdZ = 1
         # if evt.GetKeyCode() == wx.WXK_SPACE:
 #             self.SetCurrent()
 #             print 'profiling to draw.prof'
@@ -898,7 +927,7 @@ class MapWindow(GLWindow,Progressor,VisualChangeListener):
         if not thing.getModel():
             return
         glPushMatrix()
-        glTranslatef(thing.getX(),thing.getY(),0.01)
+        glTranslatef(thing.getX(),thing.getY(),thing.getZ())
         if self.highlight == name:
             (self.highlightBox.x,
              self.highlightBox.y,
