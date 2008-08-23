@@ -954,8 +954,9 @@ class MapWindow(GLWindow,Progressor,VisualChangeListener):
         y = i / self.area.getWidth()
         tx = x*10.0+5.0
         ty = y*10.0+5.0
+	h = t.getTileHeight()
         glPushMatrix()
-        glTranslatef(tx,ty,0.0)
+        glTranslatef(tx,ty,h*5) 
         glRotatef(t.getBearing(),0,0,1)
         self.handleNode(t.getModel().getRootNode())
         glPopMatrix()

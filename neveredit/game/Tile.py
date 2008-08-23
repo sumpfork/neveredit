@@ -202,3 +202,7 @@ class Tile(LocatedNeverData):
         else:
             logger.warn('warning, unknown tile orientation: ' + `o`)
             return 0.0
+
+    def getTileHeight(self):
+	return self['Tile_Height']
+	
