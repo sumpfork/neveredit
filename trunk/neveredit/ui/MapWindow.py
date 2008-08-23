@@ -362,6 +362,8 @@ class MapWindow(GLWindow,Progressor,VisualChangeListener):
 		
 		    if z <= 0.0: #prevents the model from going below the map
 		       z = 0.0
+		    if z > 25.0:  #according to the 'ARE' documentation, tile height is only 5 levels and it seems that they are multiples of 5 in the coordinate system.  5 * 5 is 25.  This is how far we go up.
+		       z = 25.0
 	    else:
 		    dragX = float(evt.GetX() - self.dragOffset[0])
 		    dragY = float(self.height-evt.GetY() - self.dragOffset[1])
