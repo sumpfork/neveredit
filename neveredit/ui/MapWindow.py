@@ -316,7 +316,7 @@ class MapWindow(GLWindow,Progressor,VisualChangeListener):
             ray = self.rayToBasePlane(float(evt.GetX()),
                                       float(self.height-evt.GetY()))            
             x,y = self.rayPointOnBasePlane(ray)
-            contents = self.getContentsForPointWithRay(x,y,ray)['things']
+            contents = self.getContentsForPoint(x,y)['things']
             closestIntersect = sys.maxint
             toHighlight = -1
             for thing,id in contents:
@@ -515,6 +515,13 @@ class MapWindow(GLWindow,Progressor,VisualChangeListener):
         glPopMatrix()
         return near,far
     
+    def rayToPlane(self,x,y,plane):
+	near,far = self.rayFromMouse(x,y)
+	N = Numeric.array([0.0,0.0,1.0]) # normal
+	P = Numeric.array(plane) # plane must be of values e.g. [1.0,1.0,0.0]
+	u = Numeric.dot(N,P-near)/Numeric.dot(N,far-near)
+	return u,near,far
+    
     def rayToBasePlane(self,x,y):        
         near,far = self.rayFromMouse(x,y)
         N = Numeric.array([0.0,0.0,1.0]) #this is normal to the area plane
@@ -540,88 +547,26 @@ class MapWindow(GLWindow,Progressor,VisualChangeListener):
         if py > self.area.getHeight()*10.0:
             py = self.area.getHeight()*10.0                
         return px,py
-    
-#
-#  This proc is a hack and not a very good one at that.  Sometimes it works, sometimes it doesn't.
-#  Either way, z-axis manipulation is not quite ready yet.
-#
-    
-    def getContentsForPointWithRay(self,x,y,ray):
-        return self.getContentsForPointHelperWithRay(x,y,ray,self.quadTreeRoot)
 
-#
-#  This proc is a hack and not a very good one at that.  Sometimes it works, sometimes it doesn't.
-#  Either way, z-axis manipulation is not quite ready yet.
-#
-
-    def getContentsForPointHelperWithRay(self,x,y,ray,node):
-        if not node.children:
+    def getContentsForPointSimplifiedHelper(self,x,y,node):
+	#track the max Z.  We will have a range of values interval (Zmax and Baseplane)
+	#if the value of the creature falls inbetween the point from Zmax and Baseplane)
+	#we pass to the sphere intersection test.
+	
+	#we will return it if it aligns with xmin,xmax or ymin,ymax
+	if not node.children:
             return node.contents
         else:
-	    print "Children Testing: ",node.children
             for row in node.children:
                 for c in row:
-		    print "Testing for this: ",c
-		    print "x point on baseplane: ",x
-		    print "y point on baseplane: ",y
-		    # might want to check for elevated stuff
-		    # before we go to the standard z= 0 test.
-		    
-	            if not c.children:
-			print "passing contents ",c.contents
-			contents_thing = c.contents['things']
-			for thing,id in contents_thing:
-				if thing.getModel():
-					print "Object: ",thing
-					print "Objx: ",thing.getX()
-					print "Objy: ",thing.getY()
-					print "Objz: ",thing.getZ()
-					# Check if Z is 0... do standard check.
-					# if Z is not 0... adjust by deducting Y component by Z.  (BAD HACK!)
-					
-					if thing.getZ() > 0:
-						#do bad hack.
-						print "Do bad hack"
-						z = thing.getZ()
-						# Bad hack applies to X or Y, try Y first.
-						origY = y
-						origX = x
-						y = y - z
-						if x >= c.xmin and x <= c.xmax and y >= c.ymin and y <= c.ymax:
-							print "This is good, but hacked to work. Pass this to ray trace."
-							return self.getContentsForPointHelperWithRay(x,y,ray,c)
-						else:
-							# We try X instead.
-							y = origY
-							x = x - z
-							if x >= c.xmin and x <= c.xmax and y >= c.ymin and y <= c.ymax:
-								print "This is good, but hacked to work. Pass this to ray trace."
-								return self.getContentsForPointHelperWithRay(x,y,ray,c)
-							
-						
-						#return node.contents
-					else:
-						#do standard check with base plane.
-						if x >= c.xmin and x <= c.xmax and y >= c.ymin and y <= c.ymax:
-							print "This is good. Pass this to ray trace."
-							return self.getContentsForPointHelperWithRay(x,y,ray,c)
-
-				else:
-					print "stub print: ",thing
-					return self.getContentsForPointHelperWithRay(x,y,ray,c)
-		    else:
-			    #Let's do standard check.
-			    #do standard check with base plane.
-			    if x >= c.xmin and x <= c.xmax and y >= c.ymin and y <= c.ymax:
-				print "This is good. Pass this to ray trace."
-				return self.getContentsForPointHelperWithRay(x,y,ray,c)
-
-
+                    if (x >= c.xmin and x <= c.xmax) or\
+                       (y >= c.ymin and y <= c.ymax):
+                        return self.getContentsForPointSimplifiedHelper(x,y,c)
             return node.contents
-
+        
     
     def getContentsForPoint(self,x,y):
-        return self.getContentsForPointHelper(x,y,self.quadTreeRoot)
+        return self.getContentsForPointSimplifiedHelper(x,y,self.quadTreeRoot)
 
     def getContentsForPointHelper(self,x,y,node):
         if not node.children:
