@@ -189,6 +189,7 @@ class MapWindow(GLWindow,Progressor,VisualChangeListener):
         self.holdZ = 0
         self.lastX = 0
         self.lastY = 0
+	self.Zmax = 0
 
         wx.EVT_RIGHT_DOWN(self, self.OnRightMouseDown)
 
@@ -364,6 +365,8 @@ class MapWindow(GLWindow,Progressor,VisualChangeListener):
 		       z = 0.0
 		    if z > 25.0:  #according to the 'ARE' documentation, tile height is only 5 levels and it seems that they are multiples of 5 in the coordinate system.  5 * 5 is 25.  This is how far we go up.
 		       z = 25.0
+		    self.updateZmax(z) # We update the maximum Z-component so that we can effectively do two plane points for the mouse.
+			    
 	    else:
 		    dragX = float(evt.GetX() - self.dragOffset[0])
 		    dragY = float(self.height-evt.GetY() - self.dragOffset[1])
@@ -563,7 +566,31 @@ class MapWindow(GLWindow,Progressor,VisualChangeListener):
                        (y >= c.ymin and y <= c.ymax):
                         return self.getContentsForPointSimplifiedHelper(x,y,c)
             return node.contents
-        
+
+    def updateZmax(self,newZ):
+	# We will iterate through the quadtree looking for the object with the maximum Z component.
+	return self.updateZmaxHelper(newZ,self.quadTreeRoot)
+		
+    def updateZmaxHelper(self,newZ,node):
+	if not node.children:
+	    if newZ > 0:
+		print "new Zmax defaults to ",value		    
+		self.Zmax = newZ
+        else:
+	    value = newZ
+            for row in node.children:
+                for c in row:
+		    if not c.children:
+			#we will iterate through contents and get the biggest Z value.
+			contents_thing = c.contents['things']
+			for thing,id in contents_thing:
+				if thing.getModel():
+					testZ = thing.getZ()
+					if testZ > value:
+						value = testZ
+	    print "new Zmax is ",value
+	    self.Zmax = value
+
     
     def getContentsForPoint(self,x,y):
         return self.getContentsForPointSimplifiedHelper(x,y,self.quadTreeRoot)
