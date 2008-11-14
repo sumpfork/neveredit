@@ -344,6 +344,7 @@ class MapWindow(GLWindow,Progressor,VisualChangeListener):
                     self.requestRedraw()
         if self.mode == ToolPalette.SELECTION_TOOL and\
            self.beingDragged:
+	    # TODO: remove this and make Z manipulation automatic.
 	    if self.holdZ == 1:
 		    dragX = float(evt.GetX() - self.dragOffset[0])
 		    dragY = float(self.height-evt.GetY() - self.dragOffset[1])
@@ -366,7 +367,7 @@ class MapWindow(GLWindow,Progressor,VisualChangeListener):
 		    if z > 25.0:  #according to the 'ARE' documentation, tile height is only 5 levels and it seems that they are multiples of 5 in the coordinate system.  5 * 5 is 25.  This is how far we go up.
 		       z = 25.0
 		    self.updateZmax(z) # We update the maximum Z-component so that we can effectively do two plane points for the mouse.
-			    
+		
 	    else:
 		    dragX = float(evt.GetX() - self.dragOffset[0])
 		    dragY = float(self.height-evt.GetY() - self.dragOffset[1])
@@ -532,10 +533,34 @@ class MapWindow(GLWindow,Progressor,VisualChangeListener):
         u = Numeric.dot(N,P-near)/Numeric.dot(N,far-near)
         return u,near,far
 
+    def mouseToPointonMaxZPlane(self,x,y):
+	Zmax = self.Zmax
+	P = Numeric.array([1.0,1.0,Zmax])
+	ray = self.rayToPlane(x,y,P)
+	return self.rayPointOnPlane(ray,P)
+
+    def rayPointOnPlane(self,ray,plane):        
+	#FIXME: STUB
+	
+        #u,near,far = ray
+        #intersect = near + u * (far-near)
+        #px = intersect[0]
+        #py = intersect[1]
+        #if px < 0:
+	#    px = 0
+        #if px > self.area.getWidth()*10.0:
+        #    px = self.area.getWidth()*10.0
+        #if py < 0:
+        #    py = 0
+        #if py > self.area.getHeight()*10.0:
+        #    py = self.area.getHeight()*10.0                
+        #return px,py
+	return
+
     def mouseToPointOnBasePlane(self,x,y):
         ray = self.rayToBasePlane(x,y)
         return self.rayPointOnBasePlane(ray)
-    
+
     def rayPointOnBasePlane(self,ray):        
         u,near,far = ray
         intersect = near + u * (far-near)
